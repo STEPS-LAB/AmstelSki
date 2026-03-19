@@ -107,6 +107,14 @@ export const testimonials = [
       en: "Everything feels carefully considered: fixtures, linens, room service, laundry, warmth in the room, and genuinely attentive hospitality.",
     },
   },
+  {
+    author: "Natalia Kovalenko",
+    rating: 5,
+    quote: {
+      ua: "Ідеальне поєднання комфорту та сервісу. Персонал неймовірно уважний, а номери перевершують усі очікування.",
+      en: "The perfect blend of comfort and service. The staff is incredibly attentive, and the rooms exceed all expectations.",
+    },
+  },
 ];
 
 export const faqs = [
