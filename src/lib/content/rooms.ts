@@ -137,48 +137,6 @@ export const rooms: Room[] = [
     },
   },
   {
-    slug: "duplex-family-studio",
-    name: {
-      ua: "Люкс",
-      en: "Lux",
-    },
-    eyebrow: {
-      ua: "Для друзів і сімей",
-      en: "For friends and families",
-    },
-    shortDescription: {
-      ua: "Номер з видом на гори та двоповерховим ліжком - вдале рішення для спортивної молоді, дітей і сімейного відпочинку.",
-      en: "A mountain-view room with a bunk bed, well suited for active travelers, children, and family stays.",
-    },
-    description: {
-      ua: "Ця категорія особливо зручна для сімей із дітьми та гостей, яким потрібен гнучкий формат розміщення. Двоповерхове ліжко економить простір, а номер легко адаптується під активний зимовий відпочинок.",
-      en: "This category is especially convenient for families with children and guests who need a more flexible sleeping arrangement. The bunk bed saves space, and the room adapts well to active winter trips.",
-    },
-    rateFrom: 8400,
-    capacity: 4,
-    size: 39,
-    featured: true,
-    heroImage:
-      "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1600&q=80",
-      "https://images.unsplash.com/photo-1505693416388-025c3f8f0b3d?auto=format&fit=crop&w=1600&q=80",
-      "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1600&q=80",
-    ],
-    amenities: [
-      "king-bed",
-      "family-bunk",
-      "soundproofing",
-      "rainfall-shower",
-      "ski-locker",
-      "breakfast",
-    ],
-    highlights: {
-      ua: ["Двоповерхове ліжко", "Вид на гори", "Зручно для сім'ї"],
-      en: ["Bunk bed", "Mountain view", "Good for families"],
-    },
-  },
-  {
     slug: "amstel-suite",
     name: {
       ua: "Люкс",

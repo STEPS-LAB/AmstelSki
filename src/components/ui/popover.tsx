@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface PopoverProps {
@@ -63,17 +64,23 @@ export function Popover({
   return (
     <div className="relative" ref={popoverRef}>
       {childWithHandler}
-      {open && (
-        <div
-          ref={contentRef}
-          className={cn(
-            "absolute top-full z-[100] mt-2 w-full rounded-md border border-black/10 bg-white p-5 shadow-xl",
-            alignClasses[align],
-          )}
-        >
-          {content}
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            ref={contentRef}
+            className={cn(
+              "absolute top-full z-[100] mt-2 w-full rounded-md border border-black/10 bg-white p-5 shadow-xl",
+              alignClasses[align],
+            )}
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+          >
+            {content}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,16 +1,17 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addDays } from "date-fns";
+import { addDays, format } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Calendar, Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { MotionReveal } from "@/components/animation/MotionReveal";
 import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/field";
 import { Panel } from "@/components/ui/panel";
+import { Popover } from "@/components/ui/popover";
 import { bookingStaySchema, guestDetailsSchema } from "@/lib/booking/validation";
 import {
   buildSuggestion,
@@ -52,6 +53,7 @@ export function BookingFlow({
   );
   const [isChecking, setIsChecking] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isDatePopoverOpen, setIsDatePopoverOpen] = useState(false);
   const suggestionOrder = useMemo(
     () => getSuggestedRoomSlugs(suggestionType ?? "weekend"),
     [suggestionType],
@@ -76,6 +78,11 @@ export function BookingFlow({
     defaultValues: stayDefaults,
   });
 
+  const stayValues = useWatch({ control: stayForm.control });
+
+  const displayCheckIn = useMemo(() => format(new Date(stayValues.checkIn ?? stayDefaults.checkIn), "dd.MM.yyyy"), [stayValues.checkIn, stayDefaults.checkIn]);
+  const displayCheckOut = useMemo(() => format(new Date(stayValues.checkOut ?? stayDefaults.checkOut), "dd.MM.yyyy"), [stayValues.checkOut, stayDefaults.checkOut]);
+
   const guestForm = useForm<GuestDetailsInput>({
     resolver: zodResolver(guestDetailsSchema),
     defaultValues: {
@@ -85,8 +92,6 @@ export function BookingFlow({
       notes: "",
     },
   });
-
-  const stayValues = useWatch({ control: stayForm.control });
 
   const availableRooms = useMemo(() => {
     const ordered = suggestionOrder
@@ -137,13 +142,13 @@ export function BookingFlow({
   return (
     <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
       <div className="space-y-4">
-        <div className="flex items-center gap-1 overflow-x-auto overflow-y-hidden pb-1">
+        <div className="flex items-center gap-1 pb-1">
           {steps.map((label, index) => (
             <div
               key={label}
-              className={`flex-shrink-0 rounded-full px-2 py-1 text-[9px] uppercase tracking-[0.2em] ${
+              className={`flex-1 rounded-full px-2 py-1 text-center text-[9px] uppercase tracking-[0.2em] ${
                 step === index
-                  ? "bg-foreground text-white"
+                  ? "bg-accent-red text-white"
                   : "border border-black/10 bg-black/5 text-foreground/55"
               }`}
             >
@@ -175,53 +180,105 @@ export function BookingFlow({
               className="space-y-3"
             >
               <Panel className="grid gap-3 p-3 sm:p-6">
+                <Popover
+                  isOpen={isDatePopoverOpen}
+                  onOpenChange={setIsDatePopoverOpen}
+                  align="start"
+                  content={
+                    <div className="space-y-4">
+                      <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">
+                        {t("selectDates")}
+                      </p>
+                      <div className="space-y-3">
+                        <div>
+                          <label className="mb-1 block text-sm text-foreground">
+                            {t("checkInLabel")}
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="date"
+                              className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
+                              value={stayValues.checkIn}
+                              onChange={(event) => {
+                                stayForm.setValue("checkIn", event.target.value);
+                                if (new Date(event.target.value) >= new Date(stayValues.checkOut)) {
+                                  stayForm.setValue("checkOut", toDateValue(addDays(new Date(event.target.value), 1)));
+                                }
+                              }}
+                              min={toDateValue(new Date())}
+                            />
+                            <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground/40" />
+                            <button
+                              type="button"
+                              className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const input = e.currentTarget.previousSibling as HTMLInputElement;
+                                input?.showPicker?.();
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="mb-1 block text-sm text-foreground">
+                            {t("checkOutLabel")}
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="date"
+                              className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
+                              value={stayValues.checkOut}
+                              min={stayValues.checkIn}
+                              onChange={(event) => stayForm.setValue("checkOut", event.target.value)}
+                            />
+                            <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground/40" />
+                            <button
+                              type="button"
+                              className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const input = e.currentTarget.previousSibling as HTMLInputElement;
+                                input?.showPicker?.();
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                >
+                  <button
+                    type="button"
+                    className="flex h-12 w-full items-center gap-3 rounded-sm border border-black/10 bg-black/5 px-4 text-left text-sm text-foreground/70 transition-colors hover:bg-black/[0.08]"
+                  >
+                    <Calendar className="h-5 w-5 flex-shrink-0 text-foreground/60" />
+                    <span className="whitespace-nowrap text-xs">{t("dates")}:</span>
+                    <span className="ml-auto font-medium text-foreground text-sm">
+                      {displayCheckIn} — {displayCheckOut}
+                    </span>
+                  </button>
+                </Popover>
                 <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
-                  <span>{t("checkIn")}</span>
-                  <Controller
-                    control={stayForm.control}
-                    name="checkIn"
-                    render={({ field }) => <Input type="date" min={toDateValue(new Date())} {...field} />}
-                  />
-                </label>
-                <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
-                  <span>{t("checkOut")}</span>
-                  <Controller
-                    control={stayForm.control}
-                    name="checkOut"
-                    render={({ field }) => <Input type="date" min={stayValues.checkIn} {...field} />}
-                  />
-                </label>
-                <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
-                  <span>{t("adults")}</span>
-                  <Controller
-                    control={stayForm.control}
-                    name="adults"
-                    render={({ field }) => (
-                      <Input
-                        type="number"
-                        min={1}
-                        max={4}
-                        value={field.value}
-                        onChange={(event) => field.onChange(Number(event.target.value))}
-                      />
-                    )}
-                  />
-                </label>
-                <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
-                  <span>{t("children")}</span>
-                  <Controller
-                    control={stayForm.control}
-                    name="children"
-                    render={({ field }) => (
-                      <Input
-                        type="number"
-                        min={0}
-                        max={4}
-                        value={field.value}
-                        onChange={(event) => field.onChange(Number(event.target.value))}
-                      />
-                    )}
-                  />
+                  <span>{t("guests")}</span>
+                  <div className="flex h-12 items-center rounded-sm border border-black/10 bg-black/5 px-4">
+                    <div className="flex w-full items-center justify-between">
+                      <button
+                        type="button"
+                        className="flex h-10 w-12 items-center justify-center text-xl text-foreground/70"
+                        onClick={() => stayForm.setValue("adults", Math.max(1, stayValues.adults - 1))}
+                      >
+                        −
+                      </button>
+                      <span className="w-8 text-center text-sm font-medium text-foreground">{stayValues.adults}</span>
+                      <button
+                        type="button"
+                        className="flex h-10 w-12 items-center justify-center text-xl text-foreground/70"
+                        onClick={() => stayForm.setValue("adults", Math.min(4, stayValues.adults + 1))}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
                 </label>
               </Panel>
               <Button className="w-full" onClick={handleStayContinue}>
@@ -253,7 +310,7 @@ export function BookingFlow({
                       type="button"
                       className={`w-full rounded-sm border p-2.5 text-left sm:p-5 ${
                         selectedRoomSlug === room.slug
-                          ? "border-accent-red bg-black/[0.06]"
+                          ? "border-accent-red bg-black/[0.08]"
                           : "border-black/10 bg-black/[0.03]"
                       }`}
                       onClick={() => setSelectedRoomSlug(room.slug)}

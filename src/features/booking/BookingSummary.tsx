@@ -29,7 +29,7 @@ export function BookingSummary({
   const checkOutFormatted = format(new Date(stay.checkOut), "dd.MM.yyyy");
 
   return (
-    <Panel className={cn("max-w-full space-y-3 bg-black/20 p-4 sm:space-y-4 sm:p-6", className)} {...props}>
+    <Panel className={cn("max-w-full space-y-3 bg-surface p-4 sm:space-y-4 sm:p-6", className)} {...props}>
       <div>
         <p className="text-[10px] uppercase tracking-[0.22em] text-secondary">
           {t("stepConfirm")}

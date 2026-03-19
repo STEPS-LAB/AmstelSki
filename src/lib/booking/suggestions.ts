@@ -4,7 +4,7 @@ import type { BookingStay, BookingSuggestionType } from "./types";
 
 const BUSINESS_ROOM_ORDER = ["amstel-suite", "red-brick-deluxe", "canal-signature"];
 const WEEKEND_ROOM_ORDER = ["red-brick-deluxe", "amstel-suite", "canal-signature"];
-const TONIGHT_ROOM_ORDER = ["canal-signature", "red-brick-deluxe", "duplex-family-studio"];
+const TONIGHT_ROOM_ORDER = ["canal-signature", "red-brick-deluxe", "amstel-suite"];
 
 export function buildSuggestion(type: BookingSuggestionType, now = new Date()): BookingStay {
   const normalized = new Date(now.getFullYear(), now.getMonth(), now.getDate());
