@@ -14,13 +14,13 @@ export function PageHero({
   image: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-white/14">
+    <section className="relative overflow-hidden border-b border-white/14 -mt-20">
       <div className="absolute inset-0">
         <Image src={image} alt={title} fill className="object-cover" />
         <div className="absolute inset-0 bg-[rgba(95,101,107,0.32)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(106,111,116,0.16),rgba(106,111,116,0.88))]" />
       </div>
-      <Container className="relative z-10 py-28 sm:py-32">
+      <Container className="relative z-10 pt-20">
         <Badge>{eyebrow}</Badge>
         <h1 className="mt-6 max-w-4xl font-serif text-5xl text-white sm:text-6xl">
           {title}
