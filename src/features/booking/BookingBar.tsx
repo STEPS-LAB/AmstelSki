@@ -19,12 +19,12 @@ export function BookingBar() {
   const [adults, setAdults] = useState(2);
   const [isDatePopoverOpen, setIsDatePopoverOpen] = useState(false);
 
-  const displayCheckIn = format(new Date(checkIn), "dd.MM");
-  const displayCheckOut = format(new Date(checkOut), "dd.MM");
+  const displayCheckIn = format(new Date(checkIn), "dd.MM.yyyy");
+  const displayCheckOut = format(new Date(checkOut), "dd.MM.yyyy");
 
   return (
-    <div className="glass-panel rounded-sm p-4 sm:p-5 relative z-20">
-      <div className="flex flex-col gap-3">
+    <div className="glass-panel rounded-sm p-3 sm:p-4 relative z-20 w-fit">
+      <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-[6px]">
         <Popover
           isOpen={isDatePopoverOpen}
           onOpenChange={setIsDatePopoverOpen}
@@ -93,20 +93,20 @@ export function BookingBar() {
         >
           <button
             type="button"
-            className="flex h-12 w-full items-center gap-3 rounded-sm border border-black/10 bg-black/5 px-4 text-left text-sm text-foreground/70 hover:bg-black/10"
+            className="flex h-12 w-full items-center gap-3 rounded-sm border border-black/10 bg-white px-4 text-left text-sm text-foreground/70 hover:bg-white/90 md:w-[400px]"
           >
-            <Calendar className="h-5 w-5 flex-shrink-0 text-foreground/40" />
+            <Calendar className="h-5 w-5 flex-shrink-0 text-foreground/60" />
             <span className="whitespace-nowrap">Дати:</span>
             <span className="ml-auto font-medium text-foreground">
-              {displayCheckIn} - {displayCheckOut}
+              {displayCheckIn} — {displayCheckOut}
             </span>
           </button>
         </Popover>
 
-        <div className="flex h-12 w-full items-center rounded-sm border border-black/10 bg-black/5 pl-4 pr-1">
+        <div className="flex h-12 w-full items-center rounded-sm border border-black/10 bg-white pl-4 pr-1 md:w-[400px]">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-1">
-              <Users className="h-5 w-5 flex-shrink-0 text-foreground/40" />
+              <Users className="h-5 w-5 flex-shrink-0 text-foreground/60" />
               <span className="whitespace-nowrap text-sm text-foreground/70">Гості:</span>
             </div>
             <div className="flex items-center gap-0">
@@ -130,7 +130,7 @@ export function BookingBar() {
         </div>
 
         <Button
-          className="h-12 w-full uppercase tracking-[0.15em] bg-accent-red hover:bg-accent-red-strong"
+          className="h-12 w-full md:w-auto uppercase tracking-[0.15em] bg-accent-red hover:bg-accent-red-strong"
           onClick={() =>
             openBooking({
               stay: {
@@ -143,7 +143,7 @@ export function BookingBar() {
             })
           }
         >
-          {t("continue")}
+          {t("find")}
         </Button>
       </div>
     </div>

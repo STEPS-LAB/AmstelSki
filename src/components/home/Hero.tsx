@@ -33,7 +33,7 @@ export async function Hero({ locale }: { locale: AppLocale }) {
           </p>
           <div className="mt-6 hidden flex-wrap gap-3 md:flex">
             {pickLocalized(heroHighlights, locale).map((item) => (
-              <Badge key={item} className="bg-white/18 text-white">
+              <Badge key={item} className="bg-white/20 text-white backdrop-blur-md border border-white/30">
                 {item}
               </Badge>
             ))}

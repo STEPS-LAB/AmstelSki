@@ -41,6 +41,7 @@
     "children": "Children",
     "selectRoom": "Select room",
     "continue": "Find",
+    "find": "FIND",
     "back": "Back",
     "checking": "Checking room availability...",
     "reserve": "Confirm booking",
