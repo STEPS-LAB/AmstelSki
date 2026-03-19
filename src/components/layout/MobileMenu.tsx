@@ -54,9 +54,6 @@ export function MobileMenu() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-serif text-3xl text-white">AmstelSki</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-secondary">
-                  Boutique hotel
-                </p>
               </div>
               <button
                 type="button"

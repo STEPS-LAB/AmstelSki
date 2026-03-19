@@ -1,9 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { MessageSquare, Send, Sparkles, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { AppLocale } from "@/i18n/routing";
 
 const responses: Record<
@@ -42,6 +42,17 @@ export function AIConcierge() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<string[]>([t("intro")]);
   const [value, setValue] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+  const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const heroHeight = typeof window !== "undefined" ? window.innerHeight : 0;
+    const unsubscribe = scrollY.onChange((latest) => {
+      setIsVisible(latest > heroHeight * 0.8);
+    });
+
+    return () => unsubscribe();
+  }, [scrollY]);
 
   const suggestions = useMemo(
     () => [
@@ -64,16 +75,24 @@ export function AIConcierge() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-4 z-30 inline-flex items-center gap-3 rounded-full border border-white/14 bg-[rgba(106,111,116,0.72)] px-4 py-3 text-white shadow-[0_20px_60px_rgba(73,63,58,0.18)] backdrop-blur md:bottom-6 md:right-6"
-      >
-        <MessageSquare className="h-5 w-5 text-accent-red" />
-        <span className="hidden text-xs uppercase tracking-[0.22em] sm:inline-block">
-          {t("label")}
-        </span>
-      </button>
+      <AnimatePresence>
+        {isVisible && (
+          <motion.button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="fixed bottom-20 right-4 z-30 inline-flex items-center gap-3 rounded-full border border-white/14 bg-[rgba(106,111,116,0.72)] px-4 py-3 text-white shadow-[0_20px_60px_rgba(73,63,58,0.18)] backdrop-blur md:bottom-6 md:right-6"
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <MessageSquare className="h-5 w-5 text-accent-red" />
+            <span className="hidden text-xs uppercase tracking-[0.22em] sm:inline-block">
+              {t("label")}
+            </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {isOpen ? (

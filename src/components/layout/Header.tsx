@@ -18,9 +18,6 @@ export function Header() {
       <Container className="flex h-20 items-center justify-between gap-4">
         <Link href="/" className="flex flex-col">
           <span className="font-serif text-3xl leading-none text-white">AmstelSki</span>
-          <span className="mt-1 text-[10px] uppercase tracking-[0.28em] text-secondary">
-            Boutique hotel
-          </span>
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">
