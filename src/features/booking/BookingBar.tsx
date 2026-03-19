@@ -109,7 +109,7 @@ export function BookingBar() {
         >
           <button
             type="button"
-            className="flex h-12 w-full items-center gap-3 rounded-sm border border-black/10 bg-white px-4 text-left text-sm text-foreground/70 hover:bg-white/90 md:w-[400px]"
+            className="flex h-12 w-full items-center gap-3 rounded-sm border border-black/10 bg-white px-4 text-left text-sm text-foreground/70 transition-colors hover:bg-gray-50 md:w-[400px]"
             disabled={isSearching}
           >
             <Calendar className="h-5 w-5 flex-shrink-0 text-foreground/60" />
@@ -120,7 +120,7 @@ export function BookingBar() {
           </button>
         </Popover>
 
-        <div className="flex h-12 w-full items-center rounded-sm border border-black/10 bg-white pl-4 pr-1 md:w-[400px]">
+        <div className="flex h-12 w-full items-center rounded-sm border border-black/10 bg-white pl-4 pr-1 transition-colors hover:bg-gray-50 md:w-[400px]">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-3">
               <Users className="h-5 w-5 flex-shrink-0 text-foreground/60" />
