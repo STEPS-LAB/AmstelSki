@@ -3,12 +3,9 @@ import { getTranslations } from "next-intl/server";
 import type { AppLocale } from "@/i18n/routing";
 import { heroHighlights } from "@/lib/content/site-content";
 import { pickLocalized } from "@/lib/i18n";
-import { buttonClasses } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/ui/container";
 import { BookingBar } from "@/features/booking/BookingBar";
-import { OpenBookingButton } from "@/features/booking/OpenBookingButton";
-import { Link } from "@/i18n/navigation";
 
 export async function Hero({ locale }: { locale: AppLocale }) {
   const t = await getTranslations();
@@ -35,12 +32,6 @@ export async function Hero({ locale }: { locale: AppLocale }) {
           <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-white/72 sm:text-xl">
             {t("hero.subtitle")}
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <OpenBookingButton label={t("common.bookStay")} />
-            <Link href="/rooms" className={buttonClasses("secondary")}>
-              {t("common.exploreRooms")}
-            </Link>
-          </div>
           <div className="mt-10 flex flex-wrap gap-3">
             {pickLocalized(heroHighlights, locale).map((item) => (
               <Badge key={item} className="bg-white/18 text-white">
@@ -51,7 +42,7 @@ export async function Hero({ locale }: { locale: AppLocale }) {
         </div>
 
         <div className="mt-12 max-w-5xl">
-          <p className="mb-4 text-xs uppercase tracking-[0.24em] text-secondary">
+          <p className="mb-4 text-xs uppercase tracking-[0.24em] text-white">
             {t("hero.bookingLabel")}
           </p>
           <BookingBar />
