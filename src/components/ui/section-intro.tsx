@@ -20,7 +20,7 @@ export function SectionIntro({
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="font-serif text-4xl text-balance text-white sm:text-5xl">
+      <h2 className="font-serif text-4xl text-balance text-foreground sm:text-5xl">
         {title}
       </h2>
       {copy ? (

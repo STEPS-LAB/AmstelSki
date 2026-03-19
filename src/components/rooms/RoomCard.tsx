@@ -18,7 +18,7 @@ export async function RoomCard({
   const t = await getTranslations();
 
   return (
-    <article className="group overflow-hidden rounded-sm border border-white/10 bg-white/[0.03]">
+    <article className="group overflow-hidden rounded-sm border border-black/10 bg-black/[0.03]">
       <div className="relative aspect-[4/5] overflow-hidden">
         <Image
           src={room.heroImage}
@@ -26,13 +26,13 @@ export async function RoomCard({
           fill
           className="object-cover transition duration-700 group-hover:scale-[1.03]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(15,15,16,0.92)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(255,255,255,0.92)_100%)]" />
         <div className="absolute left-5 top-5">
           <Badge>{pickLocalized(room.eyebrow, locale)}</Badge>
         </div>
         <div className="absolute inset-x-0 bottom-0 p-5">
-          <p className="font-serif text-3xl text-white">{pickLocalized(room.name, locale)}</p>
-          <p className="mt-2 text-sm leading-6 text-white/72">
+          <p className="font-serif text-3xl text-foreground">{pickLocalized(room.name, locale)}</p>
+          <p className="mt-2 text-sm leading-6 text-foreground/72">
             {pickLocalized(room.shortDescription, locale)}
           </p>
         </div>
@@ -41,12 +41,12 @@ export async function RoomCard({
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-secondary">{t("common.from")}</p>
-            <p className="mt-2 text-2xl text-white">
+            <p className="mt-2 text-2xl text-foreground">
               ₴{room.rateFrom.toLocaleString("uk-UA")}
               <span className="ml-2 text-sm text-secondary">{t("common.perNight")}</span>
             </p>
           </div>
-          <div className="inline-flex items-center gap-2 text-sm text-white/70">
+          <div className="inline-flex items-center gap-2 text-sm text-foreground/70">
             <Users className="h-4 w-4" />
             {room.capacity} {t("common.guests")}
           </div>

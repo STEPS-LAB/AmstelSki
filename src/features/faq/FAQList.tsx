@@ -15,17 +15,17 @@ export function FAQList({ locale }: { locale: AppLocale }) {
         const open = openId === index;
 
         return (
-          <article key={index} className="rounded-sm border border-white/10 bg-white/[0.03]">
+          <article key={index} className="rounded-sm border border-black/10 bg-black/[0.03]">
             <button
               type="button"
               className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left"
               onClick={() => setOpenId(open ? -1 : index)}
             >
-              <span className="text-lg text-white">{pickLocalized(item.question, locale)}</span>
+              <span className="text-lg text-foreground">{pickLocalized(item.question, locale)}</span>
               <ChevronDown className={`h-5 w-5 text-secondary transition ${open ? "rotate-180" : ""}`} />
             </button>
             {open ? (
-              <div className="border-t border-white/10 px-5 py-5 text-sm leading-7 text-secondary">
+              <div className="border-t border-black/10 px-5 py-5 text-sm leading-7 text-secondary">
                 {pickLocalized(item.answer, locale)}
               </div>
             ) : null}

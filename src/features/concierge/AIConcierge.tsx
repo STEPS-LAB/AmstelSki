@@ -80,7 +80,7 @@ export function AIConcierge() {
           <motion.button
             type="button"
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-20 right-4 z-30 inline-flex items-center gap-3 rounded-full border border-white/14 bg-[rgba(106,111,116,0.72)] px-4 py-3 text-white shadow-[0_20px_60px_rgba(73,63,58,0.18)] backdrop-blur md:bottom-6 md:right-6"
+            className="fixed bottom-20 right-4 z-30 inline-flex items-center gap-3 rounded-full border border-black/12 bg-white px-4 py-3 text-foreground shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur md:bottom-6 md:right-6"
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
@@ -99,7 +99,7 @@ export function AIConcierge() {
           <>
             <motion.button
               type="button"
-              className="fixed inset-0 z-40 bg-black/60"
+              className="fixed inset-0 z-40 bg-black/40"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -109,21 +109,21 @@ export function AIConcierge() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-md flex-col overflow-hidden rounded-sm border border-white/10 bg-primary shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
+              className="fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-md flex-col overflow-hidden rounded-sm border border-black/10 bg-primary shadow-[0_24px_80px_rgba(0,0,0,0.15)]"
             >
-              <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.04] px-5 py-4">
+              <div className="flex items-center justify-between border-b border-black/10 bg-black/[0.04] px-5 py-4">
                 <div className="flex items-center gap-3">
                   <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent-red/15 text-accent-red">
                     <Sparkles className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-white">{t("label")}</p>
+                    <p className="text-foreground">{t("label")}</p>
                     <p className="text-xs uppercase tracking-[0.18em] text-secondary">
                       {t("online")}
                     </p>
                   </div>
                 </div>
-                <button type="button" onClick={() => setIsOpen(false)} className="text-white/70">
+                <button type="button" onClick={() => setIsOpen(false)} className="text-foreground/70">
                   <X className="h-5 w-5" />
                 </button>
               </div>
@@ -136,7 +136,7 @@ export function AIConcierge() {
                     <div key={`${message}-${index}`} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
                       <div
                         className={`max-w-[85%] rounded-sm px-4 py-3 text-sm leading-6 ${
-                          isUser ? "bg-accent-red text-white" : "bg-white/[0.05] text-white/80"
+                          isUser ? "bg-accent-red text-white" : "bg-black/[0.05] text-foreground/80"
                         }`}
                       >
                         {message}
@@ -146,13 +146,13 @@ export function AIConcierge() {
                 })}
               </div>
 
-              <div className="border-t border-white/10 px-5 py-4">
+              <div className="border-t border-black/10 px-5 py-4">
                 <div className="mb-3 flex flex-wrap gap-2">
                   {suggestions.map((item) => (
                     <button
                       key={item.key}
                       type="button"
-                      className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[11px] uppercase tracking-[0.18em] text-white/70"
+                      className="rounded-full border border-black/10 bg-black/5 px-3 py-2 text-[11px] uppercase tracking-[0.18em] text-foreground/70"
                       onClick={() => submit(item.label)}
                     >
                       {item.label}
@@ -171,7 +171,7 @@ export function AIConcierge() {
                     value={value}
                     onChange={(event) => setValue(event.target.value)}
                     placeholder={t("placeholder")}
-                    className="h-12 flex-1 rounded-sm border border-white/10 bg-white/5 px-4 text-sm text-white outline-none placeholder:text-white/30"
+                    className="h-12 flex-1 rounded-sm border border-black/10 bg-black/5 px-4 text-sm text-foreground outline-none placeholder:text-foreground/30"
                   />
                   <button
                     type="submit"

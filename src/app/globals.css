@@ -1,16 +1,27 @@
 @import "tailwindcss";
 
 :root {
-  --background: #6a6f74;
-  --background-secondary: #7c8186;
-  --foreground: #f8f5ef;
-  --foreground-secondary: #ebe3d5;
-  --surface: #8f9498;
-  --surface-strong: #a2a5a7;
-  --accent-red: #b55443;
-  --accent-red-strong: #984536;
-  --warm-accent: #d6c0a1;
-  --border-subtle: rgba(255, 255, 255, 0.18);
+  /* Light background colors */
+  --background: #FFFFFF;
+  --background-secondary: #F8F9FA;
+
+  /* Dark text colors */
+  --foreground: #1A1A1A;
+  --foreground-secondary: #4A4A4A;
+
+  /* Light surface colors */
+  --surface: #F0F0F0;
+  --surface-strong: #E5E5E5;
+
+  /* Accent Red / Amsterdam Red */
+  --accent-red: #C62828;
+  --accent-red-strong: #B71C1C;
+
+  /* Warm accent для додаткових акцентів */
+  --warm-accent: #D32F2F;
+
+  /* Border colors */
+  --border-subtle: rgba(0, 0, 0, 0.12);
 }
 
 @theme inline {
@@ -39,10 +50,7 @@ html {
 
 body {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top, rgba(181, 84, 67, 0.14), transparent 22%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 32%),
-    var(--background);
+  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
 }
@@ -58,19 +66,19 @@ button {
 }
 
 ::selection {
-  background: rgba(181, 84, 67, 0.36);
+  background: rgba(198, 40, 40, 0.4);
   color: white;
 }
 
 .glass-panel {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.9));
   backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 24px 120px rgba(64, 57, 51, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 120px rgba(0, 0, 0, 0.08);
 }
 
 .section-border {
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 1px solid rgba(0, 0, 0, 0.10);
 }
 
 .text-balance {
@@ -99,8 +107,8 @@ button {
 
 .luxury-grid {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
   background-size: 96px 96px;
 }
 

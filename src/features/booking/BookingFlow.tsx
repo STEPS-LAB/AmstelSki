@@ -143,8 +143,8 @@ export function BookingFlow({
               key={label}
               className={`flex-shrink-0 rounded-full px-2 py-1 text-[9px] uppercase tracking-[0.2em] ${
                 step === index
-                  ? "bg-white text-black"
-                  : "border border-white/10 bg-white/5 text-white/55"
+                  ? "bg-foreground text-white"
+                  : "border border-black/10 bg-black/5 text-foreground/55"
               }`}
             >
               {t(label)}
@@ -175,7 +175,7 @@ export function BookingFlow({
               className="space-y-3"
             >
               <Panel className="grid gap-3 p-3 sm:p-6">
-                <label className="space-y-1.5 text-[10px] text-white/80 sm:text-sm">
+                <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
                   <span>{t("checkIn")}</span>
                   <Controller
                     control={stayForm.control}
@@ -183,7 +183,7 @@ export function BookingFlow({
                     render={({ field }) => <Input type="date" min={toDateValue(new Date())} {...field} />}
                   />
                 </label>
-                <label className="space-y-1.5 text-[10px] text-white/80 sm:text-sm">
+                <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
                   <span>{t("checkOut")}</span>
                   <Controller
                     control={stayForm.control}
@@ -191,7 +191,7 @@ export function BookingFlow({
                     render={({ field }) => <Input type="date" min={stayValues.checkIn} {...field} />}
                   />
                 </label>
-                <label className="space-y-1.5 text-[10px] text-white/80 sm:text-sm">
+                <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
                   <span>{t("adults")}</span>
                   <Controller
                     control={stayForm.control}
@@ -207,7 +207,7 @@ export function BookingFlow({
                     )}
                   />
                 </label>
-                <label className="space-y-1.5 text-[10px] text-white/80 sm:text-sm">
+                <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
                   <span>{t("children")}</span>
                   <Controller
                     control={stayForm.control}
@@ -224,7 +224,7 @@ export function BookingFlow({
                   />
                 </label>
               </Panel>
-              <Button className="w-full" size="sm" onClick={handleStayContinue}>
+              <Button className="w-full" onClick={handleStayContinue}>
                 {t("continue")}
                 <ArrowRight className="ml-2 h-3.5 w-3.5" />
               </Button>
@@ -242,7 +242,7 @@ export function BookingFlow({
               {isChecking ? (
                 <Panel className="flex items-center gap-3 p-3">
                   <Loader2 className="h-4 w-4 animate-spin text-accent-red" />
-                  <p className="text-[10px] text-white/80 sm:text-sm">{t("checking")}</p>
+                  <p className="text-[10px] text-foreground/80 sm:text-sm">{t("checking")}</p>
                 </Panel>
               ) : null}
 
@@ -253,14 +253,14 @@ export function BookingFlow({
                       type="button"
                       className={`w-full rounded-sm border p-2.5 text-left sm:p-5 ${
                         selectedRoomSlug === room.slug
-                          ? "border-accent-red bg-white/[0.06]"
-                          : "border-white/10 bg-white/[0.03]"
+                          ? "border-accent-red bg-black/[0.06]"
+                          : "border-black/10 bg-black/[0.03]"
                       }`}
                       onClick={() => setSelectedRoomSlug(room.slug)}
                     >
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
-                          <p className="font-serif text-base text-white sm:text-2xl">
+                          <p className="font-serif text-base text-foreground sm:text-2xl">
                             {pickLocalized(room.name, locale)}
                           </p>
                           <p className="mt-1 line-clamp-2 text-[10px] leading-5 text-secondary sm:mt-2 sm:text-sm">
@@ -271,7 +271,7 @@ export function BookingFlow({
                           <p className="text-[9px] uppercase tracking-[0.2em] text-secondary">
                             from
                           </p>
-                          <p className="mt-1 text-base text-white sm:text-2xl">
+                          <p className="mt-1 text-base text-foreground sm:text-2xl">
                             ₴{room.rateFrom.toLocaleString("uk-UA")}
                           </p>
                         </div>
@@ -280,7 +280,7 @@ export function BookingFlow({
                         {room.amenities.slice(0, 4).map((amenity) => (
                           <span
                             key={amenity}
-                            className="rounded-full border border-white/10 px-2 py-0.5 text-[9px] uppercase tracking-[0.18em] text-white/65 sm:px-3 sm:py-1 sm:text-[11px]"
+                            className="rounded-full border border-black/10 px-2 py-0.5 text-[9px] uppercase tracking-[0.18em] text-foreground/65 sm:px-3 sm:py-1 sm:text-[11px]"
                           >
                             {pickLocalized(roomAmenityLabels[amenity], locale)}
                           </span>
@@ -291,14 +291,13 @@ export function BookingFlow({
                 ))}
               </div>
               <div className="flex flex-col gap-2 sm:flex-row">
-                <Button variant="secondary" onClick={() => setStep(0)} size="sm" className="w-full sm:w-auto">
+                <Button variant="secondary" onClick={() => setStep(0)} className="w-full sm:w-auto">
                   {t("back")}
                 </Button>
                 <Button
                   onClick={() => {
                     if (selectedRoomSlug) setStep(2);
                   }}
-                  size="sm"
                   className="w-full sm:w-auto"
                 >
                   {t("continue")}
@@ -322,10 +321,10 @@ export function BookingFlow({
                 <Textarea placeholder={t("notes")} {...guestForm.register("notes")} />
               </Panel>
               <div className="flex flex-col gap-2 sm:flex-row">
-                <Button variant="secondary" onClick={() => setStep(1)} size="sm" className="w-full sm:w-auto">
+                <Button variant="secondary" onClick={() => setStep(1)} className="w-full sm:w-auto">
                   {t("back")}
                 </Button>
-                <Button onClick={handleGuestContinue} size="sm" className="w-full sm:w-auto">
+                <Button onClick={handleGuestContinue} className="w-full sm:w-auto">
                   {t("continue")}
                 </Button>
               </div>
@@ -341,14 +340,13 @@ export function BookingFlow({
               className="space-y-3"
             >
               <Panel className="space-y-3 p-3 sm:p-6">
-                <div className="grid gap-1.5 text-[10px] text-white/75 sm:text-sm">
+                <div className="grid gap-1.5 text-[10px] text-foreground/75 sm:text-sm">
                   <p>{guestForm.getValues().name}</p>
                   <p>{guestForm.getValues().email}</p>
                   <p>{guestForm.getValues().phone}</p>
                 </div>
                 <Button
                   className="w-full"
-                  size="sm"
                   onClick={() => {
                     setIsSubmitted(true);
                     window.setTimeout(() => onDone?.(), 1200);
@@ -359,8 +357,8 @@ export function BookingFlow({
               </Panel>
               {isSubmitted ? (
                 <Panel className="border-accent-red/30 bg-accent-red/10 p-3 sm:p-6">
-                  <p className="font-serif text-lg text-white sm:text-2xl">{t("successTitle")}</p>
-                  <p className="mt-2 text-[10px] leading-6 text-white/75 sm:text-sm">{t("successText")}</p>
+                  <p className="font-serif text-lg text-foreground sm:text-2xl">{t("successTitle")}</p>
+                  <p className="mt-2 text-[10px] leading-6 text-foreground/75 sm:text-sm">{t("successText")}</p>
                 </Panel>
               ) : null}
             </motion.div>

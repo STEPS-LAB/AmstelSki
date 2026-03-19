@@ -21,13 +21,13 @@ export async function StorytellingSection({ locale }: { locale: AppLocale }) {
           }
         />
 
-        <div className="grid gap-px overflow-hidden rounded-sm border border-white/10 bg-white/10 lg:grid-cols-4">
+        <div className="grid gap-px overflow-hidden rounded-sm border border-black/10 bg-black/10 lg:grid-cols-4">
           {storytellingSections.map((item) => (
             <div key={item.id} className="bg-primary px-6 py-10">
               <p className="text-xs uppercase tracking-[0.24em] text-accent-red">
                 {pickLocalized(item.title, locale)}
               </p>
-              <p className="mt-4 text-lg leading-8 text-white/75">
+              <p className="mt-4 text-lg leading-8 text-foreground/75">
                 {pickLocalized(item.description, locale)}
               </p>
             </div>

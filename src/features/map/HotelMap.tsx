@@ -8,7 +8,7 @@ import { pickLocalized } from "@/lib/i18n";
 export function HotelMap({ locale }: { locale: AppLocale }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-      <div className="relative min-h-[440px] overflow-hidden rounded-sm border border-white/10 bg-[radial-gradient(circle_at_center,rgba(198,40,40,0.14),transparent_30%),linear-gradient(180deg,#121212,#191919)]">
+      <div className="relative min-h-[440px] overflow-hidden rounded-sm border border-black/10 bg-[radial-gradient(circle_at_center,rgba(198,40,40,0.14),transparent_30%),linear-gradient(180deg,#f5f5f5,#e8e8e8)]">
         <div className="absolute inset-0 opacity-25 luxury-grid" />
         {mapLocations.map((location) => (
           <div
@@ -16,7 +16,7 @@ export function HotelMap({ locale }: { locale: AppLocale }) {
             className="absolute -translate-x-1/2 -translate-y-1/2"
             style={{ left: `${location.x}%`, top: `${location.y}%` }}
           >
-            <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-black/60 text-accent-red shadow-[0_16px_40px_rgba(0,0,0,0.35)]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/80 text-accent-red shadow-[0_16px_40px_rgba(0,0,0,0.15)]">
               <MapPin className="h-5 w-5" />
             </div>
           </div>
@@ -27,7 +27,7 @@ export function HotelMap({ locale }: { locale: AppLocale }) {
         {mapLocations.map((location) => (
           <article
             key={location.id}
-            className="rounded-sm border border-white/10 bg-white/[0.03] px-5 py-5"
+            className="rounded-sm border border-black/10 bg-black/[0.03] px-5 py-5"
           >
             <p className="text-xs uppercase tracking-[0.22em] text-accent-red">
               {pickLocalized(location.title, locale)}

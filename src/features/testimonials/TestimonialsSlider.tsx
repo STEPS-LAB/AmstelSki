@@ -35,15 +35,15 @@ export function TestimonialsSlider() {
             {testimonials.map((item) => (
               <article
                 key={item.author}
-                className="min-w-0 flex-[0_0_100%] rounded-sm border border-white/10 bg-white/[0.03] p-6 md:flex-[0_0_48%] lg:flex-[0_0_38%]"
+                className="min-w-0 flex-[0_0_100%] rounded-sm border border-black/10 bg-black/[0.03] p-6 md:flex-[0_0_48%] lg:flex-[0_0_38%]"
               >
                 <div className="flex gap-1 text-warm-accent">
                   {Array.from({ length: item.rating }).map((_, index) => (
                     <Star key={index} className="h-4 w-4 fill-current" />
                   ))}
                 </div>
-                <p className="mt-5 font-serif text-3xl leading-tight text-white">
-                  “{pickLocalized(item.quote, locale)}”
+                <p className="mt-5 font-serif text-3xl leading-tight text-foreground">
+                  "{pickLocalized(item.quote, locale)}"
                 </p>
                 <p className="mt-6 text-xs uppercase tracking-[0.22em] text-secondary">
                   {item.author}

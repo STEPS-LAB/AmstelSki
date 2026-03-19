@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { Menu, Phone, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -11,11 +11,24 @@ import { Link } from "@/i18n/navigation";
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const { scrollY } = useScroll();
   const t = useTranslations();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = scrollY.onChange((latest) => {
+      const heroHeight = typeof window !== "undefined" ? window.innerHeight : 0;
+      const progress = Math.min(Math.max(latest / (heroHeight * 0.7), 0), 1);
+      setScrollProgress(progress);
+    });
+    return () => unsubscribe();
+  }, [scrollY]);
+
+  const isDark = scrollProgress < 0.3;
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -40,7 +53,7 @@ export function MobileMenu() {
         >
           {/* Glassmorphism overlay - fully opaque with blur */}
           <div
-            className="absolute inset-0 bg-gradient-to-b from-[#3A4A55]/98 via-[#3A4A55]/98 to-[#3A4A55]/98 backdrop-blur-xl"
+            className="absolute inset-0 bg-gradient-to-b from-white/98 via-white/98 to-white/98 backdrop-blur-xl"
             onClick={() => setOpen(false)}
           />
 
@@ -49,15 +62,15 @@ export function MobileMenu() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="absolute right-0 top-0 z-10 flex h-full w-full max-w-sm flex-col overflow-y-auto border-l border-white/10 bg-[#3A4A55]/95 px-6 py-6 backdrop-blur-xl"
+            className="absolute right-0 top-0 z-10 flex h-full w-full max-w-sm flex-col overflow-y-auto border-l border-black/12 bg-white/95 px-6 py-6 backdrop-blur-xl"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-serif text-3xl text-white">AmstelSki</p>
+                <p className="font-serif text-3xl text-foreground">AmstelSki</p>
               </div>
               <button
                 type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-black/5 text-foreground"
                 onClick={() => setOpen(false)}
                 aria-label={t("common.close")}
               >
@@ -70,7 +83,7 @@ export function MobileMenu() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="rounded-sm border border-white/10 bg-white/[0.03] px-4 py-4 text-lg text-white"
+                  className="rounded-sm border border-black/10 bg-black/[0.03] px-4 py-4 text-lg text-foreground"
                   onClick={() => setOpen(false)}
                 >
                   {t(item.labelKey)}
@@ -81,7 +94,7 @@ export function MobileMenu() {
             <div className="mt-8 space-y-4">
               <a
                 href="tel:+380688808805"
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-sm border border-white/10 bg-white/5 text-sm font-medium uppercase tracking-[0.18em] text-white"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-sm border border-black/10 bg-black/5 text-sm font-medium uppercase tracking-[0.18em] text-foreground"
               >
                 <Phone className="h-4 w-4" />
                 +38 (068) 880 88 05
@@ -97,7 +110,11 @@ export function MobileMenu() {
     <>
       <button
         type="button"
-        className="relative z-[101] inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white lg:hidden"
+        className={`relative z-[101] inline-flex h-11 w-11 items-center justify-center rounded-full border lg:hidden transition-all duration-500 ${
+          isDark 
+            ? "border-white/10 bg-white/5 text-white" 
+            : "border-black/10 bg-black/5 text-foreground"
+        }`}
         onClick={() => setOpen(true)}
         aria-label="Open navigation"
       >

@@ -12,8 +12,8 @@ const variants: Record<Variant, string> = {
   primary:
     "bg-accent-red text-white shadow-[0_20px_60px_rgba(198,40,40,0.25)] hover:bg-accent-red-strong",
   secondary:
-    "border border-white/12 bg-white/5 text-white hover:bg-white/10",
-  ghost: "text-white/80 hover:text-white",
+    "border border-black/12 bg-black/5 text-foreground hover:bg-black/10",
+  ghost: "text-foreground/80 hover:text-foreground",
 };
 
 export function buttonClasses(variant: Variant = "primary", className?: string) {

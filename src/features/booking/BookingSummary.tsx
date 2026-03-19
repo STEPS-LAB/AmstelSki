@@ -34,11 +34,11 @@ export function BookingSummary({
         <p className="text-[10px] uppercase tracking-[0.22em] text-secondary">
           {t("stepConfirm")}
         </p>
-        <p className="mt-1.5 text-base text-white sm:mt-2 sm:text-xl">
+        <p className="mt-1.5 text-base text-foreground sm:mt-2 sm:text-xl">
           {room ? pickLocalized(room.name, locale) : t("selectRoom")}
         </p>
       </div>
-      <dl className="space-y-2 text-xs text-white/75 sm:space-y-3 sm:text-sm">
+      <dl className="space-y-2 text-xs text-foreground/75 sm:space-y-3 sm:text-sm">
         <div className="flex items-center justify-between gap-4">
           <dt>{t("checkIn")}</dt>
           <dd>{checkInFormatted}</dd>
@@ -53,11 +53,11 @@ export function BookingSummary({
         </div>
       </dl>
       {room ? (
-        <div className="border-t border-white/10 pt-3 sm:pt-4">
+        <div className="border-t border-black/10 pt-3 sm:pt-4">
           <p className="text-[10px] uppercase tracking-[0.22em] text-secondary">
             {locale === "ua" ? "Тариф" : "Rate"}
           </p>
-          <p className="mt-1.5 text-lg text-white sm:mt-2 sm:text-2xl">{room.rateFrom.toLocaleString("uk-UA")} ₴</p>
+          <p className="mt-1.5 text-lg text-foreground sm:mt-2 sm:text-2xl">{room.rateFrom.toLocaleString("uk-UA")} ₴</p>
         </div>
       ) : null}
     </Panel>

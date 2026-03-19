@@ -67,7 +67,7 @@ export function Popover({
         <div
           ref={contentRef}
           className={cn(
-            "absolute top-full z-[100] mt-2 w-full rounded-md border border-white/10 bg-[#6a6f74] p-5 shadow-xl",
+            "absolute top-full z-[100] mt-2 w-full rounded-md border border-black/10 bg-white p-5 shadow-xl",
             alignClasses[align],
           )}
         >

@@ -23,7 +23,7 @@ export function BookingBar() {
   const displayCheckOut = format(new Date(checkOut), "dd.MM");
 
   return (
-    <div className="glass-panel rounded-sm p-4 sm:p-5">
+    <div className="glass-panel rounded-sm p-4 sm:p-5 relative z-20">
       <div className="flex flex-col gap-3">
         <Popover
           isOpen={isDatePopoverOpen}
@@ -31,19 +31,19 @@ export function BookingBar() {
           align="start"
           content={
             <div className="space-y-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-white/60">
+              <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">
                 Оберіть дати
               </p>
               <div className="space-y-3">
                 <div>
-                  <label className="mb-1 block text-sm text-white">
+                  <label className="mb-1 block text-sm text-foreground">
                     Дата заїзду:
                   </label>
                   <div className="relative">
                     <input
                       ref={checkInRef}
                       type="date"
-                      className="h-12 w-full rounded-sm border border-white/10 bg-white/5 pl-4 pr-10 text-sm text-white outline-none placeholder:text-white/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
+                      className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
                       value={checkIn}
                       onChange={(event) => {
                         setCheckIn(event.target.value);
@@ -52,7 +52,7 @@ export function BookingBar() {
                         }
                       }}
                     />
-                    <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-white/40" />
+                    <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground/40" />
                     <button
                       type="button"
                       className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
@@ -64,19 +64,19 @@ export function BookingBar() {
                   </div>
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm text-white">
+                  <label className="mb-1 block text-sm text-foreground">
                     Дата виїзду:
                   </label>
                   <div className="relative">
                     <input
                       ref={checkOutRef}
                       type="date"
-                      className="h-12 w-full rounded-sm border border-white/10 bg-white/5 pl-4 pr-10 text-sm text-white outline-none placeholder:text-white/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
+                      className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
                       value={checkOut}
                       min={checkIn}
                       onChange={(event) => setCheckOut(event.target.value)}
                     />
-                    <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-white/40" />
+                    <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground/40" />
                     <button
                       type="button"
                       className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
@@ -93,34 +93,34 @@ export function BookingBar() {
         >
           <button
             type="button"
-            className="flex h-12 w-full items-center gap-3 rounded-sm border border-white/10 bg-white/5 px-4 text-left text-sm text-white/70 hover:bg-white/10"
+            className="flex h-12 w-full items-center gap-3 rounded-sm border border-black/10 bg-black/5 px-4 text-left text-sm text-foreground/70 hover:bg-black/10"
           >
-            <Calendar className="h-5 w-5 flex-shrink-0 text-white/40" />
+            <Calendar className="h-5 w-5 flex-shrink-0 text-foreground/40" />
             <span className="whitespace-nowrap">Дати:</span>
-            <span className="ml-auto font-medium text-white">
+            <span className="ml-auto font-medium text-foreground">
               {displayCheckIn} - {displayCheckOut}
             </span>
           </button>
         </Popover>
 
-        <div className="flex h-12 w-full items-center rounded-sm border border-white/10 bg-white/5 pl-4 pr-1">
+        <div className="flex h-12 w-full items-center rounded-sm border border-black/10 bg-black/5 pl-4 pr-1">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-1">
-              <Users className="h-5 w-5 flex-shrink-0 text-white/40" />
-              <span className="whitespace-nowrap text-sm text-white/70">Гості:</span>
+              <Users className="h-5 w-5 flex-shrink-0 text-foreground/40" />
+              <span className="whitespace-nowrap text-sm text-foreground/70">Гості:</span>
             </div>
             <div className="flex items-center gap-0">
               <button
                 type="button"
-                className="flex h-10 w-12 items-center justify-center text-xl text-white/70"
+                className="flex h-10 w-12 items-center justify-center text-xl text-foreground/70"
                 onClick={() => setAdults((prev) => Math.max(1, prev - 1))}
               >
                 −
               </button>
-              <span className="w-8 text-center text-lg font-medium text-white">{adults}</span>
+              <span className="w-8 text-center text-lg font-medium text-foreground">{adults}</span>
               <button
                 type="button"
-                className="flex h-10 w-10 items-center justify-center text-xl text-white/70"
+                className="flex h-10 w-10 items-center justify-center text-xl text-foreground/70"
                 onClick={() => setAdults((prev) => Math.min(4, prev + 1))}
               >
                 +

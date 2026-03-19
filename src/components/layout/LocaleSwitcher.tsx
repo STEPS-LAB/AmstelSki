@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const locales = ["ua", "en"] as const;
 
-export function LocaleSwitcher({ compact = false }: { compact?: boolean }) {
+export function LocaleSwitcher({ compact = false, variant = "light" }: { compact?: boolean; variant?: "light" | "dark" }) {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -27,10 +27,14 @@ export function LocaleSwitcher({ compact = false }: { compact?: boolean }) {
             key={value}
             onClick={() => router.replace(pathname, { locale: value })}
             className={cn(
-              "rounded px-2 py-1 text-xs font-medium uppercase tracking-[0.15em]",
-              isActive
-                ? "bg-white/12 text-white"
-                : "text-white/50 hover:text-white/75",
+              "rounded px-2 py-1 text-xs font-medium uppercase tracking-[0.15em] transition-colors",
+              variant === "dark"
+                ? isActive
+                  ? "bg-white/12 text-white"
+                  : "text-white/50 hover:text-white/75"
+                : isActive
+                  ? "bg-black/12 text-foreground"
+                  : "text-foreground/50 hover:text-foreground/75",
             )}
             type="button"
           >

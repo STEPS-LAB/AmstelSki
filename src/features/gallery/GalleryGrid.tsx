@@ -20,7 +20,7 @@ export function GalleryGrid({
           <button
             key={`${image}-${index}`}
             type="button"
-            className={`group relative overflow-hidden rounded-sm border border-white/10 ${
+            className={`group relative overflow-hidden rounded-sm border border-black/10 ${
               index === 0 ? "md:col-span-2 md:row-span-2" : ""
             }`}
             onClick={() => setActiveIndex(index)}

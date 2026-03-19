@@ -25,7 +25,7 @@ export function StickyMobileBookingBar() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className="fixed inset-x-0 bottom-0 z-30 border-t border-white/14 bg-[rgba(106,111,116,0.82)] p-3 backdrop-blur md:hidden"
+          className="fixed inset-x-0 bottom-0 z-30 border-t border-black/14 bg-white/90 p-3 backdrop-blur md:hidden"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
