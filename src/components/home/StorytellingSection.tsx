@@ -13,11 +13,11 @@ export async function StorytellingSection({ locale }: { locale: AppLocale }) {
       <Container className="space-y-12">
         <SectionIntro
           eyebrow={t("eyebrow")}
-          title={locale === "ua" ? "AmstelSki зберігає дух оригінального готелю" : "AmstelSki keeps the spirit of the original hotel"}
+          title={locale === "ua" ? "Про нас" : "About us"}
           copy={
             locale === "ua"
-              ? "Ми зберегли ключові риси оригінального сайту та самого готелю: голландську архітектуру, близькість до витягів, сильний ресторан і комфорт, який відчувається в деталях."
-              : "We preserved the core character of the original hotel and website: Dutch-inspired architecture, proximity to the lifts, a strong restaurant, and comfort felt in the details."
+              ? "Голландська архітектура, близькість до витягів, сильний ресторан і комфорт, який відчувається в деталях."
+              : "Dutch-inspired architecture, proximity to the lifts, a strong restaurant, and comfort felt in the details."
           }
         />
 

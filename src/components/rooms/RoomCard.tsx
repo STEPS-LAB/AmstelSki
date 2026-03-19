@@ -1,12 +1,10 @@
 import Image from "next/image";
 import { Users } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
 import type { AppLocale } from "@/i18n/routing";
 import type { Room } from "@/lib/content/rooms";
 import { pickLocalized } from "@/lib/i18n";
 import { Badge } from "@/components/ui/badge";
-import { buttonClasses } from "@/components/ui/button";
 
 export async function RoomCard({
   room,
@@ -56,12 +54,6 @@ export async function RoomCard({
             <Badge key={item}>{item}</Badge>
           ))}
         </div>
-        <Link
-          href={`/rooms/${room.slug}`}
-          className={buttonClasses("secondary", "w-full")}
-        >
-          {t("common.viewDetails")}
-        </Link>
       </div>
     </article>
   );

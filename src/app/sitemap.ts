@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { rooms } from "@/lib/content/rooms";
 
 const locales = ["ua", "en"] as const;
 const staticPaths = [
@@ -25,14 +24,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   );
 
-  const roomPages = locales.flatMap((locale) =>
-    rooms.map((room) => ({
-      url: `${baseUrl}/${locale}/rooms/${room.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    })),
-  );
-
-  return [...localizedPages, ...roomPages];
+  return localizedPages;
 }
