@@ -1,16 +1,19 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
+import { useAppLocale } from "./LocaleProvider";
 
 const locales = ["ua", "en"] as const;
 
 export function LocaleSwitcher({ compact = false, variant = "light" }: { compact?: boolean; variant?: "light" | "dark" }) {
-  const locale = useLocale();
-  const pathname = usePathname();
-  const router = useRouter();
-  const t = useTranslations("common");
+  const serverLocale = useLocale();
+  const { locale, setLocale } = useAppLocale();
+  const currentLocale = typeof window !== "undefined" ? locale : serverLocale;
+
+  const handleLocaleChange = (newLocale: "ua" | "en") => {
+    setLocale(newLocale);
+  };
 
   return (
     <div
@@ -18,14 +21,14 @@ export function LocaleSwitcher({ compact = false, variant = "light" }: { compact
         "inline-flex items-center gap-1",
         compact && "w-full justify-between",
       )}
-      aria-label={t("language")}
+      aria-label="Language switcher"
     >
       {locales.map((value) => {
-        const isActive = locale === value;
+        const isActive = currentLocale === value;
         return (
           <button
             key={value}
-            onClick={() => router.replace(pathname, { locale: value })}
+            onClick={() => handleLocaleChange(value)}
             className={cn(
               "rounded px-2 py-1 text-xs font-medium uppercase tracking-[0.15em] transition-colors",
               variant === "dark"

@@ -2,11 +2,20 @@
 
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { Menu, Phone, X } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { navigationItems } from "@/lib/content/site-content";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useAppLocale } from "./LocaleProvider";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
+
+const navigationItems = [
+  { href: "/", labelKey: "navigation.home" },
+  { href: "/#about", labelKey: "navigation.about" },
+  { href: "/#rooms", labelKey: "navigation.rooms" },
+  { href: "/#services", labelKey: "navigation.services" },
+  { href: "/#gallery", labelKey: "navigation.gallery" },
+  { href: "/contacts", labelKey: "navigation.contacts" },
+] as const;
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
@@ -14,7 +23,8 @@ export function MobileMenu() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const { scrollY } = useScroll();
   const pathname = usePathname();
-  const t = useTranslations();
+  const { locale } = useAppLocale();
+  const t = useClientTranslations();
 
   const isContactsPage = pathname.includes("/contacts");
 

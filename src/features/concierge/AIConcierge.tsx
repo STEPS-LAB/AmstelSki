@@ -2,12 +2,12 @@
 
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { MessageSquare, Send, Sparkles, X } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { AppLocale } from "@/i18n/routing";
+import { useAppLocale } from "@/components/layout/LocaleProvider";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 const responses: Record<
-  AppLocale,
+  string,
   Record<string, string>
 > = {
   ua: {
@@ -43,16 +43,23 @@ interface Message {
 }
 
 export function AIConcierge() {
-  const t = useTranslations("concierge");
-  const locale = useLocale() as AppLocale;
+  const { locale } = useAppLocale();
+  const t = useClientTranslations();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([{ text: t("intro"), isUser: false, id: 0 }]);
+  const [messages, setMessages] = useState<Message[]>([{ text: t("concierge.intro"), isUser: false, id: 0 }]);
   const [value, setValue] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const { scrollY } = useScroll();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageIdRef = useRef(0);
+
+  useEffect(() => {
+    // Update intro message when locale changes
+    if (messages.length === 1 && !isOpen) {
+      setMessages([{ text: t("concierge.intro"), isUser: false, id: 0 }]);
+    }
+  }, [locale]);
 
   useEffect(() => {
     const heroHeight = typeof window !== "undefined" ? window.innerHeight : 0;
@@ -88,10 +95,10 @@ export function AIConcierge() {
 
   const suggestions = useMemo(
     () => [
-      { key: "restaurants", label: t("suggestions.restaurants") },
-      { key: "lateCheckin", label: t("suggestions.lateCheckin") },
-      { key: "experiences", label: t("suggestions.experiences") },
-      { key: "transfer", label: t("suggestions.transfer") },
+      { key: "restaurants", label: t("concierge.suggestions.restaurants") },
+      { key: "lateCheckin", label: t("concierge.suggestions.lateCheckin") },
+      { key: "experiences", label: t("concierge.suggestions.experiences") },
+      { key: "transfer", label: t("concierge.suggestions.transfer") },
     ],
     [t],
   );

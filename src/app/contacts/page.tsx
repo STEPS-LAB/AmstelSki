@@ -1,4 +1,5 @@
-import { setRequestLocale } from "next-intl/server";
+import { headers } from "next/headers";
+import { getMessages } from "next-intl/server";
 import { Container } from "@/components/ui/container";
 import { Input, Textarea } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
@@ -7,13 +8,16 @@ import { pickLocalized } from "@/lib/i18n";
 import type { AppLocale } from "@/i18n/routing";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
 
-export default async function ContactsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  setRequestLocale(locale);
+async function getLocaleFromCookie(): Promise<AppLocale> {
+  const cookieStore = await headers();
+  const cookies = cookieStore.get("cookie");
+  const match = cookies?.match(/NEXT_LOCALE=(ua|en)/);
+  return match ? (match[1] as AppLocale) : "ua";
+}
+
+export default async function ContactsPage() {
+  const locale = await getLocaleFromCookie();
+  const messages = await getMessages({ locale });
   const typedLocale = locale as AppLocale;
 
   return (
