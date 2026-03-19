@@ -9,7 +9,7 @@ export async function Footer({ locale }: { locale: AppLocale }) {
   const t = await getTranslations();
 
   return (
-    <footer className="section-border mt-24 bg-[#1A1A1A]">
+    <footer className="bg-[#1A1A1A]">
       <Container className="grid gap-10 py-12 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
         <div>
           <p className="font-serif text-3xl text-white">AmstelSki</p>

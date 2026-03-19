@@ -16,7 +16,7 @@ export function TestimonialsSlider() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
 
   return (
-    <section className="section-border bg-black/[0.03] py-24">
+    <section className="bg-black/[0.03] py-24">
       <Container className="space-y-10">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionIntro title={t("testimonialsTitle")} />

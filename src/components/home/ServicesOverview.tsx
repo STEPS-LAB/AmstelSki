@@ -62,7 +62,7 @@ export async function ServicesOverview({ locale }: { locale: AppLocale }) {
   ];
 
   return (
-    <section className="section-border bg-black/[0.03] py-24">
+    <section className="bg-black/[0.03] py-24">
       <Container>
         <SectionIntro title={t("servicesTitle")} />
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">

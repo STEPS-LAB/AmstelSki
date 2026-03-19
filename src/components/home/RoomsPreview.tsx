@@ -10,7 +10,7 @@ export async function RoomsPreview({ locale }: { locale: AppLocale }) {
   const rooms = getFeaturedRooms();
 
   return (
-    <section className="section-border py-24">
+    <section className="py-24">
       <Container className="space-y-12">
         <SectionIntro title={t("roomsTitle")} copy={t("roomsCopy")} />
         <div className="grid gap-6 lg:grid-cols-3">
