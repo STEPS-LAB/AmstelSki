@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Loader2, Sparkles } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -134,35 +134,14 @@ export function BookingFlow({
     setStep(3);
   }
 
-  function applySuggestion(type: BookingSuggestionType) {
-    const suggestion = buildSuggestion(type);
-    stayForm.reset(suggestion);
-    setIsChecking(true);
-    setStep(0);
-  }
-
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-      <div className="space-y-5">
-        <div className="flex flex-wrap gap-2">
-          {(["tonight", "weekend", "business"] as const).map((type) => (
-            <button
-              key={type}
-              type="button"
-              className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs uppercase tracking-[0.18em] text-white/70 hover:bg-white/10"
-              onClick={() => applySuggestion(type)}
-            >
-              <Sparkles className="mr-2 h-3.5 w-3.5 text-accent-red" />
-              {t(type)}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2 overflow-x-auto">
+    <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="space-y-4">
+        <div className="flex items-center gap-1 overflow-x-auto overflow-y-hidden pb-1">
           {steps.map((label, index) => (
             <div
               key={label}
-              className={`rounded-full px-3 py-2 text-xs uppercase tracking-[0.2em] ${
+              className={`flex-shrink-0 rounded-full px-2 py-1 text-[9px] uppercase tracking-[0.2em] ${
                 step === index
                   ? "bg-white text-black"
                   : "border border-white/10 bg-white/5 text-white/55"
@@ -173,17 +152,30 @@ export function BookingFlow({
           ))}
         </div>
 
+        <div className="lg:hidden">
+          <BookingSummary
+            stay={{
+              checkIn: stayValues.checkIn ?? stayDefaults.checkIn,
+              checkOut: stayValues.checkOut ?? stayDefaults.checkOut,
+              adults: stayValues.adults ?? stayDefaults.adults,
+              children: stayValues.children ?? stayDefaults.children,
+            }}
+            room={selectedRoom}
+            className="bg-black/20"
+          />
+        </div>
+
         <AnimatePresence mode="wait">
           {step === 0 ? (
             <motion.div
               key="stay"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              className="space-y-4"
+              exit={{ opacity: 0, y: -8 }}
+              className="space-y-3"
             >
-              <Panel className="grid gap-4 md:grid-cols-2">
-                <label className="space-y-2 text-sm text-white/80">
+              <Panel className="grid gap-3 p-3 sm:p-6">
+                <label className="space-y-1.5 text-[10px] text-white/80 sm:text-sm">
                   <span>{t("checkIn")}</span>
                   <Controller
                     control={stayForm.control}
@@ -191,7 +183,7 @@ export function BookingFlow({
                     render={({ field }) => <Input type="date" min={toDateValue(new Date())} {...field} />}
                   />
                 </label>
-                <label className="space-y-2 text-sm text-white/80">
+                <label className="space-y-1.5 text-[10px] text-white/80 sm:text-sm">
                   <span>{t("checkOut")}</span>
                   <Controller
                     control={stayForm.control}
@@ -199,7 +191,7 @@ export function BookingFlow({
                     render={({ field }) => <Input type="date" min={stayValues.checkIn} {...field} />}
                   />
                 </label>
-                <label className="space-y-2 text-sm text-white/80">
+                <label className="space-y-1.5 text-[10px] text-white/80 sm:text-sm">
                   <span>{t("adults")}</span>
                   <Controller
                     control={stayForm.control}
@@ -215,7 +207,7 @@ export function BookingFlow({
                     )}
                   />
                 </label>
-                <label className="space-y-2 text-sm text-white/80">
+                <label className="space-y-1.5 text-[10px] text-white/80 sm:text-sm">
                   <span>{t("children")}</span>
                   <Controller
                     control={stayForm.control}
@@ -232,9 +224,9 @@ export function BookingFlow({
                   />
                 </label>
               </Panel>
-              <Button className="w-full sm:w-auto" onClick={handleStayContinue}>
+              <Button className="w-full" size="sm" onClick={handleStayContinue}>
                 {t("continue")}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 h-3.5 w-3.5" />
               </Button>
             </motion.div>
           ) : null}
@@ -242,53 +234,53 @@ export function BookingFlow({
           {step === 1 ? (
             <motion.div
               key="room"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              className="space-y-4"
+              exit={{ opacity: 0, y: -8 }}
+              className="space-y-3"
             >
               {isChecking ? (
-                <Panel className="flex items-center gap-3">
-                  <Loader2 className="h-5 w-5 animate-spin text-accent-red" />
-                  <p className="text-sm text-white/80">{t("checking")}</p>
+                <Panel className="flex items-center gap-3 p-3">
+                  <Loader2 className="h-4 w-4 animate-spin text-accent-red" />
+                  <p className="text-[10px] text-white/80 sm:text-sm">{t("checking")}</p>
                 </Panel>
               ) : null}
 
-              <div className="grid gap-4">
+              <div className="grid gap-3">
                 {availableRooms.map((room, index) => (
                   <MotionReveal key={room.slug} delay={index * 0.05}>
                     <button
                       type="button"
-                      className={`w-full rounded-sm border p-5 text-left ${
+                      className={`w-full rounded-sm border p-2.5 text-left sm:p-5 ${
                         selectedRoomSlug === room.slug
                           ? "border-accent-red bg-white/[0.06]"
                           : "border-white/10 bg-white/[0.03]"
                       }`}
                       onClick={() => setSelectedRoomSlug(room.slug)}
                     >
-                      <div className="flex flex-wrap items-start justify-between gap-4">
-                        <div>
-                          <p className="font-serif text-2xl text-white">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-serif text-base text-white sm:text-2xl">
                             {pickLocalized(room.name, locale)}
                           </p>
-                          <p className="mt-2 max-w-xl text-sm leading-6 text-secondary">
+                          <p className="mt-1 line-clamp-2 text-[10px] leading-5 text-secondary sm:mt-2 sm:text-sm">
                             {pickLocalized(room.shortDescription, locale)}
                           </p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-xs uppercase tracking-[0.2em] text-secondary">
+                        <div className="flex-shrink-0 text-right">
+                          <p className="text-[9px] uppercase tracking-[0.2em] text-secondary">
                             from
                           </p>
-                          <p className="mt-2 text-2xl text-white">
+                          <p className="mt-1 text-base text-white sm:text-2xl">
                             ₴{room.rateFrom.toLocaleString("uk-UA")}
                           </p>
                         </div>
                       </div>
-                      <div className="mt-4 flex flex-wrap gap-2">
+                      <div className="mt-2.5 flex flex-wrap gap-1.5">
                         {room.amenities.slice(0, 4).map((amenity) => (
                           <span
                             key={amenity}
-                            className="rounded-full border border-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white/65"
+                            className="rounded-full border border-white/10 px-2 py-0.5 text-[9px] uppercase tracking-[0.18em] text-white/65 sm:px-3 sm:py-1 sm:text-[11px]"
                           >
                             {pickLocalized(roomAmenityLabels[amenity], locale)}
                           </span>
@@ -298,14 +290,16 @@ export function BookingFlow({
                   </MotionReveal>
                 ))}
               </div>
-              <div className="flex flex-wrap gap-3">
-                <Button variant="secondary" onClick={() => setStep(0)}>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Button variant="secondary" onClick={() => setStep(0)} size="sm" className="w-full sm:w-auto">
                   {t("back")}
                 </Button>
                 <Button
                   onClick={() => {
                     if (selectedRoomSlug) setStep(2);
                   }}
+                  size="sm"
+                  className="w-full sm:w-auto"
                 >
                   {t("continue")}
                 </Button>
@@ -316,22 +310,24 @@ export function BookingFlow({
           {step === 2 ? (
             <motion.div
               key="guest"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              className="space-y-4"
+              exit={{ opacity: 0, y: -8 }}
+              className="space-y-3"
             >
-              <Panel className="grid gap-4">
+              <Panel className="grid gap-3 p-3 sm:p-6">
                 <Input placeholder={t("name")} {...guestForm.register("name")} />
                 <Input placeholder={t("email")} type="email" {...guestForm.register("email")} />
                 <Input placeholder={t("phone")} {...guestForm.register("phone")} />
                 <Textarea placeholder={t("notes")} {...guestForm.register("notes")} />
               </Panel>
-              <div className="flex flex-wrap gap-3">
-                <Button variant="secondary" onClick={() => setStep(1)}>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Button variant="secondary" onClick={() => setStep(1)} size="sm" className="w-full sm:w-auto">
                   {t("back")}
                 </Button>
-                <Button onClick={handleGuestContinue}>{t("continue")}</Button>
+                <Button onClick={handleGuestContinue} size="sm" className="w-full sm:w-auto">
+                  {t("continue")}
+                </Button>
               </div>
             </motion.div>
           ) : null}
@@ -339,19 +335,20 @@ export function BookingFlow({
           {step === 3 ? (
             <motion.div
               key="confirm"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              className="space-y-4"
+              exit={{ opacity: 0, y: -8 }}
+              className="space-y-3"
             >
-              <Panel className="space-y-4">
-                <div className="grid gap-2 text-sm text-white/75">
+              <Panel className="space-y-3 p-3 sm:p-6">
+                <div className="grid gap-1.5 text-[10px] text-white/75 sm:text-sm">
                   <p>{guestForm.getValues().name}</p>
                   <p>{guestForm.getValues().email}</p>
                   <p>{guestForm.getValues().phone}</p>
                 </div>
                 <Button
                   className="w-full"
+                  size="sm"
                   onClick={() => {
                     setIsSubmitted(true);
                     window.setTimeout(() => onDone?.(), 1200);
@@ -361,9 +358,9 @@ export function BookingFlow({
                 </Button>
               </Panel>
               {isSubmitted ? (
-                <Panel className="border-accent-red/30 bg-accent-red/10">
-                  <p className="font-serif text-2xl text-white">{t("successTitle")}</p>
-                  <p className="mt-3 text-sm leading-7 text-white/75">{t("successText")}</p>
+                <Panel className="border-accent-red/30 bg-accent-red/10 p-3 sm:p-6">
+                  <p className="font-serif text-lg text-white sm:text-2xl">{t("successTitle")}</p>
+                  <p className="mt-2 text-[10px] leading-6 text-white/75 sm:text-sm">{t("successText")}</p>
                 </Panel>
               ) : null}
             </motion.div>
@@ -379,6 +376,7 @@ export function BookingFlow({
           children: stayValues.children ?? stayDefaults.children,
         }}
         room={selectedRoom}
+        className="hidden lg:block"
       />
     </div>
   );

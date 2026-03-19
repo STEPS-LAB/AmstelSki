@@ -37,38 +37,42 @@ export function BookingDrawer() {
             exit={{ opacity: 0 }}
             onClick={closeBooking}
           />
-          <motion.aside
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="fixed right-0 top-0 z-[60] h-screen w-full max-w-4xl overflow-y-auto border-l border-white/10 bg-primary"
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="fixed left-1/2 top-1/2 z-[60] flex h-[85vh] w-[92vw] max-w-sm -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-lg bg-primary sm:h-auto sm:max-h-[85vh]"
           >
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-primary/90 px-6 py-5 backdrop-blur">
-              <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-secondary">
-                  {t("title")}
-                </p>
-                <p className="mt-1 font-serif text-3xl text-white">AmstelSki</p>
+            <div className="flex flex-shrink-0 items-center justify-between border-b border-white/10 bg-primary/90 px-4 py-2.5 backdrop-blur sm:px-6 sm:py-5">
+              <div className="flex w-full items-center justify-between">
+                <div>
+                  <p className="text-[9px] uppercase tracking-[0.24em] text-secondary">
+                    {t("title")}
+                  </p>
+                  <p className="mt-0.5 font-serif text-lg text-white sm:mt-1 sm:text-3xl">AmstelSki</p>
+                </div>
+                <button
+                  type="button"
+                  aria-label={t("back")}
+                  className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white sm:h-11 sm:w-11"
+                  onClick={closeBooking}
+                >
+                  <X className="h-4 w-4 sm:h-5 sm:w-5" />
+                </button>
               </div>
-              <button
-                type="button"
-                aria-label={t("back")}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white"
-                onClick={closeBooking}
-              >
-                <X className="h-5 w-5" />
-              </button>
             </div>
-            <div className="px-6 py-6 sm:px-8">
-              <BookingFlow
-                onDone={closeBooking}
-                preferredRoomSlug={prefill?.preferredRoomSlug}
-                suggestionType={prefill?.suggestionType}
-                initialStay={prefill?.stay}
-              />
+            <div className="flex-1 overflow-y-auto px-4 pb-4 pt-3 sm:px-6 sm:pb-6 sm:pt-5">
+              <div className="w-full">
+                <BookingFlow
+                  onDone={closeBooking}
+                  preferredRoomSlug={prefill?.preferredRoomSlug}
+                  suggestionType={prefill?.suggestionType}
+                  initialStay={prefill?.stay}
+                />
+              </div>
             </div>
-          </motion.aside>
+          </motion.div>
         </>
       ) : null}
     </AnimatePresence>

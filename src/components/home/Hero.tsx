@@ -4,8 +4,8 @@ import type { AppLocale } from "@/i18n/routing";
 import { heroHighlights } from "@/lib/content/site-content";
 import { pickLocalized } from "@/lib/i18n";
 import { buttonClasses } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
+import { Container } from "@/components/ui/container";
 import { BookingBar } from "@/features/booking/BookingBar";
 import { OpenBookingButton } from "@/features/booking/OpenBookingButton";
 import { Link } from "@/i18n/navigation";
@@ -29,8 +29,7 @@ export async function Hero({ locale }: { locale: AppLocale }) {
 
       <Container className="relative z-10 flex min-h-[100svh] flex-col justify-center py-28">
         <div className="max-w-4xl">
-          <Badge>{t("hero.eyebrow")}</Badge>
-          <h1 className="mt-6 font-serif text-6xl leading-none text-white sm:text-7xl md:text-8xl">
+          <h1 className="font-serif text-6xl leading-none text-white sm:text-7xl md:text-8xl">
             {t("hero.title")}
           </h1>
           <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-white/72 sm:text-xl">
