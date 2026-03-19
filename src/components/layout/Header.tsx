@@ -32,14 +32,14 @@ export function Header() {
   const isDark = scrollProgress < 0.3; // Consider dark while mostly on hero
 
   return (
-    <header 
+    <header
       className="sticky top-0 z-40 transition-colors duration-500"
       style={{
-        backgroundColor: isDark 
+        backgroundColor: isDark
           ? `rgba(26, 26, 26, ${0.3 - scrollProgress * 0.2})` // Almost transparent dark on hero
           : `rgba(255, 255, 255, ${bgOpacity})`, // White after hero
         borderBottomWidth: '1px',
-        borderColor: isDark 
+        borderColor: isDark
           ? 'rgba(255, 255, 255, 0)' // Invisible border on hero
           : `rgba(0, 0, 0, ${0.1 + scrollProgress * 0.05})`,
         backdropFilter: 'blur(24px)',

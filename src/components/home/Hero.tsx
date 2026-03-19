@@ -11,8 +11,8 @@ export async function Hero({ locale }: { locale: AppLocale }) {
   const t = await getTranslations();
 
   return (
-    <section className="relative h-screen border-b border-black/14 -mt-20">
-      <div className="absolute inset-0 overflow-hidden">
+    <section className="relative h-[calc(100vh-80px)] border-b border-black/14">
+      <div className="absolute inset-0 -top-20 overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=2000&q=80"
           alt="AmstelSki exterior at night"
@@ -23,7 +23,7 @@ export async function Hero({ locale }: { locale: AppLocale }) {
         <div className="absolute inset-0 bg-black/30" />
       </div>
 
-      <Container className="relative z-10 flex h-full flex-col justify-center pt-[8.5rem]">
+      <Container className="relative z-10 flex h-full flex-col justify-center">
         <div className="max-w-4xl">
           <h1 className="font-serif text-6xl leading-none text-white sm:text-7xl md:text-8xl">
             {t("hero.title")}
