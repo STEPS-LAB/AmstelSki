@@ -9,7 +9,7 @@ export async function Footer({ locale }: { locale: AppLocale }) {
   const t = await getTranslations();
 
   return (
-    <footer className="bg-[#1A1A1A]">
+    <footer className="bg-[#1A1A1A] pb-20 md:pb-0">
       <Container className="grid gap-10 py-12 lg:grid-cols-[1fr_1.5fr_0.8fr]">
         <div>
           <Link href="/" className="font-serif text-3xl text-white hover:text-white/80">
@@ -55,9 +55,22 @@ export async function Footer({ locale }: { locale: AppLocale }) {
           </div>
         </div>
       </Container>
-      <Container className="border-t border-white/10 py-5 text-xs uppercase tracking-[0.18em] text-white/50">
+      <Container className="border-t border-white/10 py-5 text-center text-xs uppercase tracking-[0.18em] text-white/50">
         {new Date().getFullYear()} AmstelSki. {t("common.allRightsReserved")}
       </Container>
+      <div className="py-4 text-center">
+        <p className="text-xs uppercase tracking-[0.18em] text-white/50">
+          Developed by{" "}
+          <a
+            href="https://stepslab.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold text-white hover:text-white/80"
+          >
+            STEPS LAB
+          </a>
+        </p>
+      </div>
     </footer>
   );
 }

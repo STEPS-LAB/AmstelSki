@@ -23,7 +23,7 @@ export async function Hero({ locale }: { locale: AppLocale }) {
         <div className="absolute inset-0 bg-black/30" />
       </div>
 
-      <Container className="relative z-10 flex h-full flex-col justify-center">
+      <Container className="relative z-10 flex h-full flex-col justify-end pb-24">
         <div className="max-w-4xl">
           <h1 className="font-serif text-6xl leading-none text-white sm:text-7xl md:text-8xl">
             {t("hero.title")}
