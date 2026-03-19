@@ -2,12 +2,10 @@ import type { LocalizedValue } from "@/lib/i18n";
 
 export const navigationItems = [
   { href: "/", labelKey: "navigation.home" },
-  { href: "/rooms", labelKey: "navigation.rooms" },
-  { href: "/about", labelKey: "navigation.about" },
-  { href: "/services", labelKey: "navigation.services" },
-  { href: "/gallery", labelKey: "navigation.gallery" },
-  { href: "/blog", labelKey: "navigation.blog" },
-  { href: "/faq", labelKey: "navigation.faq" },
+  { href: "/#about", labelKey: "navigation.about" },
+  { href: "/#rooms", labelKey: "navigation.rooms" },
+  { href: "/#services", labelKey: "navigation.services" },
+  { href: "/#gallery", labelKey: "navigation.gallery" },
   { href: "/contacts", labelKey: "navigation.contacts" },
 ] as const;
 

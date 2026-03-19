@@ -58,11 +58,17 @@ export default async function LocaleHomePage({
       <StructuredData data={localBusinessJsonLd(typedLocale)} />
       <StructuredData data={reviewJsonLd(typedLocale)} />
       <Hero locale={typedLocale} />
-      <StorytellingSection locale={typedLocale} />
-      <RoomsPreview locale={typedLocale} />
-      <ServicesOverview locale={typedLocale} />
+      <div id="about">
+        <StorytellingSection locale={typedLocale} />
+      </div>
+      <div id="rooms">
+        <RoomsPreview locale={typedLocale} />
+      </div>
+      <div id="services">
+        <ServicesOverview locale={typedLocale} />
+      </div>
 
-      <section className="py-24">
+      <section id="gallery" className="py-24">
         <Container className="space-y-10">
           <SectionIntro
             title={t("sections.galleryTitle")}

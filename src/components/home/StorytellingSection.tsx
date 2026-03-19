@@ -9,7 +9,7 @@ export async function StorytellingSection({ locale }: { locale: AppLocale }) {
   const t = await getTranslations("hero");
 
   return (
-    <section className="section-border luxury-grid py-24">
+    <section className="luxury-grid py-24">
       <Container className="space-y-12">
         <SectionIntro
           eyebrow={t("eyebrow")}

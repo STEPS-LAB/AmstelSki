@@ -10,27 +10,40 @@ export async function Footer({ locale }: { locale: AppLocale }) {
 
   return (
     <footer className="bg-[#1A1A1A]">
-      <Container className="grid gap-10 py-12 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
+      <Container className="grid gap-10 py-12 lg:grid-cols-[1fr_1.5fr_0.8fr]">
         <div>
-          <p className="font-serif text-3xl text-white">AmstelSki</p>
-          <p className="mt-4 max-w-md text-sm leading-7 text-white/70">
-            {locale === "ua"
-              ? "Темний boutique hotel у Буковелі, де точна зимова логістика поєднується з тишею, сервісом і виразним інтер'єром."
-              : "A dark boutique hotel in Bukovel where precise winter logistics meet calm service and expressive interiors."}
-          </p>
+          <Link href="/" className="font-serif text-3xl text-white hover:text-white/80">
+            AmstelSki
+          </Link>
         </div>
-        <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-white/50">Explore</p>
-          <div className="mt-4 flex flex-col gap-3">
-            {navigationItems.map((item) => (
-              <Link key={item.href} href={item.href} className="text-sm text-white/75 hover:text-white">
-                {t(item.labelKey)}
-              </Link>
-            ))}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-3">
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] font-semibold text-white">
+              {locale === "ua" ? "Навігація" : "Navigation"}
+            </p>
+            <div className="mt-4 flex flex-col gap-3">
+              {navigationItems.slice(0, Math.ceil(navigationItems.length / 2)).map((item) => (
+                <Link key={item.href} href={item.href} className="text-sm text-white/75 hover:text-white">
+                  {t(item.labelKey)}
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] font-semibold text-white">&nbsp;</p>
+            <div className="mt-4 flex flex-col gap-3">
+              {navigationItems.slice(Math.ceil(navigationItems.length / 2)).map((item) => (
+                <Link key={item.href} href={item.href} className="text-sm text-white/75 hover:text-white">
+                  {t(item.labelKey)}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-white/50">Contact</p>
+          <p className="text-xs uppercase tracking-[0.22em] font-semibold text-white">
+            {locale === "ua" ? "Контакти" : "Contacts"}
+          </p>
           <div className="mt-4 space-y-3 text-sm text-white/75">
             <a href={`tel:${contactDetails.phone.replace(/[^\d+]/g, "")}`} className="block hover:text-white">
               {contactDetails.phone}
