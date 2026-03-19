@@ -58,7 +58,7 @@ export default async function LocaleHomePage({
 
   const typedLocale = locale as AppLocale;
   const t = await getTranslations();
-  const galleryImages = rooms.flatMap((room) => room.gallery).slice(0, 6);
+  const galleryImages = rooms.flatMap((room) => room.gallery).slice(0, 5);
 
   return (
     <>

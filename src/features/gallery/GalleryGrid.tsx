@@ -33,7 +33,6 @@ export function GalleryGrid({
                 fill
                 className="object-cover transition duration-700 group-hover:scale-[1.04]"
               />
-              <div className="absolute inset-0 bg-black/20 transition group-hover:bg-black/45" />
             </div>
           </button>
         ))}
