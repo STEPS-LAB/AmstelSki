@@ -1,0 +1,87 @@
+{
+  "navigation": {
+    "home": "Home",
+    "rooms": "Rooms",
+    "about": "About",
+    "services": "Services",
+    "gallery": "Gallery",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "contacts": "Contacts"
+  },
+  "common": {
+    "bookNow": "Book now",
+    "bookStay": "Book Stay",
+    "exploreRooms": "Explore Rooms",
+    "learnMore": "Learn more",
+    "from": "from",
+    "perNight": "/ night",
+    "guests": "guests",
+    "language": "Language",
+    "allRightsReserved": "All rights reserved",
+    "viewDetails": "View details",
+    "close": "Close"
+  },
+  "hero": {
+    "eyebrow": "A little Holland in the heart of the Carpathians",
+    "title": "AmstelSki",
+    "subtitle": "A Bukovel hotel near lifts 2 and 5, with restaurant De Molen, convenient ski storage, and the kind of thoughtful service guests remember.",
+    "bookingLabel": "Book your stay"
+  },
+  "booking": {
+    "title": "Booking",
+    "stepStay": "Stay",
+    "stepRoom": "Room",
+    "stepGuest": "Guest",
+    "stepConfirm": "Confirm",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Guests",
+    "adults": "Adults",
+    "children": "Children",
+    "selectRoom": "Select room",
+    "continue": "Continue",
+    "back": "Back",
+    "checking": "Checking room availability...",
+    "reserve": "Confirm booking",
+    "successTitle": "Booking request received",
+    "successText": "We will contact you to confirm the booking and clarify your arrival details.",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "notes": "Notes",
+    "tonight": "Tonight stay",
+    "weekend": "Weekend stay",
+    "business": "Family stay",
+    "sticky": "Book Now"
+  },
+  "sections": {
+    "roomsTitle": "Room collection",
+    "roomsCopy": "From standard rooms to more spacious formats for families, each category is designed for comfort after an active day in the mountains.",
+    "servicesTitle": "Hotel comforts",
+    "servicesCopy": "A personal electronic key, gear storage, 24/7 service, and restaurant De Molen are among the reasons guests choose AmstelSki.",
+    "testimonialsTitle": "Guest impressions",
+    "faqTitle": "Frequently asked",
+    "mapTitle": "Location",
+    "mapCopy": "Lifts, dining, and the key points around the hotel, all arranged for an easy stay in Bukovel.",
+    "galleryTitle": "Visual gallery",
+    "galleryCopy": "Dutch-inspired architecture, cozy interiors, and the atmosphere of a hotel guests want to return to."
+  },
+  "concierge": {
+    "label": "AI concierge",
+    "intro": "Hello. I can help with room selection, dinner at De Molen, late arrival, or planning the most comfortable stay.",
+    "placeholder": "Ask a question...",
+    "online": "Demo mode",
+    "suggestions": {
+      "restaurants": "Best nearby restaurants",
+      "lateCheckin": "How does late check-in work?",
+      "experiences": "What can I do at night?",
+      "transfer": "Arrange a transfer"
+    }
+  },
+  "seo": {
+    "siteName": "AmstelSki",
+    "defaultTitle": "AmstelSki | Luxury Boutique Hotel in Bukovel",
+    "defaultDescription": "AmstelSki is a little Holland in the heart of the Carpathians, with comfortable rooms, restaurant De Molen, ski storage, and a location near lifts 2 and 5."
+  }
+}
