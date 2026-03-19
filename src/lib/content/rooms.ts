@@ -55,8 +55,8 @@ export const rooms: Room[] = [
   {
     slug: "canal-signature",
     name: {
-      ua: "Стандартний номер з видом на гори",
-      en: "Standard Room with Mountain View",
+      ua: "Стандарт",
+      en: "Standard",
     },
     eyebrow: {
       ua: "Двомісний номер",
@@ -97,8 +97,8 @@ export const rooms: Room[] = [
   {
     slug: "red-brick-deluxe",
     name: {
-      ua: "Стандартний номер з видом на 5-ту трасу та внутрішній двір",
-      en: "Standard Room with View of Slope 5 and the Inner Courtyard",
+      ua: "Преміум",
+      en: "Premium",
     },
     eyebrow: {
       ua: "Номер для двох",
@@ -139,8 +139,8 @@ export const rooms: Room[] = [
   {
     slug: "duplex-family-studio",
     name: {
-      ua: "Стандартний номер з видом на гори та двоповерховим ліжком",
-      en: "Standard Room with Mountain View and a Bunk Bed",
+      ua: "Люкс",
+      en: "Lux",
     },
     eyebrow: {
       ua: "Для друзів і сімей",
@@ -181,8 +181,8 @@ export const rooms: Room[] = [
   {
     slug: "amstel-suite",
     name: {
-      ua: "Сімейний студіо та апартаменти",
-      en: "Family Studio and Apartments",
+      ua: "Люкс",
+      en: "Lux",
     },
     eyebrow: {
       ua: "Більше простору",

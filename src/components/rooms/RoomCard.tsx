@@ -17,7 +17,7 @@ export async function RoomCard({
 
   return (
     <article className="group overflow-hidden rounded-sm border border-black/10 bg-black/[0.03]">
-      <div className="relative aspect-[4/5] overflow-hidden">
+      <div className="relative aspect-[8/9] overflow-hidden">
         <Image
           src={room.heroImage}
           alt={pickLocalized(room.name, locale)}
@@ -30,17 +30,22 @@ export async function RoomCard({
         </div>
         <div className="absolute inset-x-0 bottom-0 p-5">
           <p className="font-serif text-3xl text-foreground">{pickLocalized(room.name, locale)}</p>
-          <p className="mt-2 text-sm leading-6 text-foreground/72">
-            {pickLocalized(room.shortDescription, locale)}
-          </p>
         </div>
       </div>
       <div className="space-y-5 p-5">
-        <div className="flex items-center justify-between gap-4">
+        <p className="text-sm leading-6 text-foreground/72">
+          {pickLocalized(room.shortDescription, locale)}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {pickLocalized(room.highlights, locale).map((item) => (
+            <Badge key={item}>{item}</Badge>
+          ))}
+        </div>
+        <div className="flex items-center justify-between gap-4 border-t border-black/10 pt-4">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-secondary">{t("common.from")}</p>
             <p className="mt-2 text-2xl text-foreground">
-              ₴{room.rateFrom.toLocaleString("uk-UA")}
+              {room.rateFrom.toLocaleString("uk-UA")} ₴
               <span className="ml-2 text-sm text-secondary">{t("common.perNight")}</span>
             </p>
           </div>
@@ -48,11 +53,6 @@ export async function RoomCard({
             <Users className="h-4 w-4" />
             {room.capacity} {t("common.guests")}
           </div>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {pickLocalized(room.highlights, locale).map((item) => (
-            <Badge key={item}>{item}</Badge>
-          ))}
         </div>
       </div>
     </article>
