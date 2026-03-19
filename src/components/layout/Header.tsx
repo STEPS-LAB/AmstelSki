@@ -3,7 +3,7 @@
 import { useScroll } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { navigationItems } from "@/lib/content/site-content";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -15,7 +15,10 @@ export function Header() {
   const t = useTranslations();
   const { openBooking } = useBooking();
   const { scrollY } = useScroll();
+  const pathname = usePathname();
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  const isContactsPage = pathname.includes("/contacts");
 
   useEffect(() => {
     const unsubscribe = scrollY.onChange((latest) => {
@@ -29,7 +32,7 @@ export function Header() {
 
   // Smooth interpolation for background and text colors
   const bgOpacity = 0.1 + scrollProgress * 0.8; // 0.1 (almost transparent) to 0.9 (solid white)
-  const isDark = scrollProgress < 0.3; // Consider dark while mostly on hero
+  const isDark = isContactsPage ? false : scrollProgress < 0.3; // Consider dark while mostly on hero
 
   return (
     <header

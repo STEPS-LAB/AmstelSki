@@ -6,14 +6,17 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { navigationItems } from "@/lib/content/site-content";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const { scrollY } = useScroll();
+  const pathname = usePathname();
   const t = useTranslations();
+
+  const isContactsPage = pathname.includes("/contacts");
 
   useEffect(() => {
     setMounted(true);
@@ -28,7 +31,7 @@ export function MobileMenu() {
     return () => unsubscribe();
   }, [scrollY]);
 
-  const isDark = scrollProgress < 0.3;
+  const isDark = isContactsPage ? false : scrollProgress < 0.3;
 
   // Prevent body scroll when menu is open
   useEffect(() => {
