@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { MessageSquare, Send, Sparkles, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { AppLocale } from "@/i18n/routing";
 
 const responses: Record<
@@ -36,14 +36,23 @@ const responses: Record<
   }
 };
 
+interface Message {
+  text: string;
+  isUser: boolean;
+  id: number;
+}
+
 export function AIConcierge() {
   const t = useTranslations("concierge");
   const locale = useLocale() as AppLocale;
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<string[]>([t("intro")]);
+  const [messages, setMessages] = useState<Message[]>([{ text: t("intro"), isUser: false, id: 0 }]);
   const [value, setValue] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const { scrollY } = useScroll();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messageIdRef = useRef(0);
 
   useEffect(() => {
     const heroHeight = typeof window !== "undefined" ? window.innerHeight : 0;
@@ -53,6 +62,29 @@ export function AIConcierge() {
 
     return () => unsubscribe();
   }, [scrollY]);
+
+  useEffect(() => {
+    if (isOpen && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  const handleWheel = (event: React.WheelEvent) => {
+    if (isOpen) {
+      event.stopPropagation();
+    }
+  };
 
   const suggestions = useMemo(
     () => [
@@ -69,8 +101,18 @@ export function AIConcierge() {
     const nextResponse =
       suggestions.find((item) => normalized.includes(item.label.toLowerCase()))?.key ?? "default";
 
-    setMessages((current) => [...current, input, responses[locale][nextResponse]]);
+    setIsSending(true);
+    messageIdRef.current += 1;
+    const userMessage: Message = { text: input, isUser: true, id: messageIdRef.current };
+    setMessages((current) => [...current, userMessage]);
     setValue("");
+
+    setTimeout(() => {
+      messageIdRef.current += 1;
+      const aiMessage: Message = { text: responses[locale][nextResponse], isUser: false, id: messageIdRef.current };
+      setMessages((current) => [...current, aiMessage]);
+      setIsSending(false);
+    }, 800);
   }
 
   return (
@@ -109,7 +151,8 @@ export function AIConcierge() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="fixed bottom-24 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-md flex-col overflow-hidden rounded-sm border border-black/10 bg-primary shadow-[0_24px_80px_rgba(0,0,0,0.15)]"
+              onWheel={handleWheel}
+              className="fixed bottom-24 right-4 z-50 flex h-[575px] w-[calc(100vw-2rem)] max-w-md flex-col overflow-hidden rounded-sm border border-black/10 bg-primary shadow-[0_24px_80px_rgba(0,0,0,0.15)]"
             >
               <div className="flex items-center justify-between border-b border-black/10 bg-black/[0.04] px-5 py-4">
                 <div className="flex items-center gap-3">
@@ -128,22 +171,27 @@ export function AIConcierge() {
                 </button>
               </div>
 
-              <div className="max-h-[55svh] space-y-3 overflow-y-auto px-5 py-5">
-                {messages.map((message, index) => {
-                  const isUser = index % 2 === 1;
-
-                  return (
-                    <div key={`${message}-${index}`} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+              <div className="flex-1 space-y-3 overflow-y-auto px-5 py-5">
+                <AnimatePresence>
+                  {messages.map((message) => (
+                    <motion.div
+                      key={message.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}
+                    >
                       <div
                         className={`max-w-[85%] rounded-sm px-4 py-3 text-sm leading-6 ${
-                          isUser ? "bg-accent-red text-white" : "bg-black/[0.05] text-foreground/80"
+                          message.isUser ? "bg-accent-red text-white" : "bg-black/[0.05] text-foreground/80"
                         }`}
                       >
-                        {message}
+                        {message.text}
                       </div>
-                    </div>
-                  );
-                })}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                <div ref={messagesEndRef} />
               </div>
 
               <div className="border-t border-black/10 px-5 py-4">
@@ -152,7 +200,8 @@ export function AIConcierge() {
                     <button
                       key={item.key}
                       type="button"
-                      className="rounded-full border border-black/10 bg-black/5 px-3 py-2 text-[11px] uppercase tracking-[0.18em] text-foreground/70"
+                      disabled={isSending}
+                      className="rounded-full border border-black/10 bg-black/5 px-3 py-2 text-[10px] uppercase tracking-[0.15em] text-foreground/70 transition-colors hover:bg-black/10 disabled:opacity-50"
                       onClick={() => submit(item.label)}
                     >
                       {item.label}
@@ -163,7 +212,7 @@ export function AIConcierge() {
                   className="flex gap-2"
                   onSubmit={(event) => {
                     event.preventDefault();
-                    if (!value.trim()) return;
+                    if (!value.trim() || isSending) return;
                     submit(value.trim());
                   }}
                 >
@@ -171,11 +220,13 @@ export function AIConcierge() {
                     value={value}
                     onChange={(event) => setValue(event.target.value)}
                     placeholder={t("placeholder")}
-                    className="h-12 flex-1 rounded-sm border border-black/10 bg-black/5 px-4 text-sm text-foreground outline-none placeholder:text-foreground/30"
+                    disabled={isSending}
+                    className="h-12 flex-1 rounded-sm border border-black/10 bg-black/5 px-4 text-sm text-foreground outline-none placeholder:text-foreground/30 disabled:opacity-50"
                   />
                   <button
                     type="submit"
-                    className="inline-flex h-12 w-12 items-center justify-center rounded-sm bg-accent-red text-white"
+                    disabled={isSending}
+                    className="inline-flex h-12 w-12 items-center justify-center rounded-sm bg-accent-red text-white disabled:opacity-50"
                   >
                     <Send className="h-4 w-4" />
                   </button>
