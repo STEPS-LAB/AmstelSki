@@ -41,9 +41,6 @@ export async function Hero({ locale }: { locale: AppLocale }) {
         </div>
 
         <div className="mt-8 max-w-5xl sm:mt-10">
-          <p className="mb-4 text-xs uppercase tracking-[0.24em] text-white">
-            {t("hero.bookingLabel")}
-          </p>
           <BookingBar />
         </div>
       </Container>
