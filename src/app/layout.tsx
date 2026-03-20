@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Inter, Montserrat } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ClientWidgets } from "@/components/layout/ClientWidgets";
 import { PageTransition } from "@/components/animation/PageTransition";
 import { BookingProvider } from "@/features/booking/BookingProvider";
-import { AIConcierge } from "@/features/concierge/AIConcierge";
 import { LocaleProvider } from "@/components/layout/LocaleProvider";
 import type { AppLocale } from "@/i18n/routing";
 import "./globals.css";
+
+// Lazy load non-critical components to reduce initial bundle
+const ClientWidgets = dynamic(
+  () => import("@/components/layout/ClientWidgets").then((mod) => mod.ClientWidgets),
+  { loading: () => null }
+);
+
+const AIConcierge = dynamic(
+  () => import("@/features/concierge/AIConcierge").then((mod) => mod.AIConcierge),
+  { loading: () => null }
+);
 
 const inter = Inter({
   variable: "--font-inter",
@@ -49,12 +59,18 @@ export default async function RootLayout({
       className={`${inter.variable} ${montserrat.variable} h-full antialiased`}
     >
       <head>
+        {/* Preconnect to external origins */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        
+        {/* Preload hero image with correct sizes matching the Image component */}
         <link
           rel="preload"
           as="image"
           href="/images/hero.webp"
           imageSrcSet="/images/hero.webp 256w, /images/hero.webp 512w, /images/hero.webp 800w, /images/hero.webp 1200w, /images/hero.webp 1600w"
-          imageSizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          imageSizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 800px"
         />
       </head>
       <body className="min-h-full bg-primary text-primary">

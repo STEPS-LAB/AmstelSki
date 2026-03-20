@@ -1,12 +1,13 @@
 "use client";
 
-import { Suspense } from "react";
-import { BookingBar } from "@/features/booking/BookingBar";
+import dynamic from "next/dynamic";
+
+// Lazy load BookingBar to reduce initial bundle
+const BookingBar = dynamic(
+  () => import("@/features/booking/BookingBar").then((mod) => mod.BookingBar),
+  { loading: () => <div className="h-20" /> }
+);
 
 export function HeroBooking() {
-  return (
-    <Suspense fallback={<div className="h-20" />}>
-      <BookingBar />
-    </Suspense>
-  );
+  return <BookingBar />;
 }
