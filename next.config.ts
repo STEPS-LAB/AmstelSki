@@ -7,7 +7,6 @@ const nextConfig: NextConfig = {
   experimental: {
     viewTransition: true,
     optimizePackageImports: ["lucide-react", "framer-motion"],
-    webpackBuildWorker: true,
   },
   images: {
     remotePatterns: [

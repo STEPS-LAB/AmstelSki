@@ -36,7 +36,7 @@ export default function ContactsPage() {
 
   return (
     <>
-      <section className="py-12 sm:py-24">
+      <section className="py-12 sm:py-24 contacts-page-offset">
         <Container className="grid gap-6 sm:gap-10 lg:grid-cols-[1.3fr_0.7fr]">
           <div className="space-y-6 rounded-sm border border-white/10 bg-white/[0.03] p-4 sm:p-8">
             <div>

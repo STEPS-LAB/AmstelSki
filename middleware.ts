@@ -1,20 +1,17 @@
-// Middleware disabled for static routing
-// import createMiddleware from "next-intl/middleware";
-// import { routing } from "./src/i18n/routing";
-
-// export default createMiddleware({
-//   ...routing,
-//   localePrefix: "never",
-// });
-
-// export const config = {
-//   matcher: ["/((?!_next|.*\\..*).*)"],
-// };
-
+// Middleware for static routing - no-op implementation
 export function middleware() {
-  // No-op middleware for static routing
+  return;
 }
 
 export const config = {
-  matcher: [],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 };

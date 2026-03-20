@@ -170,6 +170,11 @@ button {
     scroll-margin-top: 100px;
     padding-top: 20px;
   }
+  
+  /* Contacts page - add top padding to account for fixed header */
+  .contacts-page-offset {
+    padding-top: 100px;
+  }
 }
 
 /* Performance: Reduce motion for users who prefer it */
