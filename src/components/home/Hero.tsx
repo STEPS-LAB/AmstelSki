@@ -26,7 +26,7 @@ export function Hero() {
   const content = heroContent[locale as "ua" | "en"];
 
   return (
-    <section className="relative h-[calc(100vh-80px)] border-b border-black/14">
+    <section className="relative h-[calc(100vh-80px)] min-h-[600px] border-b border-black/14">
       <div className="absolute inset-0 -top-20 overflow-hidden">
         <Image
           src="/images/hero.webp"
@@ -35,9 +35,9 @@ export function Hero() {
           priority
           fetchPriority="high"
           decoding="async"
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
           className="object-cover object-center"
-          quality={85}
+          quality={70}
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>

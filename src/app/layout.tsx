@@ -28,6 +28,7 @@ const inter = Inter({
   preload: true,
   weight: "variable",
   fallback: ["system-ui", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 const montserrat = Montserrat({
@@ -37,6 +38,7 @@ const montserrat = Montserrat({
   preload: true,
   weight: ["500", "600", "700", "800"],
   fallback: ["system-ui", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -53,11 +55,13 @@ export default async function RootLayout({
 }) {
   const messages = await getMessages();
 
-  // Critical CSS for above-the-fold content
+  // Critical CSS for above-the-fold content + font preload
   const criticalCSS = `
     .critical-loaded{visibility:visible;opacity:1}
     .hero-skeleton{background:linear-gradient(90deg,#1a1a1a 0%,#2a2a2a 50%,#1a1a1a 100%);background-size:200% 100%;animation:shimmer 1.5s infinite}
     @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    /* Prevent CLS during font load */
+    html{font-display:swap}
   `;
 
   return (
@@ -75,13 +79,13 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
 
-        {/* Preload hero image - simple sizes for mobile-first LCP */}
+        {/* Preload hero image - correct sizes for LCP */}
         <link
           rel="preload"
           as="image"
           href="/images/hero.webp"
           imageSrcSet="/images/hero.webp 256w, /images/hero.webp 512w, /images/hero.webp 800w, /images/hero.webp 1200w"
-          imageSizes="100vw"
+          imageSizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
         />
       </head>
       <body className="min-h-full bg-primary text-primary">

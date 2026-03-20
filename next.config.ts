@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
-    qualities: [75, 85],
+    qualities: [70, 85],
     formats: ["image/webp", "image/avif"],
   },
   typedRoutes: true,
