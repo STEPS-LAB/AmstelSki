@@ -44,7 +44,7 @@ interface Message {
 
 export function AIConcierge() {
   const { locale } = useAppLocale();
-  const t = useClientTranslations();
+  const { t } = useClientTranslations();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([{ text: t("concierge.intro"), isUser: false, id: 0 }]);
   const [value, setValue] = useState("");

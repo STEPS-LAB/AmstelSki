@@ -19,7 +19,7 @@ const navigationItems = [
 
 export function Footer() {
   const { locale } = useAppLocale();
-  const t = useClientTranslations();
+  const { t } = useClientTranslations();
 
   return (
     <footer className="bg-[#1A1A1A] pb-20 md:pb-0">

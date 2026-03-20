@@ -26,6 +26,10 @@ const translations: Record<AppLocale, Record<string, any>> = {
       gallery: "Галерея",
       contacts: "Контакти",
     },
+    sections: {
+      galleryTitle: "Галерея",
+      galleryCopy: "Перегляньте наші вишукані інтер'єри та екстер'єри",
+    },
     concierge: {
       label: "AI Консьєрж",
       online: "Онлайн",
@@ -56,6 +60,10 @@ const translations: Record<AppLocale, Record<string, any>> = {
       services: "Services",
       gallery: "Gallery",
       contacts: "Contacts",
+    },
+    sections: {
+      galleryTitle: "Gallery",
+      galleryCopy: "Explore our exquisite interiors and exteriors",
     },
     concierge: {
       label: "AI Concierge",
@@ -97,5 +105,5 @@ export function useClientTranslations() {
     return typeof value === "string" ? value : key;
   }, [locale]);
 
-  return t;
+  return { t, locale };
 }

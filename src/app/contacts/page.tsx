@@ -1,17 +1,38 @@
-import { getMessages } from "next-intl/server";
+"use client";
+
 import { Container } from "@/components/ui/container";
 import { Input, Textarea } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { contactDetails } from "@/lib/content/site-content";
-import { pickLocalized } from "@/lib/i18n";
+import { useAppLocale } from "@/components/layout/LocaleProvider";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
-import { cookies } from "next/headers";
 
-export default async function ContactsPage() {
-  const cookieStore = await cookies();
-  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
-  const locale = (localeCookie === "ua" || localeCookie === "en") ? localeCookie : "ua";
-  const messages = (await import(`../../../messages/${locale}.json`)).default;
+const contactPageContent = {
+  ua: {
+    title: "Контакти",
+    copy: "Зв'яжіться з нами будь-яким зручним способом або завітайте до нас у гості.",
+    questions: "Маєте запитання?",
+    placeholder: "Ваше повідомлення",
+    send: "Надіслати",
+    name: "Ваше ім'я",
+    phone: "Телефон",
+  },
+  en: {
+    title: "Contacts",
+    copy: "Contact us in any convenient way or visit us in person.",
+    questions: "Have questions?",
+    placeholder: "Your message",
+    send: "Send",
+    name: "Your name",
+    phone: "Phone",
+  },
+};
+
+export default function ContactsPage() {
+  const { locale } = useAppLocale();
+  const { t } = useClientTranslations();
+  const content = contactPageContent[locale as "ua" | "en"];
 
   return (
     <>
@@ -20,10 +41,10 @@ export default async function ContactsPage() {
           <div className="space-y-6 rounded-sm border border-white/10 bg-white/[0.03] p-4 sm:p-8">
             <div>
               <p className="mb-6 text-xs uppercase tracking-[0.22em] text-accent-red">
-                {messages.navigation.contacts}
+                {t("navigation.contacts")}
               </p>
               <p className="mb-8 text-sm leading-7 text-secondary">
-                {messages.sections.contactsCopy}
+                {content.copy}
               </p>
             </div>
 
@@ -38,7 +59,7 @@ export default async function ContactsPage() {
               </a>
               <div className="group flex items-start gap-3 text-foreground">
                 <MapPin className="h-5 w-5 text-accent-red" />
-                <span className="leading-7 break-words">{pickLocalized(contactDetails.address, locale)}</span>
+                <span className="leading-7 break-words">{contactDetails.address[locale as "ua" | "en"]}</span>
               </div>
             </div>
 
@@ -65,7 +86,7 @@ export default async function ContactsPage() {
 
             <div className="pt-4">
               <iframe
-                src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2582.574789812345!2d24.4486!3d48.2396!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4738d96c0a0b0a0b%3A0x0!2zVmlzaG5pIDMyMiwgUG9seWFueXRzaWE!5e${locale === "ua" ? "0!3m2!1suk!2sua" : "0!3m2!1sen!2sus"}!4v1234567890`}
+                src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2582.574789812345!2d24.4486!3d48.2396!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4738d96c0a0b0a0b%3A0x0!2zVmlzaG5pIDMyMiwgUG9seWFueXRzaGE!5e${locale === "ua" ? "0!3m2!1suk!2sua" : "0!3m2!1sen!2sus"}!4v1234567890`}
                 width="100%"
                 height="300"
                 style={{ border: 0, borderRadius: "4px" }}
@@ -79,16 +100,16 @@ export default async function ContactsPage() {
 
           <form className="space-y-4 rounded-sm border border-white/10 bg-white/[0.03] p-4 sm:p-6">
             <p className="text-lg font-medium text-foreground">
-              {messages.contacts.questions}
+              {content.questions}
             </p>
-            <Input placeholder={messages.fields.name} />
+            <Input placeholder={content.name} />
             <Input placeholder="Email" type="email" />
-            <Input placeholder={messages.fields.phone} />
+            <Input placeholder={content.phone} />
             <Textarea
-              placeholder={messages.contacts.placeholder}
+              placeholder={content.placeholder}
             />
             <Button type="button" className="w-full">
-              {messages.contacts.send}
+              {content.send}
             </Button>
           </form>
         </Container>

@@ -4,11 +4,13 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
 import { SectionSkeleton } from "@/components/ui/SectionSkeleton";
+import { useAppLocale } from "@/components/layout/LocaleProvider";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 // Lazy load lightbox - only needed when user clicks an image
 const GalleryLightbox = dynamic(
   () => import("./Lightbox").then((mod) => mod.GalleryLightbox),
-  { loading: () => <SectionSkeleton />, ssr: false }
+  { loading: () => <SectionSkeleton /> }
 );
 
 // Generic blur placeholder for external images
@@ -16,16 +18,17 @@ const BLUR_PLACEHOLDER = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3
 
 export function GalleryGrid({
   images,
-  title,
 }: {
   images: string[];
-  title?: string;
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const { locale } = useAppLocale();
+  const { t } = useClientTranslations();
+  const title = t("sections.galleryTitle");
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4" suppressHydrationWarning>
         {images.map((image, index) => (
           <button
             key={`${image}-${index}`}
@@ -34,12 +37,12 @@ export function GalleryGrid({
               index === 0 ? "md:col-span-2 md:row-span-2" : ""
             }`}
             onClick={() => setActiveIndex(index)}
-            aria-label={`${title ?? "Gallery"} ${index + 1}`}
+            aria-label={`${title} ${index + 1}`}
           >
             <div className={index === 0 ? "aspect-[16/11]" : "aspect-[4/5]"}>
               <Image
                 src={image}
-                alt={`${title ?? "Gallery"} ${index + 1}`}
+                alt={`${title} ${index + 1}`}
                 fill
                 sizes={index === 0 ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" : "(max-width: 640px) 50vw, 25vw"}
                 className="object-cover transition duration-700 group-hover:scale-[1.04]"

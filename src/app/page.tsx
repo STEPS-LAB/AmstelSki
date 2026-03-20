@@ -3,10 +3,7 @@ import dynamic from "next/dynamic";
 import { Hero } from "@/components/home/Hero";
 import { RoomsPreview } from "@/components/home/RoomsPreview";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
-import { Container } from "@/components/ui/container";
-import { SectionIntro } from "@/components/ui/section-intro";
-import { SectionSkeleton } from "@/components/ui/SectionSkeleton";
-import { rooms } from "@/lib/content/rooms";
+import { GallerySection } from "@/features/gallery/GallerySection";
 import { StructuredData } from "@/components/seo/StructuredData";
 import {
   createMetadata,
@@ -19,17 +16,12 @@ import { cookies } from "next/headers";
 // Lazy load below-the-fold and non-critical components
 const StorytellingSection = dynamic(
   () => import("@/components/home/StorytellingSection").then((mod) => mod.StorytellingSection),
-  { loading: () => <SectionSkeleton /> }
-);
-
-const GalleryGrid = dynamic(
-  () => import("@/features/gallery/GalleryGrid").then((mod) => mod.GalleryGrid),
-  { loading: () => <SectionSkeleton /> }
+  { loading: () => null }
 );
 
 const TestimonialsSlider = dynamic(
   () => import("@/features/testimonials/TestimonialsSlider").then((mod) => mod.TestimonialsSlider),
-  { loading: () => <SectionSkeleton /> }
+  { loading: () => null }
 );
 
 const ClientWidgets = dynamic(
@@ -62,8 +54,6 @@ export default async function HomePage() {
   const cookieStore = await cookies();
   const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
   const locale = (localeCookie === "ua" || localeCookie === "en") ? localeCookie : "ua";
-  const messages = (await import(`../../messages/${locale}.json`)).default;
-  const galleryImages = rooms.flatMap((room) => room.gallery).slice(0, 5);
 
   return (
     <>
@@ -81,15 +71,7 @@ export default async function HomePage() {
         <ServicesOverview />
       </div>
 
-      <section id="gallery" className="py-24">
-        <Container className="space-y-10">
-          <SectionIntro
-            title={messages.sections.galleryTitle}
-            copy={messages.sections.galleryCopy}
-          />
-          <GalleryGrid images={galleryImages} title={messages.sections.galleryTitle} />
-        </Container>
-      </section>
+      <GallerySection />
 
       <TestimonialsSlider />
       <ClientWidgets />

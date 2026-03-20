@@ -16,7 +16,7 @@ export function RoomCard({
   room: Room;
 }) {
   const { locale } = useAppLocale();
-  const t = useClientTranslations();
+  const { t } = useClientTranslations();
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-sm border border-black/10 bg-black/[0.03]">
