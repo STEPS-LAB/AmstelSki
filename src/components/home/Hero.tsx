@@ -7,6 +7,7 @@ import { heroHighlights } from "@/lib/content/site-content";
 import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/ui/container";
 import { HeroBooking } from "./HeroBooking";
+import { useEffect, useState } from "react";
 
 const heroContent = {
   ua: {
@@ -22,6 +23,14 @@ const heroContent = {
 export function Hero() {
   const { locale } = useAppLocale();
   const t = useClientTranslations();
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 768);
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+    return () => window.removeEventListener("resize", checkDesktop);
+  }, []);
 
   const content = heroContent[locale as "ua" | "en"];
 
@@ -35,7 +44,7 @@ export function Hero() {
           priority
           fetchPriority="high"
           decoding="async"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+          sizes="100vw"
           className="object-cover object-center"
           quality={70}
         />
@@ -50,13 +59,15 @@ export function Hero() {
           <p className="mt-4 max-w-2xl text-balance text-lg leading-8 text-white/90 sm:mt-6 sm:text-xl">
             {content.subtitle}
           </p>
-          <div className="mt-6 hidden flex-wrap gap-3 md:flex">
-            {heroHighlights[locale as "ua" | "en"].map((item) => (
-              <Badge key={item} className="bg-white/20 text-white backdrop-blur-md border border-white/30">
-                {item}
-              </Badge>
-            ))}
-          </div>
+          {isDesktop && (
+            <div className="mt-6 flex flex-wrap gap-3">
+              {heroHighlights[locale as "ua" | "en"].map((item) => (
+                <Badge key={item} className="bg-white/20 text-white backdrop-blur-md border border-white/30">
+                  {item}
+                </Badge>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="mt-8 max-w-4xl sm:mt-10">

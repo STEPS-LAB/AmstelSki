@@ -62,6 +62,8 @@ export default async function RootLayout({
     @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
     /* Prevent CLS during font load */
     html{font-display:swap}
+    /* Reserve space for header to prevent CLS */
+    header{min-height:80px}
   `;
 
   return (
@@ -79,8 +81,8 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
 
-        {/* Preload hero image for LCP optimization */}
-        <link rel="preload" as="image" href="/images/hero.webp" />
+        {/* Preload hero image for LCP optimization - mobile first */}
+        <link rel="preload" as="image" href="/images/hero.webp" fetchPriority="high" />
       </head>
       <body className="min-h-full bg-primary text-primary">
         <NextIntlClientProvider messages={messages}>

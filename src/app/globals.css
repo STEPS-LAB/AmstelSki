@@ -47,11 +47,6 @@ body {
   padding: 0;
 }
 
-/* Prevent layout shifts - reserve space for common elements */
-header {
-  min-height: 80px;
-}
-
 /* Transition utilities - critical for interactive elements */
 a,
 button {

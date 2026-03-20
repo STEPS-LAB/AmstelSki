@@ -25,6 +25,7 @@ export function Header() {
   const { openBooking } = useBooking();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   const isContactsPage = pathname === "/contacts";
   const isDark = isContactsPage ? false : !scrolled;
@@ -38,6 +39,13 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 1024);
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+    return () => window.removeEventListener("resize", checkDesktop);
+  }, []);
+
   return (
     <header
       className={`sticky top-0 z-40 transition-all duration-300 ${
@@ -45,7 +53,6 @@ export function Header() {
           ? "bg-[#1A1A1A]/70 border-b border-transparent"
           : "bg-white/90 border-b border-black/10"
       } backdrop-blur-md`}
-      style={{ minHeight: "80px" }}
     >
       <Container className="flex h-20 items-center justify-between gap-4">
         <Link href="/" className="flex flex-col">
@@ -58,32 +65,38 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
-          {navigationItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`text-sm transition-colors duration-300 ${
-                isDark ? "text-white/75 hover:text-white" : "text-foreground-secondary hover:text-foreground"
-              }`}
-            >
-              {t(item.labelKey)}
-            </Link>
-          ))}
-        </nav>
+        {isDesktop && (
+          <nav className="flex items-center gap-6">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text-sm transition-colors duration-300 ${
+                  isDark ? "text-white/75 hover:text-white" : "text-foreground-secondary hover:text-foreground"
+                }`}
+              >
+                {t(item.labelKey)}
+              </Link>
+            ))}
+          </nav>
+        )}
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <LocaleSwitcher variant={isDark ? "dark" : "light"} />
-          <Button onClick={() => openBooking()}>{t("common.bookNow")}</Button>
-        </div>
+        {isDesktop && (
+          <div className="flex items-center gap-3">
+            <LocaleSwitcher variant={isDark ? "dark" : "light"} />
+            <Button onClick={() => openBooking()}>{t("common.bookNow")}</Button>
+          </div>
+        )}
 
-        <div className="flex items-center gap-3 lg:hidden">
-          <LocaleSwitcher variant={isDark ? "dark" : "light"} />
-          <Button className="hidden sm:inline-flex" onClick={() => openBooking()}>
-            {t("common.bookNow")}
-          </Button>
-          <MobileMenu />
-        </div>
+        {!isDesktop && (
+          <div className="flex items-center gap-3">
+            <LocaleSwitcher variant={isDark ? "dark" : "light"} />
+            <Button className="inline-flex sm:hidden" onClick={() => openBooking()}>
+              {t("common.bookNow")}
+            </Button>
+            <MobileMenu />
+          </div>
+        )}
       </Container>
     </header>
   );
