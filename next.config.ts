@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   experimental: {
     viewTransition: true,
     optimizePackageImports: ["lucide-react", "framer-motion"],
+    webpackBuildWorker: true,
   },
   images: {
     remotePatterns: [
@@ -22,6 +23,8 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },
+  // Reduce unused JavaScript by optimizing bundle
+  poweredByHeader: false,
 };
 
 export default withNextIntl(nextConfig);

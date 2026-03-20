@@ -79,14 +79,8 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
 
-        {/* Preload hero image - correct sizes for LCP */}
-        <link
-          rel="preload"
-          as="image"
-          href="/images/hero.webp"
-          imageSrcSet="/images/hero.webp 256w, /images/hero.webp 512w, /images/hero.webp 800w, /images/hero.webp 1200w"
-          imageSizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-        />
+        {/* Preload hero image for LCP optimization */}
+        <link rel="preload" as="image" href="/images/hero.webp" />
       </head>
       <body className="min-h-full bg-primary text-primary">
         <NextIntlClientProvider messages={messages}>

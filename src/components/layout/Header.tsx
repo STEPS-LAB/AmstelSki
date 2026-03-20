@@ -45,6 +45,7 @@ export function Header() {
           ? "bg-[#1A1A1A]/70 border-b border-transparent"
           : "bg-white/90 border-b border-black/10"
       } backdrop-blur-md`}
+      style={{ minHeight: "80px" }}
     >
       <Container className="flex h-20 items-center justify-between gap-4">
         <Link href="/" className="flex flex-col">
