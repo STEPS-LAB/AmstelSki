@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { getMessages } from "next-intl/server";
 import { Hero } from "@/components/home/Hero";
 import { RoomsPreview } from "@/components/home/RoomsPreview";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
@@ -16,26 +15,36 @@ import {
   localBusinessJsonLd,
   reviewJsonLd,
 } from "@/lib/seo";
+import { cookies } from "next/headers";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = (localeCookie === "ua" || localeCookie === "en") ? localeCookie : "ua";
+
   return createMetadata({
-    locale: "ua",
+    locale,
     pathname: "",
     title: "AmstelSki",
     description:
-      "AmstelSki - маленька Голландія у серці Карпат: комфортні номери, ресторан De Molen, ski room і зручне розташування біля підйомників 2 та 5.",
+      locale === "ua"
+        ? "AmstelSki - маленька Голландія у серці Карпат: комфортні номери, ресторан De Molen, ski room і зручне розташування біля підйомників 2 та 5."
+        : "AmstelSki is a little Holland in the heart of the Carpathians, with comfortable rooms, restaurant De Molen, ski storage, and a location near lifts 2 and 5.",
   });
 }
 
 export default async function HomePage() {
-  const messages = await getMessages();
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = (localeCookie === "ua" || localeCookie === "en") ? localeCookie : "ua";
+  const messages = (await import(`../../messages/${locale}.json`)).default;
   const galleryImages = rooms.flatMap((room) => room.gallery).slice(0, 5);
 
   return (
     <>
-      <StructuredData data={hotelJsonLd("ua")} />
-      <StructuredData data={localBusinessJsonLd("ua")} />
-      <StructuredData data={reviewJsonLd("ua")} />
+      <StructuredData data={hotelJsonLd(locale)} />
+      <StructuredData data={localBusinessJsonLd(locale)} />
+      <StructuredData data={reviewJsonLd(locale)} />
       <Hero />
       <div id="about">
         <StorytellingSection />

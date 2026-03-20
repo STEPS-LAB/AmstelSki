@@ -28,15 +28,7 @@ export function Header() {
   const pathname = usePathname();
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  const isContactsPage = pathname.includes("/contacts") || pathname === `/${locale}/contacts`;
-
-  // Add locale prefix to navigation items
-  const localizedNavItems = navigationItems.map((item) => ({
-    ...item,
-    href: item.href.startsWith("/#") || item.href === "/"
-      ? `/${locale}${item.href === "/" ? "" : item.href}`
-      : `/${locale}${item.href}`,
-  }));
+  const isContactsPage = pathname === "/contacts";
 
   useEffect(() => {
     const unsubscribe = scrollY.onChange((latest) => {
@@ -75,7 +67,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">
-          {localizedNavItems.map((item) => (
+          {navigationItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -83,10 +75,10 @@ export function Header() {
               style={{
                 color: isDark ? `rgba(255, 255, 255, 0.75)` : 'var(--foreground-secondary)',
               }}
-              onMouseEnter={(e) => {
+              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
                 e.currentTarget.style.color = isDark ? '#FFFFFF' : 'var(--foreground)';
               }}
-              onMouseLeave={(e) => {
+              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
                 e.currentTarget.style.color = isDark ? `rgba(255, 255, 255, 0.75)` : 'var(--foreground-secondary)';
               }}
             >

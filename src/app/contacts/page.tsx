@@ -5,9 +5,13 @@ import { Button } from "@/components/ui/button";
 import { contactDetails } from "@/lib/content/site-content";
 import { pickLocalized } from "@/lib/i18n";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
+import { cookies } from "next/headers";
 
 export default async function ContactsPage() {
-  const messages = await getMessages();
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("NEXT_LOCALE")?.value;
+  const locale = (localeCookie === "ua" || localeCookie === "en") ? localeCookie : "ua";
+  const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (
     <>
@@ -34,7 +38,7 @@ export default async function ContactsPage() {
               </a>
               <div className="group flex items-start gap-3 text-foreground">
                 <MapPin className="h-5 w-5 text-accent-red" />
-                <span className="leading-7 break-words">{pickLocalized(contactDetails.address, "ua")}</span>
+                <span className="leading-7 break-words">{pickLocalized(contactDetails.address, locale)}</span>
               </div>
             </div>
 
@@ -61,7 +65,7 @@ export default async function ContactsPage() {
 
             <div className="pt-4">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2582.574789812345!2d24.4486!3d48.2396!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4738d96c0a0b0a0b%3A0x0!2zVmlzaG5pIDMyMiwgUG9seWFueXRzaWE!5e0!3m2!1suk!2sua!4v1234567890"
+                src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2582.574789812345!2d24.4486!3d48.2396!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4738d96c0a0b0a0b%3A0x0!2zVmlzaG5pIDMyMiwgUG9seWFueXRzaWE!5e${locale === "ua" ? "0!3m2!1suk!2sua" : "0!3m2!1sen!2sus"}!4v1234567890`}
                 width="100%"
                 height="300"
                 style={{ border: 0, borderRadius: "4px" }}
