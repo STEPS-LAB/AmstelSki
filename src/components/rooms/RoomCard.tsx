@@ -29,7 +29,7 @@ export function RoomCard({
           className="object-cover transition duration-700 group-hover:scale-[1.03]"
           loading="lazy"
           decoding="async"
-          quality={75}
+          quality={65}
           placeholder="blur"
           blurDataURL={BLUR_PLACEHOLDER}
         />

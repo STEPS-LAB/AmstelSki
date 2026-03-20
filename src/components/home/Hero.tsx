@@ -41,10 +41,10 @@ export function Hero() {
           fill
           priority
           fetchPriority="high"
-          decoding="async"
-          sizes="100vw"
+          decoding="sync"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
           className="object-cover object-center"
-          quality={85}
+          quality={75}
           loading="eager"
         />
         <div className="absolute inset-0 bg-black/30" />

@@ -53,14 +53,6 @@ export default async function RootLayout({
         {/* Preconnect to external origins */}
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Preload LCP hero image */}
-        <link
-          rel="preload"
-          as="image"
-          href="/images/hero.webp"
-          imageSrcSet="/images/hero.webp 1x, /images/hero.webp 2x"
-          imageSizes="100vw"
-        />
       </head>
       <body className="min-h-full bg-primary text-primary">
         <NextIntlClientProvider messages={messages}>

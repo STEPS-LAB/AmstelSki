@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 import type { BookingStay, BookingSuggestionType } from "@/lib/booking/types";
 
@@ -18,6 +19,12 @@ interface BookingContextValue {
 }
 
 const BookingContext = createContext<BookingContextValue | null>(null);
+
+// Lazy load BookingDrawer - not needed for initial render
+const BookingDrawer = dynamic(
+  () => import("./BookingDrawer").then((mod) => mod.BookingDrawer),
+  { ssr: false }
+);
 
 export function BookingProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +45,12 @@ export function BookingProvider({ children }: { children: ReactNode }) {
     [isOpen, prefill],
   );
 
-  return <BookingContext.Provider value={value}>{children}</BookingContext.Provider>;
+  return (
+    <BookingContext.Provider value={value}>
+      {children}
+      <BookingDrawer />
+    </BookingContext.Provider>
+  );
 }
 
 export function useBooking() {

@@ -7,25 +7,31 @@ import { Container } from "@/components/ui/container";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileMenu } from "./MobileMenu";
 import { useBooking } from "@/features/booking/BookingProvider";
-import { useAppLocale } from "./LocaleProvider";
-import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 const navigationItems = [
-  { href: "/", labelKey: "navigation.home" },
-  { href: "/#about", labelKey: "navigation.about" },
-  { href: "/#rooms", labelKey: "navigation.rooms" },
-  { href: "/#services", labelKey: "navigation.services" },
-  { href: "/#gallery", labelKey: "navigation.gallery" },
-  { href: "/contacts", labelKey: "navigation.contacts" },
+  { href: "/", label: { ua: "Головна", en: "Home" } },
+  { href: "/#about", label: { ua: "Про нас", en: "About" } },
+  { href: "/#rooms", label: { ua: "Номери", en: "Rooms" } },
+  { href: "/#services", label: { ua: "Послуги", en: "Services" } },
+  { href: "/#gallery", label: { ua: "Галерея", en: "Gallery" } },
+  { href: "/contacts", label: { ua: "Контакти", en: "Contacts" } },
 ] as const;
 
+const bookNowText = { ua: "Забронювати", en: "Book Now" };
+
 export function Header() {
-  const { locale } = useAppLocale();
-  const t = useClientTranslations();
   const { openBooking } = useBooking();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [locale, setLocale] = useState<"ua" | "en">("ua");
+
+  useEffect(() => {
+    const savedLocale = localStorage.getItem("locale") as "ua" | "en" | null;
+    if (savedLocale) {
+      setLocale(savedLocale);
+    }
+  }, []);
 
   const isContactsPage = pathname === "/contacts";
   const isDark = isContactsPage ? false : !scrolled;
@@ -75,7 +81,7 @@ export function Header() {
                   isDark ? "text-white/75 hover:text-white" : "text-foreground-secondary hover:text-foreground"
                 }`}
               >
-                {t(item.labelKey)}
+                {item.label[locale]}
               </Link>
             ))}
           </nav>
@@ -84,14 +90,14 @@ export function Header() {
         {isDesktop && (
           <div className="flex items-center gap-3">
             <LocaleSwitcher variant={isDark ? "dark" : "light"} />
-            <Button onClick={() => openBooking()}>{t("common.bookNow")}</Button>
+            <Button onClick={() => openBooking()}>{bookNowText[locale]}</Button>
           </div>
         )}
 
         {!isDesktop && (
           <div className="flex items-center gap-3">
             <LocaleSwitcher variant={isDark ? "dark" : "light"} />
-            <MobileMenu variant={isDark ? "dark" : "light"} />
+            <MobileMenu variant={isDark ? "dark" : "light"} locale={locale} />
           </div>
         )}
       </Container>

@@ -4,24 +4,22 @@ import { Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, usePathname } from "@/i18n/navigation";
-import { useAppLocale } from "./LocaleProvider";
-import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 const navigationItems = [
-  { href: "/", labelKey: "navigation.home" },
-  { href: "/#about", labelKey: "navigation.about" },
-  { href: "/#rooms", labelKey: "navigation.rooms" },
-  { href: "/#services", labelKey: "navigation.services" },
-  { href: "/#gallery", labelKey: "navigation.gallery" },
-  { href: "/contacts", labelKey: "navigation.contacts" },
+  { href: "/", label: { ua: "Головна", en: "Home" } },
+  { href: "/#about", label: { ua: "Про нас", en: "About" } },
+  { href: "/#rooms", label: { ua: "Номери", en: "Rooms" } },
+  { href: "/#services", label: { ua: "Послуги", en: "Services" } },
+  { href: "/#gallery", label: { ua: "Галерея", en: "Gallery" } },
+  { href: "/contacts", label: { ua: "Контакти", en: "Contacts" } },
 ] as const;
 
-export function MobileMenu({ variant = "light" }: { variant?: "light" | "dark" }) {
+const closeText = { ua: "Закрити", en: "Close" };
+
+export function MobileMenu({ variant = "light", locale = "ua" }: { variant?: "light" | "dark", locale?: "ua" | "en" }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-  const { locale } = useAppLocale();
-  const t = useClientTranslations();
 
   const isDark = variant === "dark";
 
@@ -67,7 +65,7 @@ export function MobileMenu({ variant = "light" }: { variant?: "light" | "dark" }
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-black/5 text-foreground"
             onClick={() => setOpen(false)}
-            aria-label={t("common.close")}
+            aria-label={closeText[locale]}
           >
             <X className="h-5 w-5" />
           </button>
@@ -81,7 +79,7 @@ export function MobileMenu({ variant = "light" }: { variant?: "light" | "dark" }
               className="rounded-sm border border-black/10 bg-black/[0.03] px-4 py-4 text-lg text-foreground"
               onClick={() => setOpen(false)}
             >
-              {t(item.labelKey)}
+              {item.label[locale]}
             </Link>
           ))}
         </nav>
