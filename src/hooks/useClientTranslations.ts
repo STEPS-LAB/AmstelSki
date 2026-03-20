@@ -7,7 +7,7 @@ type AppLocale = "ua" | "en";
 
 // Minimal client-side translations (only what's needed for client components)
 // This avoids duplicating server-side translations from next-intl
-const translations: Record<AppLocale, Record<string, any>> = {
+const translations: Record<AppLocale, Record<string, unknown>> = {
   ua: {
     common: {
       bookNow: "Забронювати",
@@ -92,11 +92,11 @@ export function useClientTranslations() {
 
   const t = useCallback((key: string) => {
     const keys = key.split(".");
-    let value: Record<string, any> | string = translations[locale];
+    let value: Record<string, unknown> | string = translations[locale];
 
     for (const k of keys) {
       if (typeof value === "object" && k in value) {
-        value = value[k];
+        value = value[k] as Record<string, unknown> | string;
       } else {
         return key;
       }

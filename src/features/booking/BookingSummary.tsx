@@ -2,7 +2,7 @@
 
 import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
-import { differenceInCalendarDays, format } from "date-fns";
+import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { Panel } from "@/components/ui/panel";
@@ -21,11 +21,6 @@ export function BookingSummary({
 } & HTMLAttributes<HTMLDivElement>) {
   const { locale } = useAppLocale();
   const t = useTranslations("booking");
-  const nights = Math.max(
-    1,
-    differenceInCalendarDays(new Date(stay.checkOut), new Date(stay.checkIn)),
-  );
-
   const checkInFormatted = format(new Date(stay.checkIn), "dd.MM.yyyy");
   const checkOutFormatted = format(new Date(stay.checkOut), "dd.MM.yyyy");
 

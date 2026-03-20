@@ -2,11 +2,11 @@
 
 import { useScroll } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { Button } from "@/components/ui/button";
 import { useBooking } from "./BookingProvider";
 
-export function StickyMobileBookingBar() {
+export const StickyMobileBookingBar = memo(function StickyMobileBookingBar() {
   const t = useTranslations("booking");
   const { openBooking } = useBooking();
   const { scrollY } = useScroll();
@@ -16,7 +16,7 @@ export function StickyMobileBookingBar() {
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener("resize", checkMobile, { passive: true });
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
@@ -52,4 +52,4 @@ export function StickyMobileBookingBar() {
       )}
     </>
   );
-}
+});

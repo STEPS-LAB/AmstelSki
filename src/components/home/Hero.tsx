@@ -6,7 +6,7 @@ import { heroHighlights } from "@/lib/content/site-content";
 import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/ui/container";
 import { HeroBooking } from "./HeroBooking";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo, useCallback } from "react";
 
 const heroContent = {
   ua: {
@@ -19,14 +19,14 @@ const heroContent = {
   },
 };
 
-export function Hero() {
+export const Hero = memo(function Hero() {
   const { locale } = useAppLocale();
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     const checkDesktop = () => setIsDesktop(window.innerWidth >= 768);
     checkDesktop();
-    window.addEventListener("resize", checkDesktop);
+    window.addEventListener("resize", checkDesktop, { passive: true });
     return () => window.removeEventListener("resize", checkDesktop);
   }, []);
 
@@ -41,11 +41,13 @@ export function Hero() {
           fill
           priority
           fetchPriority="high"
-          decoding="sync"
+          decoding="async"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
           className="object-cover object-center"
-          quality={75}
+          quality={85}
           loading="eager"
+          placeholder="blur"
+          blurDataURL="data:image/webp;base64,UklGRhYAAABXRUJQVlA4IEoAAADQAQCdASoQABAADgCdAScABEYT/AP+H/wP8A/v/8A/wP+A/4H/AP8D/gf8A"
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>
@@ -75,4 +77,4 @@ export function Hero() {
       </Container>
     </section>
   );
-}
+});

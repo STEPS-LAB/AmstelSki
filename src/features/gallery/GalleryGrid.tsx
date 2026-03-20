@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
 import { SectionSkeleton } from "@/components/ui/SectionSkeleton";
-import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 // Lazy load lightbox - only needed when user clicks an image
@@ -22,7 +21,6 @@ export function GalleryGrid({
   images: string[];
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const { locale } = useAppLocale();
   const { t } = useClientTranslations();
   const title = t("sections.galleryTitle");
 

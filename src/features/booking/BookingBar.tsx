@@ -2,12 +2,11 @@
 
 import { addDays, format } from "date-fns";
 import { Calendar, Loader2, Users } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback, memo } from "react";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { Button } from "@/components/ui/button";
 import { Popover } from "@/components/ui/popover";
 import { toDateValue } from "@/lib/booking/suggestions";
-import { useBooking } from "./BookingProvider";
 
 const bookingText = {
   ua: {
@@ -32,9 +31,8 @@ const bookingText = {
   },
 };
 
-export function BookingBar() {
+export const BookingBar = memo(function BookingBar() {
   const { locale } = useAppLocale();
-  const { openBooking } = useBooking();
   const checkInRef = useRef<HTMLInputElement>(null);
   const checkOutRef = useRef<HTMLInputElement>(null);
   const [checkIn, setCheckIn] = useState(toDateValue(new Date()));
@@ -48,7 +46,7 @@ export function BookingBar() {
   const displayCheckIn = format(new Date(checkIn), "dd.MM.yyyy");
   const displayCheckOut = format(new Date(checkOut), "dd.MM.yyyy");
 
-  const handleFind = () => {
+  const handleFind = useCallback(() => {
     setIsSearching(true);
     setSearchResult("searching");
 
@@ -56,7 +54,26 @@ export function BookingBar() {
       setSearchResult("found");
       setIsSearching(false);
     }, 2000);
-  };
+  }, []);
+
+  const handleCheckInChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckIn(event.target.value);
+    if (checkOutRef.current && new Date(event.target.value) >= new Date(checkOut)) {
+      setCheckOut(toDateValue(addDays(new Date(event.target.value), 1)));
+    }
+  }, [checkOut]);
+
+  const handleCheckOutChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckOut(event.target.value);
+  }, []);
+
+  const handleAdultsDecrement = useCallback(() => {
+    setAdults((prev) => Math.max(1, prev - 1));
+  }, []);
+
+  const handleAdultsIncrement = useCallback(() => {
+    setAdults((prev) => Math.min(4, prev + 1));
+  }, []);
 
   return (
     <div className="glass-panel rounded-sm px-3 pb-0 pt-3 sm:p-4 relative z-[70] w-fit mx-auto md:w-fit max-w-full">
@@ -81,12 +98,7 @@ export function BookingBar() {
                       type="date"
                       className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
                       value={checkIn}
-                      onChange={(event) => {
-                        setCheckIn(event.target.value);
-                        if (checkOutRef.current && new Date(event.target.value) >= new Date(checkOut)) {
-                          setCheckOut(toDateValue(addDays(new Date(event.target.value), 1)));
-                        }
-                      }}
+                      onChange={handleCheckInChange}
                       disabled={isSearching}
                     />
                     <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground/40" />
@@ -112,7 +124,7 @@ export function BookingBar() {
                       className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
                       value={checkOut}
                       min={checkIn}
-                      onChange={(event) => setCheckOut(event.target.value)}
+                      onChange={handleCheckOutChange}
                       disabled={isSearching}
                     />
                     <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground/40" />
@@ -154,7 +166,7 @@ export function BookingBar() {
               <button
                 type="button"
                 className="flex h-10 w-12 items-center justify-center text-xl text-foreground/70"
-                onClick={() => setAdults((prev) => Math.max(1, prev - 1))}
+                onClick={handleAdultsDecrement}
                 disabled={isSearching}
               >
                 −
@@ -163,7 +175,7 @@ export function BookingBar() {
               <button
                 type="button"
                 className="flex h-10 w-10 items-center justify-center text-xl text-foreground/70"
-                onClick={() => setAdults((prev) => Math.min(4, prev + 1))}
+                onClick={handleAdultsIncrement}
                 disabled={isSearching}
               >
                 +
@@ -208,4 +220,4 @@ export function BookingBar() {
       </div>
     </div>
   );
-}
+});

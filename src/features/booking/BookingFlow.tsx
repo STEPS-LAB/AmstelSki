@@ -5,7 +5,7 @@ import { addDays, format } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { MotionReveal } from "@/components/animation/MotionReveal";
 import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/field";
@@ -101,9 +101,6 @@ export function BookingFlow({
       (room) => room.capacity >= (stayValues.adults ?? 1) + (stayValues.children ?? 0),
     );
   }, [stayValues.adults, stayValues.children, suggestionOrder]);
-
-  const selectedRoom =
-    availableRooms.find((room) => room.slug === selectedRoomSlug) ?? availableRooms[0];
 
   useEffect(() => {
     if (!isChecking) {

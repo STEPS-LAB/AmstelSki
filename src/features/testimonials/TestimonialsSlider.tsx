@@ -1,15 +1,14 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
-import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { testimonials } from "@/lib/content/site-content";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
-import type { EmblaCarouselType } from "embla-carousel";
+import { memo } from "react";
 
 const sectionContent = {
   ua: {
@@ -20,14 +19,19 @@ const sectionContent = {
   },
 };
 
-export function TestimonialsSlider() {
+export const TestimonialsSlider = memo(function TestimonialsSlider() {
   const { locale } = useAppLocale();
-  const { t } = useClientTranslations();
   const content = sectionContent[locale as "ua" | "en"];
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true, 
+    align: "start",
+    dragFree: false,
+    skipSnaps: false,
+    containScroll: "trimSnaps"
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -37,7 +41,7 @@ export function TestimonialsSlider() {
           observer.disconnect();
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "100px" }
     );
 
     if (sectionRef.current) {
@@ -47,8 +51,8 @@ export function TestimonialsSlider() {
     return () => observer.disconnect();
   }, []);
 
-  const scrollPrev = () => emblaApi?.scrollPrev();
-  const scrollNext = () => emblaApi?.scrollNext();
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   return (
     <section ref={sectionRef} className="bg-black/[0.03] py-24" suppressHydrationWarning>
@@ -81,7 +85,7 @@ export function TestimonialsSlider() {
                     ))}
                   </div>
                   <p className="mt-5 flex-1 font-serif text-xl leading-tight text-foreground">
-                    "{item.quote[locale as "ua" | "en"]}"
+                    &ldquo;{item.quote[locale as "ua" | "en"]}&rdquo;
                   </p>
                   <p className="mt-6 text-sm uppercase tracking-[0.22em] text-accent-red">
                     {item.author}
@@ -94,4 +98,4 @@ export function TestimonialsSlider() {
       </Container>
     </section>
   );
-}
+});

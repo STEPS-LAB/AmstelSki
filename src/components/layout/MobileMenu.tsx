@@ -3,7 +3,7 @@
 import { Menu, Phone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 
 const navigationItems = [
   { href: "/", label: { ua: "Головна", en: "Home" } },
@@ -19,11 +19,10 @@ const closeText = { ua: "Закрити", en: "Close" };
 export function MobileMenu({ variant = "light", locale = "ua" }: { variant?: "light" | "dark", locale?: "ua" | "en" }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const pathname = usePathname();
-
   const isDark = variant === "dark";
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

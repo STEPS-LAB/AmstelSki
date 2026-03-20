@@ -4,6 +4,7 @@ import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { storytellingSections } from "@/lib/content/site-content";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
+import { memo } from "react";
 
 const sectionContent = {
   ua: {
@@ -18,7 +19,7 @@ const sectionContent = {
   },
 };
 
-export function StorytellingSection() {
+export const StorytellingSection = memo(function StorytellingSection() {
   const { locale } = useAppLocale();
   const content = sectionContent[locale as "ua" | "en"];
 
@@ -46,4 +47,4 @@ export function StorytellingSection() {
       </Container>
     </section>
   );
-}
+});

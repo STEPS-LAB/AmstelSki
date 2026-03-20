@@ -2,9 +2,10 @@
 
 import { AnimatePresence, motion, useScroll } from "framer-motion";
 import { MessageSquare, Send, Sparkles, X } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { useClientTranslations } from "@/hooks/useClientTranslations";
+import { memo } from "react";
 
 const responses: Record<
   string,
@@ -40,13 +41,14 @@ interface Message {
   text: string;
   isUser: boolean;
   id: number;
+  locale: "ua" | "en";
 }
 
-export function AIConcierge() {
+export const AIConcierge = memo(function AIConcierge() {
   const { locale } = useAppLocale();
   const { t } = useClientTranslations();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([{ text: t("concierge.intro"), isUser: false, id: 0 }]);
+  const [messages, setMessages] = useState<Message[]>([{ text: "concierge.intro", isUser: false, id: 0, locale: "ua" as "ua" | "en" }]);
   const [value, setValue] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -54,12 +56,10 @@ export function AIConcierge() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messageIdRef = useRef(0);
 
-  useEffect(() => {
-    // Update intro message when locale changes
-    if (messages.length === 1 && !isOpen) {
-      setMessages([{ text: t("concierge.intro"), isUser: false, id: 0 }]);
-    }
-  }, [locale]);
+  // Reset messages when locale changes and chat is closed
+  if (!isOpen && messages[0].locale !== locale) {
+    setMessages([{ text: t("concierge.intro"), isUser: false, id: 0, locale }]);
+  }
 
   useEffect(() => {
     const heroHeight = typeof window !== "undefined" ? window.innerHeight : 0;
@@ -87,11 +87,11 @@ export function AIConcierge() {
     };
   }, [isOpen]);
 
-  const handleWheel = (event: React.WheelEvent) => {
+  const handleWheel = useCallback((event: React.WheelEvent) => {
     if (isOpen) {
       event.stopPropagation();
     }
-  };
+  }, [isOpen]);
 
   const suggestions = useMemo(
     () => [
@@ -103,24 +103,30 @@ export function AIConcierge() {
     [t],
   );
 
-  function submit(input: string) {
+  const submit = useCallback((input: string) => {
     const normalized = input.toLowerCase();
     const nextResponse =
       suggestions.find((item) => normalized.includes(item.label.toLowerCase()))?.key ?? "default";
 
     setIsSending(true);
     messageIdRef.current += 1;
-    const userMessage: Message = { text: input, isUser: true, id: messageIdRef.current };
+    const userMessage: Message = { text: input, isUser: true, id: messageIdRef.current, locale };
     setMessages((current) => [...current, userMessage]);
     setValue("");
 
     setTimeout(() => {
       messageIdRef.current += 1;
-      const aiMessage: Message = { text: responses[locale][nextResponse], isUser: false, id: messageIdRef.current };
+      const aiMessage: Message = { text: responses[locale][nextResponse], isUser: false, id: messageIdRef.current, locale };
       setMessages((current) => [...current, aiMessage]);
       setIsSending(false);
     }, 800);
-  }
+  }, [locale, suggestions]);
+
+  const handleSubmit = useCallback((event: React.FormEvent) => {
+    event.preventDefault();
+    if (!value.trim() || isSending) return;
+    submit(value.trim());
+  }, [value, isSending, submit]);
 
   return (
     <>
@@ -218,11 +224,7 @@ export function AIConcierge() {
                 </div>
                 <form
                   className="flex gap-2"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    if (!value.trim() || isSending) return;
-                    submit(value.trim());
-                  }}
+                  onSubmit={handleSubmit}
                 >
                   <input
                     value={value}
@@ -246,4 +248,4 @@ export function AIConcierge() {
       </AnimatePresence>
     </>
   );
-}
+});

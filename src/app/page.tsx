@@ -13,7 +13,7 @@ import {
 } from "@/lib/seo";
 import { cookies } from "next/headers";
 
-// Lazy load below-the-fold and non-critical components
+// Lazy load below-the-fold and non-critical components with suspense
 const StorytellingSection = dynamic(
   () => import("@/components/home/StorytellingSection").then((mod) => mod.StorytellingSection),
   { loading: () => null }

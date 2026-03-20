@@ -27,6 +27,7 @@ export function Header() {
   const [locale, setLocale] = useState<"ua" | "en">("ua");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     const savedLocale = localStorage.getItem("locale") as "ua" | "en" | null;
     if (savedLocale) {
       setLocale(savedLocale);

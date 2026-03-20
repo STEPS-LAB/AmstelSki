@@ -3,12 +3,11 @@
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { GalleryGrid } from "@/features/gallery/GalleryGrid";
-import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { rooms } from "@/lib/content/rooms";
+import { memo } from "react";
 
-export function GallerySection() {
-  const { locale } = useAppLocale();
+export const GallerySection = memo(function GallerySection() {
   const { t } = useClientTranslations();
   const galleryImages = rooms.flatMap((room) => room.gallery).slice(0, 5);
 
@@ -23,4 +22,4 @@ export function GallerySection() {
       </Container>
     </section>
   );
-}
+});

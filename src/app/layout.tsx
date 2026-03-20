@@ -22,7 +22,7 @@ const inter = Inter({
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin", "cyrillic"],
-  display: "swap",
+  display: "optional",
   preload: true,
   weight: ["500", "600", "700", "800"],
   fallback: ["system-ui", "sans-serif"],
@@ -50,9 +50,9 @@ export default async function RootLayout({
       className={`${inter.variable} ${montserrat.variable} h-full antialiased`}
     >
       <head>
-        {/* Preconnect to external origins */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preconnect to Unsplash for images */}
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
       <body className="min-h-full bg-primary text-primary">
         <NextIntlClientProvider messages={messages}>

@@ -5,6 +5,7 @@ import { getFeaturedRooms } from "@/lib/content/rooms";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { RoomCard } from "@/components/rooms/RoomCard";
+import { memo } from "react";
 
 const sectionContent = {
   ua: {
@@ -17,7 +18,7 @@ const sectionContent = {
   },
 };
 
-export function RoomsPreview() {
+export const RoomsPreview = memo(function RoomsPreview() {
   const { locale } = useAppLocale();
   const content = sectionContent[locale as "ua" | "en"];
   const rooms = getFeaturedRooms();
@@ -36,4 +37,4 @@ export function RoomsPreview() {
       </Container>
     </section>
   );
-}
+});

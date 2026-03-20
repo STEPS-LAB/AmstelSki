@@ -16,6 +16,7 @@ export function LocaleProvider({ children, defaultLocale }: { children: ReactNod
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     // Load saved locale from localStorage
     const savedLocale = localStorage.getItem("locale") as Locale;

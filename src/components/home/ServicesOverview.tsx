@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Panel } from "@/components/ui/panel";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { Key, Backpack, Clock, ChefHat, Wifi, User } from "lucide-react";
+import { memo } from "react";
 
 const servicesContent = {
   ua: {
@@ -31,7 +32,7 @@ const servicesContent = {
   },
 };
 
-export function ServicesOverview() {
+export const ServicesOverview = memo(function ServicesOverview() {
   const { locale } = useAppLocale();
   const content = servicesContent[locale as "ua" | "en"];
 
@@ -58,4 +59,4 @@ export function ServicesOverview() {
       </Container>
     </section>
   );
-}
+});
