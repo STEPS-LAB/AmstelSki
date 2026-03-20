@@ -59,8 +59,8 @@ export function BookingBar() {
   };
 
   return (
-    <div className="glass-panel rounded-sm p-3 sm:p-4 relative z-20 w-fit mx-auto md:w-fit">
-      <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-[6px]">
+    <div className="glass-panel rounded-sm px-3 pb-0 pt-3 sm:p-4 relative z-[70] w-fit mx-auto md:w-fit max-w-full">
+      <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-[6px] min-w-0">
         <Popover
           isOpen={isDatePopoverOpen}
           onOpenChange={setIsDatePopoverOpen}
@@ -133,18 +133,18 @@ export function BookingBar() {
         >
           <button
             type="button"
-            className="flex h-12 w-full items-center gap-3 rounded-sm border border-black/10 bg-white px-4 text-left text-sm text-foreground/70 transition-colors hover:bg-gray-50 md:w-[400px]"
+            className="flex h-12 w-full min-w-0 items-center gap-2 rounded-sm border border-black/10 bg-white px-3 text-left text-xs sm:text-sm text-foreground/70 transition-colors hover:bg-gray-50 md:w-[400px]"
             disabled={isSearching}
           >
-            <Calendar className="h-5 w-5 flex-shrink-0 text-foreground/60" />
+            <Calendar className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 text-foreground/60" />
             <span className="whitespace-nowrap">{text.dates}</span>
-            <span className="ml-auto font-medium text-foreground">
+            <span className="ml-auto font-medium text-foreground truncate">
               {displayCheckIn} — {displayCheckOut}
             </span>
           </button>
         </Popover>
 
-        <div className="flex h-12 w-full items-center rounded-sm border border-black/10 bg-white pl-4 pr-1 transition-colors hover:bg-gray-50 md:w-[400px]">
+        <div className="flex h-12 w-full min-w-0 items-center rounded-sm border border-black/10 bg-white pl-3 pr-1 transition-colors hover:bg-gray-50 md:w-[400px]">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-3">
               <Users className="h-5 w-5 flex-shrink-0 text-foreground/60" />
@@ -185,19 +185,27 @@ export function BookingBar() {
         </Button>
       </div>
 
-      {searchResult === "searching" && (
-        <div className="mt-3 flex items-center gap-2 text-sm text-foreground/70">
-          <Loader2 className="h-4 w-4 animate-spin text-accent-red" />
-          <span>{text.searching}</span>
-        </div>
-      )}
+      <div className={`overflow-hidden transition-all duration-300 ${isSearching || searchResult === "found" ? "max-h-20 opacity-100 mt-3" : "max-h-0 opacity-0 mt-0"}`}>
+        {isSearching && (
+          <div className="flex items-center gap-2 text-sm text-foreground/70">
+            <Loader2 className="h-4 w-4 animate-spin text-accent-red" />
+            <span>{text.searching}</span>
+          </div>
+        )}
 
-      {searchResult === "found" && (
-        <div className="mt-3 flex items-center gap-2 text-sm text-foreground/70">
-          <span className="h-2 w-2 rounded-full bg-green-500" />
-          <span>{text.found}</span>
-        </div>
-      )}
+        {searchResult === "found" && (
+          <div className="flex items-center gap-2 text-sm text-foreground/70">
+            <span className="h-2 w-2 rounded-full bg-green-500" />
+            <span>{text.found}</span>
+          </div>
+        )}
+      </div>
+
+      {/* Hidden spacer to maintain panel width */}
+      <div className="invisible h-0 mt-3 flex items-center gap-2 text-sm text-foreground/70">
+        <span className="h-2 w-2 rounded-full bg-green-500" />
+        <span>{text.found}</span>
+      </div>
     </div>
   );
 }

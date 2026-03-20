@@ -36,10 +36,16 @@ export function StickyMobileBookingBar() {
     <>
       {isVisible && (
         <div
-          className="fixed inset-x-0 bottom-0 z-30 border-t border-black/14 bg-white/90 p-3 backdrop-blur transition-transform duration-300"
-          style={{ transform: isVisible ? "translateY(0)" : "translateY(100%)" }}
+          className="fixed inset-x-0 bottom-0 z-[90] border-t border-black/14 bg-white/90 p-4 backdrop-blur pointer-events-auto"
+          style={{
+            transform: isVisible ? "translateY(0)" : "translateY(100%)",
+            opacity: isVisible ? 1 : 0
+          }}
         >
-          <Button className="w-full" onClick={() => openBooking()}>
+          <Button
+            className="w-full h-12 text-base uppercase tracking-[0.15em] bg-accent-red hover:bg-accent-red-strong transition-all duration-300 pointer-events-auto"
+            onClick={() => openBooking()}
+          >
             {t("sticky")}
           </Button>
         </div>

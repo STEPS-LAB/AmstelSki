@@ -59,7 +59,8 @@
     "tonight": "Tonight stay",
     "weekend": "Weekend stay",
     "business": "Family stay",
-    "sticky": "Book Now"
+    "sticky": "Book Now",
+    "from": "from"
   },
   "sections": {
     "roomsTitle": "Room collection",

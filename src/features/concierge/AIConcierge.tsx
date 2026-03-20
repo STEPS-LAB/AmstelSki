@@ -129,7 +129,7 @@ export function AIConcierge() {
           <motion.button
             type="button"
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-20 right-4 z-30 inline-flex items-center gap-3 rounded-full border border-black/12 bg-white px-4 py-3 text-foreground shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur md:bottom-6 md:right-6"
+            className="fixed bottom-20 right-4 z-[95] inline-flex items-center gap-3 rounded-full border border-black/12 bg-white px-4 py-3 text-foreground shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur pointer-events-auto md:bottom-6 md:right-6"
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
@@ -148,7 +148,7 @@ export function AIConcierge() {
           <>
             <motion.button
               type="button"
-              className="fixed inset-0 z-40 bg-black/40"
+              className="fixed inset-0 z-[96] bg-black/40 pointer-events-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -159,7 +159,8 @@ export function AIConcierge() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               onWheel={handleWheel}
-              className="fixed bottom-24 right-4 z-50 flex h-[575px] w-[calc(100vw-2rem)] max-w-md flex-col overflow-hidden rounded-sm border border-black/10 bg-primary shadow-[0_24px_80px_rgba(0,0,0,0.15)]"
+              className="fixed bottom-24 right-4 z-[97] flex h-[575px] w-[calc(100vw-2rem)] max-w-md flex-col overflow-hidden rounded-sm border border-black/10 bg-primary shadow-[0_24px_80px_rgba(0,0,0,0.15)] pointer-events-auto"
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between border-b border-black/10 bg-black/[0.04] px-5 py-4">
                 <div className="flex items-center gap-3">

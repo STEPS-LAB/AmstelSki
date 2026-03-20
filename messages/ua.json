@@ -59,7 +59,8 @@
     "tonight": "Сьогодні",
     "weekend": "На вихідні",
     "business": "Для сім'ї",
-    "sticky": "Забронювати"
+    "sticky": "Забронювати",
+    "from": "від"
   },
   "sections": {
     "roomsTitle": "Колекція номерів",

@@ -36,6 +36,7 @@ html {
   background: var(--background);
   color: var(--foreground);
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -45,6 +46,9 @@ body {
   font-family: var(--font-inter), system-ui, sans-serif;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Critical Hero Booking Bar styles - prevent layout shift */

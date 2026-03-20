@@ -264,7 +264,7 @@ export function BookingFlow({
                   </div>
                 </label>
               </Panel>
-              <Button className="w-full" onClick={handleStayContinue}>
+              <Button className="w-full mb-1" onClick={handleStayContinue}>
                 {t("continue")}
                 <ArrowRight className="ml-2 h-3.5 w-3.5" />
               </Button>

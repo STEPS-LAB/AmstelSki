@@ -16,14 +16,14 @@ const navigationItems = [
   { href: "/contacts", labelKey: "navigation.contacts" },
 ] as const;
 
-export function MobileMenu() {
+export function MobileMenu({ variant = "light" }: { variant?: "light" | "dark" }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { locale } = useAppLocale();
   const t = useClientTranslations();
 
-  const isContactsPage = pathname.includes("/contacts");
+  const isDark = variant === "dark";
 
   useEffect(() => {
     setMounted(true);
@@ -44,7 +44,7 @@ export function MobileMenu() {
   const menuContent = (
     <div
       className={`fixed inset-0 z-[100] lg:hidden transition-opacity duration-300 ${
-        open ? "opacity-100" : "opacity-0"
+        open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       }`}
     >
       {/* Glassmorphism overlay - fully opaque with blur */}
@@ -57,6 +57,7 @@ export function MobileMenu() {
         className={`absolute right-0 top-0 z-10 flex h-full w-full max-w-sm flex-col overflow-y-auto border-l border-black/12 bg-white/95 px-6 py-6 backdrop-blur-xl transition-transform duration-300 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <div>
@@ -102,7 +103,11 @@ export function MobileMenu() {
     <>
       <button
         type="button"
-        className="relative z-[101] inline-flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-black/5 text-foreground lg:hidden transition-all duration-500"
+        className={`relative z-[101] inline-flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-500 ${
+          isDark
+            ? "border-white/20 bg-white/10 text-white"
+            : "border-black/10 bg-black/5 text-foreground"
+        } lg:hidden`}
         onClick={() => setOpen(true)}
         aria-label="Open navigation"
       >

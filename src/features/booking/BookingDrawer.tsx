@@ -31,7 +31,7 @@ export function BookingDrawer() {
           <motion.button
             type="button"
             aria-label={t("back")}
-            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-[98] bg-black/70 backdrop-blur-sm pointer-events-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -42,7 +42,8 @@ export function BookingDrawer() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed left-1/2 top-1/2 z-[60] flex h-[85vh] w-[92vw] max-w-sm -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-lg bg-primary sm:h-auto sm:max-h-[85vh]"
+            className="fixed left-1/2 top-1/2 z-[99] flex h-[85vh] w-[92vw] max-w-sm -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-lg bg-primary sm:h-auto sm:max-h-[85vh] pointer-events-auto"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex flex-shrink-0 items-center justify-between border-b border-black/10 bg-primary/90 px-4 py-2.5 backdrop-blur sm:px-6 sm:py-5">
               <div className="flex w-full items-center justify-between">

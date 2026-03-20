@@ -48,13 +48,13 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isDark
-          ? "bg-[#1A1A1A]/70 border-b border-transparent"
+          ? "bg-[#1A1A1A]/10 border-b border-transparent"
           : "bg-white/90 border-b border-black/10"
-      } backdrop-blur-md`}
+      } backdrop-blur-md overflow-x-hidden`}
     >
-      <Container className="flex h-20 items-center justify-between gap-4">
+      <Container className="flex h-20 items-center justify-between gap-4 max-w-full">
         <Link href="/" className="flex flex-col">
           <span
             className={`font-serif text-3xl leading-none transition-colors duration-300 ${
@@ -91,10 +91,7 @@ export function Header() {
         {!isDesktop && (
           <div className="flex items-center gap-3">
             <LocaleSwitcher variant={isDark ? "dark" : "light"} />
-            <Button className="inline-flex sm:hidden" onClick={() => openBooking()}>
-              {t("common.bookNow")}
-            </Button>
-            <MobileMenu />
+            <MobileMenu variant={isDark ? "dark" : "light"} />
           </div>
         )}
       </Container>
