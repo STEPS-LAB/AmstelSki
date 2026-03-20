@@ -1,12 +1,10 @@
-"use client";
-
 import Image from "next/image";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { heroHighlights } from "@/lib/content/site-content";
 import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/ui/container";
-import { BookingBar } from "@/features/booking/BookingBar";
+import { HeroBooking } from "./HeroBooking";
 
 const heroContent = {
   ua: {
@@ -59,7 +57,7 @@ export function Hero() {
         </div>
 
         <div className="mt-8 max-w-4xl sm:mt-10">
-          <BookingBar />
+          <HeroBooking />
         </div>
       </Container>
     </section>
