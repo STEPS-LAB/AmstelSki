@@ -1,7 +1,6 @@
 "use client";
 
 import { useAppLocale } from "@/components/layout/LocaleProvider";
-import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { getFeaturedRooms } from "@/lib/content/rooms";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
@@ -20,7 +19,6 @@ const sectionContent = {
 
 export function RoomsPreview() {
   const { locale } = useAppLocale();
-  const t = useClientTranslations();
   const content = sectionContent[locale as "ua" | "en"];
   const rooms = getFeaturedRooms();
 

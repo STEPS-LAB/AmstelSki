@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import { Hero } from "@/components/home/Hero";
 import { RoomsPreview } from "@/components/home/RoomsPreview";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
-import { StorytellingSection } from "@/components/home/StorytellingSection";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { SectionSkeleton } from "@/components/ui/SectionSkeleton";
@@ -18,6 +17,11 @@ import {
 import { cookies } from "next/headers";
 
 // Lazy load below-the-fold and non-critical components
+const StorytellingSection = dynamic(
+  () => import("@/components/home/StorytellingSection").then((mod) => mod.StorytellingSection),
+  { loading: () => <SectionSkeleton /> }
+);
+
 const GalleryGrid = dynamic(
   () => import("@/features/gallery/GalleryGrid").then((mod) => mod.GalleryGrid),
   { loading: () => <SectionSkeleton /> }

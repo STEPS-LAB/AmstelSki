@@ -1,7 +1,6 @@
 "use client";
 
 import { useAppLocale } from "@/components/layout/LocaleProvider";
-import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { storytellingSections } from "@/lib/content/site-content";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
@@ -21,7 +20,6 @@ const sectionContent = {
 
 export function StorytellingSection() {
   const { locale } = useAppLocale();
-  const t = useClientTranslations();
   const content = sectionContent[locale as "ua" | "en"];
 
   return (

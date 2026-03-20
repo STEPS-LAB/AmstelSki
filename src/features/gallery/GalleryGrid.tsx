@@ -11,6 +11,9 @@ const GalleryLightbox = dynamic(
   { loading: () => <SectionSkeleton />, ssr: false }
 );
 
+// Generic blur placeholder for external images
+const BLUR_PLACEHOLDER = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMCAxMCI+PHJlY3Qgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjZjVmNWY1Ii8+PC9zdmc+";
+
 export function GalleryGrid({
   images,
   title,
@@ -40,6 +43,11 @@ export function GalleryGrid({
                 fill
                 sizes={index === 0 ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" : "(max-width: 640px) 50vw, 25vw"}
                 className="object-cover transition duration-700 group-hover:scale-[1.04]"
+                loading="lazy"
+                decoding="async"
+                quality={75}
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDER}
               />
             </div>
           </button>

@@ -7,6 +7,9 @@ import { useClientTranslations } from "@/hooks/useClientTranslations";
 import type { Room } from "@/lib/content/rooms";
 import { Badge } from "@/components/ui/badge";
 
+// Generic blur placeholder for external images
+const BLUR_PLACEHOLDER = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMCAxMCI+PHJlY3Qgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjZjVmNWY1Ii8+PC9zdmc+";
+
 export function RoomCard({
   room,
 }: {
@@ -27,6 +30,8 @@ export function RoomCard({
           loading="lazy"
           decoding="async"
           quality={75}
+          placeholder="blur"
+          blurDataURL={BLUR_PLACEHOLDER}
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(255,255,255,0.92)_100%)]" />
         <div className="absolute left-5 top-5">

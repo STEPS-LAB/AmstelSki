@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
-import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { heroHighlights } from "@/lib/content/site-content";
 import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/ui/container";
@@ -22,7 +21,6 @@ const heroContent = {
 
 export function Hero() {
   const { locale } = useAppLocale();
-  const t = useClientTranslations();
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -44,7 +42,7 @@ export function Hero() {
           priority
           fetchPriority="high"
           decoding="async"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
+          sizes="100vw"
           className="object-cover object-center"
           quality={85}
           loading="eager"
