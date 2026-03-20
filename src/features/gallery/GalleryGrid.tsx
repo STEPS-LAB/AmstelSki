@@ -1,8 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
-import { GalleryLightbox } from "./Lightbox";
+import { SectionSkeleton } from "@/components/ui/SectionSkeleton";
+
+// Lazy load lightbox - only needed when user clicks an image
+const GalleryLightbox = dynamic(
+  () => import("./Lightbox").then((mod) => mod.GalleryLightbox),
+  { loading: () => <SectionSkeleton />, ssr: false }
+);
 
 export function GalleryGrid({
   images,

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Hero } from "@/components/home/Hero";
 import { RoomsPreview } from "@/components/home/RoomsPreview";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { StorytellingSection } from "@/components/home/StorytellingSection";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
-import { GalleryGrid } from "@/features/gallery/GalleryGrid";
-import { TestimonialsSlider } from "@/features/testimonials/TestimonialsSlider";
+import { SectionSkeleton } from "@/components/ui/SectionSkeleton";
 import { rooms } from "@/lib/content/rooms";
 import { StructuredData } from "@/components/seo/StructuredData";
 import {
@@ -16,6 +16,17 @@ import {
   reviewJsonLd,
 } from "@/lib/seo";
 import { cookies } from "next/headers";
+
+// Lazy load below-the-fold components to reduce initial bundle
+const GalleryGrid = dynamic(
+  () => import("@/features/gallery/GalleryGrid").then((mod) => mod.GalleryGrid),
+  { loading: () => <SectionSkeleton /> }
+);
+
+const TestimonialsSlider = dynamic(
+  () => import("@/features/testimonials/TestimonialsSlider").then((mod) => mod.TestimonialsSlider),
+  { loading: () => <SectionSkeleton /> }
+);
 
 export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies();
