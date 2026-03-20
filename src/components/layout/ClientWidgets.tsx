@@ -1,17 +1,7 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-// Lazy load booking components - not needed for initial paint
-const BookingDrawer = dynamic(
-  () => import("@/features/booking/BookingDrawer").then((mod) => mod.BookingDrawer),
-  { loading: () => null, ssr: false }
-);
-
-const StickyMobileBookingBar = dynamic(
-  () => import("@/features/booking/StickyMobileBookingBar").then((mod) => mod.StickyMobileBookingBar),
-  { loading: () => null, ssr: false }
-);
+import { BookingDrawer } from "@/features/booking/BookingDrawer";
+import { StickyMobileBookingBar } from "@/features/booking/StickyMobileBookingBar";
 
 export function ClientWidgets() {
   return (

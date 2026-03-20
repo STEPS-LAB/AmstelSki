@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { Hero } from "@/components/home/Hero";
 import { RoomsPreview } from "@/components/home/RoomsPreview";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
+import { ClientWidgets } from "@/components/layout/ClientWidgets";
 import { StructuredData } from "@/components/seo/StructuredData";
 import {
   createMetadata,
@@ -20,11 +21,6 @@ const StorytellingSection = dynamic(
 
 const TestimonialsSlider = dynamic(
   () => import("@/features/testimonials/TestimonialsSlider").then((mod) => mod.TestimonialsSlider),
-  { loading: () => null }
-);
-
-const ClientWidgets = dynamic(
-  () => import("@/components/layout/ClientWidgets").then((mod) => mod.ClientWidgets),
   { loading: () => null }
 );
 

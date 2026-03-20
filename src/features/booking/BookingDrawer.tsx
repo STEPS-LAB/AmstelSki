@@ -2,13 +2,13 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { BookingFlow } from "./BookingFlow";
 import { useBooking } from "./BookingProvider";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 export function BookingDrawer() {
-  const t = useTranslations("booking");
+  const { t } = useClientTranslations();
   const { isOpen, closeBooking, prefill } = useBooking();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export function BookingDrawer() {
         <>
           <motion.button
             type="button"
-            aria-label={t("back")}
+            aria-label={t("booking.back")}
             className="fixed inset-0 z-[98] bg-black/70 backdrop-blur-sm pointer-events-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -49,13 +49,13 @@ export function BookingDrawer() {
               <div className="flex w-full items-center justify-between">
                 <div>
                   <p className="text-[9px] uppercase tracking-[0.24em] text-secondary">
-                    {t("title")}
+                    {t("booking.title")}
                   </p>
                   <p className="mt-0.5 font-serif text-lg text-foreground sm:mt-1 sm:text-3xl">AmstelSki</p>
                 </div>
                 <button
                   type="button"
-                  aria-label={t("back")}
+                  aria-label={t("booking.back")}
                   className="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/5 text-foreground sm:h-11 sm:w-11"
                   onClick={closeBooking}
                 >

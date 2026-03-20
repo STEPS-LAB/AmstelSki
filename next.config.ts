@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    qualities: [65, 75, 80],
   },
   typedRoutes: true,
   compiler: {

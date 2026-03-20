@@ -21,7 +21,7 @@ import type { BookingStayInput, GuestDetailsInput } from "@/lib/booking/validati
 import { roomAmenityLabels, rooms, type Room } from "@/lib/content/rooms";
 import type { BookingSuggestionType } from "@/lib/booking/types";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
-import { useTranslations } from "next-intl";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 type Step = 0 | 1 | 2 | 3;
 
@@ -44,7 +44,7 @@ export function BookingFlow({
   initialStay?: Partial<BookingStayInput>;
 }) {
   const { locale } = useAppLocale();
-  const t = useTranslations("booking");
+  const { t } = useClientTranslations();
   const [step, setStep] = useState<Step>(0);
   const [selectedRoomSlug, setSelectedRoomSlug] = useState<string | undefined>(
     preferredRoomSlug,
@@ -146,7 +146,7 @@ export function BookingFlow({
                 : "border border-black/10 bg-black/5 text-foreground/55"
             }`}
           >
-            {t(steps[index])}
+            {t("booking." + steps[index])}
           </div>
         ))}
       </div>
@@ -162,7 +162,7 @@ export function BookingFlow({
             >
               <Panel className="grid gap-3 p-3 sm:p-6">
                 <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
-                  <span>{t("dates")}</span>
+                  <span>{t("booking.dates")}</span>
                   <Popover
                     isOpen={isDatePopoverOpen}
                     onOpenChange={setIsDatePopoverOpen}
@@ -170,12 +170,12 @@ export function BookingFlow({
                     content={
                       <div className="space-y-4">
                         <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">
-                          {t("selectDates")}
+                          {t("booking.selectDates")}
                         </p>
                         <div className="space-y-3">
                           <div>
                             <label className="mb-1 block text-sm text-foreground">
-                              {t("checkInLabel")}
+                              {t("booking.checkInLabel")}
                             </label>
                             <div className="relative">
                               <input
@@ -203,7 +203,7 @@ export function BookingFlow({
                           </div>
                           <div>
                             <label className="mb-1 block text-sm text-foreground">
-                              {t("checkOutLabel")}
+                              {t("booking.checkOutLabel")}
                             </label>
                             <div className="relative">
                               <input
@@ -239,7 +239,7 @@ export function BookingFlow({
                   </Popover>
                 </label>
                 <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
-                  <span>{t("guests")}</span>
+                  <span>{t("booking.guests")}</span>
                   <div className="flex h-12 items-center rounded-sm border border-black/10 bg-black/5 px-4">
                     <div className="flex w-full items-center justify-between">
                       <button
@@ -262,7 +262,7 @@ export function BookingFlow({
                 </label>
               </Panel>
               <Button className="w-full mb-1" onClick={handleStayContinue}>
-                {t("continue")}
+                {t("booking.continue")}
                 <ArrowRight className="ml-2 h-3.5 w-3.5" />
               </Button>
             </motion.div>
@@ -279,7 +279,7 @@ export function BookingFlow({
               {isChecking ? (
                 <Panel className="flex items-center gap-3 p-3">
                   <Loader2 className="h-4 w-4 animate-spin text-accent-red" />
-                  <p className="text-[10px] text-foreground/80 sm:text-sm">{t("checking")}</p>
+                  <p className="text-[10px] text-foreground/80 sm:text-sm">{t("booking.checking")}</p>
                 </Panel>
               ) : null}
 
@@ -306,7 +306,7 @@ export function BookingFlow({
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className="text-[9px] uppercase tracking-[0.2em] text-secondary">
-                            {t("from")}
+                            {t("booking.from")}
                           </p>
                           <p className="mt-1 text-base text-foreground sm:text-2xl">
                             ₴{room.rateFrom.toLocaleString("uk-UA")}
@@ -329,7 +329,7 @@ export function BookingFlow({
               </div>
               <div className="flex flex-col gap-2 sm:flex-row">
                 <Button variant="secondary" onClick={() => setStep(0)} className="w-full sm:w-auto">
-                  {t("back")}
+                  {t("booking.back")}
                 </Button>
                 <Button
                   onClick={() => {
@@ -337,7 +337,7 @@ export function BookingFlow({
                   }}
                   className="w-full sm:w-auto"
                 >
-                  {t("continue")}
+                  {t("booking.continue")}
                 </Button>
               </div>
             </motion.div>
@@ -352,17 +352,17 @@ export function BookingFlow({
               className="space-y-3"
             >
               <Panel className="grid gap-3 p-3 sm:p-6">
-                <Input placeholder={t("name")} {...guestForm.register("name")} />
-                <Input placeholder={t("email")} type="email" {...guestForm.register("email")} />
-                <Input placeholder={t("phone")} {...guestForm.register("phone")} />
-                <Textarea placeholder={t("notes")} {...guestForm.register("notes")} />
+                <Input placeholder={t("booking.name")} {...guestForm.register("name")} />
+                <Input placeholder={t("booking.email")} type="email" {...guestForm.register("email")} />
+                <Input placeholder={t("booking.phone")} {...guestForm.register("phone")} />
+                <Textarea placeholder={t("booking.notes")} {...guestForm.register("notes")} />
               </Panel>
               <div className="flex flex-col gap-2 sm:flex-row">
                 <Button variant="secondary" onClick={() => setStep(1)} className="w-full sm:w-auto">
-                  {t("back")}
+                  {t("booking.back")}
                 </Button>
                 <Button onClick={handleGuestContinue} className="w-full sm:w-auto">
-                  {t("continue")}
+                  {t("booking.continue")}
                 </Button>
               </div>
             </motion.div>
@@ -389,13 +389,13 @@ export function BookingFlow({
                     window.setTimeout(() => onDone?.(), 1200);
                   }}
                 >
-                  {t("reserve")}
+                  {t("booking.reserve")}
                 </Button>
               </Panel>
               {isSubmitted ? (
                 <Panel className="border-accent-red/30 bg-accent-red/10 p-3 sm:p-6">
-                  <p className="font-serif text-lg text-foreground sm:text-2xl">{t("successTitle")}</p>
-                  <p className="mt-2 text-[10px] leading-6 text-foreground/75 sm:text-sm">{t("successText")}</p>
+                  <p className="font-serif text-lg text-foreground sm:text-2xl">{t("booking.successTitle")}</p>
+                  <p className="mt-2 text-[10px] leading-6 text-foreground/75 sm:text-sm">{t("booking.successText")}</p>
                 </Panel>
               ) : null}
             </motion.div>

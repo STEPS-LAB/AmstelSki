@@ -161,6 +161,17 @@ button {
   min-height: 400px;
 }
 
+/* Mobile: Add padding to sections to account for fixed header (80px) */
+@media (max-width: 767px) {
+  #about,
+  #rooms,
+  #services,
+  #gallery {
+    scroll-margin-top: 100px;
+    padding-top: 20px;
+  }
+}
+
 /* Performance: Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   *,

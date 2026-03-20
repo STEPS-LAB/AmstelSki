@@ -1,13 +1,13 @@
 "use client";
 
 import { useScroll } from "framer-motion";
-import { useTranslations } from "next-intl";
 import { useEffect, useState, memo } from "react";
 import { Button } from "@/components/ui/button";
 import { useBooking } from "./BookingProvider";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 export const StickyMobileBookingBar = memo(function StickyMobileBookingBar() {
-  const t = useTranslations("booking");
+  const { t } = useClientTranslations();
   const { openBooking } = useBooking();
   const { scrollY } = useScroll();
   const [isVisible, setIsVisible] = useState(false);
@@ -23,7 +23,7 @@ export const StickyMobileBookingBar = memo(function StickyMobileBookingBar() {
   useEffect(() => {
     if (!isMobile) return;
     const heroHeight = typeof window !== "undefined" ? window.innerHeight : 0;
-    const unsubscribe = scrollY.onChange((latest) => {
+    const unsubscribe = scrollY.on("change", (latest) => {
       setIsVisible(latest > heroHeight * 0.8);
     });
 
@@ -46,7 +46,7 @@ export const StickyMobileBookingBar = memo(function StickyMobileBookingBar() {
             className="w-full h-12 text-base uppercase tracking-[0.15em] bg-accent-red hover:bg-accent-red-strong transition-all duration-300 pointer-events-auto"
             onClick={() => openBooking()}
           >
-            {t("sticky")}
+            {t("booking.sticky")}
           </Button>
         </div>
       )}

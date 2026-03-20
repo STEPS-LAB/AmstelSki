@@ -21,9 +21,14 @@ const sectionContent = {
 
 export const TestimonialsSlider = memo(function TestimonialsSlider() {
   const { locale } = useAppLocale();
-  const content = sectionContent[locale as "ua" | "en"];
+  const [mounted, setMounted] = useState(false);
+  const content = mounted ? sectionContent[locale as "ua" | "en"] : sectionContent.ua;
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true, 
