@@ -4,17 +4,10 @@ import { Input, Textarea } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { contactDetails } from "@/lib/content/site-content";
 import { pickLocalized } from "@/lib/i18n";
-import type { AppLocale } from "@/i18n/routing";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
 
-export default async function ContactsPage({
-  params,
-}: {
-  params: Promise<{ locale: AppLocale }>;
-}) {
-  const { locale } = await params;
-  const messages = await getMessages({ locale });
-  const typedLocale = locale as AppLocale;
+export default async function ContactsPage() {
+  const messages = await getMessages();
 
   return (
     <>
@@ -23,12 +16,10 @@ export default async function ContactsPage({
           <div className="space-y-6 rounded-sm border border-white/10 bg-white/[0.03] p-4 sm:p-8">
             <div>
               <p className="mb-6 text-xs uppercase tracking-[0.22em] text-accent-red">
-                {typedLocale === "ua" ? "Контакти" : "Contacts"}
+                {messages.navigation.contacts}
               </p>
               <p className="mb-8 text-sm leading-7 text-secondary">
-                {typedLocale === "ua"
-                  ? "Зв'яжіться з нами перед вашим відпочинком. Допоможемо обрати номер, підкажемо по заїзду, вечері в De Molen та загальній організації відпочинку в Буковелі."
-                  : "Get in touch before your stay. We can help you choose a room, plan your arrival, arrange dinner at De Molen, and make your Bukovel stay easier."}
+                {messages.sections.contactsCopy}
               </p>
             </div>
 
@@ -43,7 +34,7 @@ export default async function ContactsPage({
               </a>
               <div className="group flex items-start gap-3 text-foreground">
                 <MapPin className="h-5 w-5 text-accent-red" />
-                <span className="leading-7 break-words">{pickLocalized(contactDetails.address, typedLocale)}</span>
+                <span className="leading-7 break-words">{pickLocalized(contactDetails.address, "ua")}</span>
               </div>
             </div>
 
@@ -84,20 +75,16 @@ export default async function ContactsPage({
 
           <form className="space-y-4 rounded-sm border border-white/10 bg-white/[0.03] p-4 sm:p-6">
             <p className="text-lg font-medium text-foreground">
-              {typedLocale === "ua" ? "Залишились питання?" : "Still have questions?"}
+              {messages.contacts.questions}
             </p>
-            <Input placeholder={typedLocale === "ua" ? "Ім'я" : "Name"} />
+            <Input placeholder={messages.fields.name} />
             <Input placeholder="Email" type="email" />
-            <Input placeholder={typedLocale === "ua" ? "Телефон" : "Phone"} />
+            <Input placeholder={messages.fields.phone} />
             <Textarea
-              placeholder={
-                typedLocale === "ua"
-                  ? "Напишіть, чим ми можемо допомогти перед вашим приїздом"
-                  : "Tell us how we can help before your arrival"
-              }
+              placeholder={messages.contacts.placeholder}
             />
             <Button type="button" className="w-full">
-              {typedLocale === "ua" ? "Надіслати запит" : "Send inquiry"}
+              {messages.contacts.send}
             </Button>
           </form>
         </Container>

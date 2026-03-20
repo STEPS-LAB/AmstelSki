@@ -9,7 +9,6 @@ import { SectionIntro } from "@/components/ui/section-intro";
 import { GalleryGrid } from "@/features/gallery/GalleryGrid";
 import { TestimonialsSlider } from "@/features/testimonials/TestimonialsSlider";
 import { rooms } from "@/lib/content/rooms";
-import type { AppLocale } from "@/i18n/routing";
 import { StructuredData } from "@/components/seo/StructuredData";
 import {
   createMetadata,
@@ -18,38 +17,25 @@ import {
   reviewJsonLd,
 } from "@/lib/seo";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: AppLocale }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-
+export async function generateMetadata(): Promise<Metadata> {
   return createMetadata({
-    locale,
+    locale: "ua",
     pathname: "",
     title: "AmstelSki",
     description:
-      locale === "ua"
-        ? "AmstelSki - маленька Голландія у серці Карпат: комфортні номери, ресторан De Molen, ski room і зручне розташування біля підйомників 2 та 5."
-        : "AmstelSki is a little Holland in the heart of the Carpathians, with comfortable rooms, restaurant De Molen, ski storage, and a location near lifts 2 and 5.",
+      "AmstelSki - маленька Голландія у серці Карпат: комфортні номери, ресторан De Molen, ski room і зручне розташування біля підйомників 2 та 5.",
   });
 }
 
-export default async function HomePage({
-  params,
-}: {
-  params: Promise<{ locale: AppLocale }>;
-}) {
-  const { locale } = await params;
-  const messages = await getMessages({ locale });
+export default async function HomePage() {
+  const messages = await getMessages();
   const galleryImages = rooms.flatMap((room) => room.gallery).slice(0, 5);
 
   return (
     <>
-      <StructuredData data={hotelJsonLd(locale)} />
-      <StructuredData data={localBusinessJsonLd(locale)} />
-      <StructuredData data={reviewJsonLd(locale)} />
+      <StructuredData data={hotelJsonLd("ua")} />
+      <StructuredData data={localBusinessJsonLd("ua")} />
+      <StructuredData data={reviewJsonLd("ua")} />
       <Hero />
       <div id="about">
         <StorytellingSection />
@@ -64,10 +50,10 @@ export default async function HomePage({
       <section id="gallery" className="py-24">
         <Container className="space-y-10">
           <SectionIntro
-            title="Галерея"
-            copy="Перегляньте наші номери та послуги"
+            title={messages.sections.galleryTitle}
+            copy={messages.sections.galleryCopy}
           />
-          <GalleryGrid images={galleryImages} title="Галерея" />
+          <GalleryGrid images={galleryImages} title={messages.sections.galleryTitle} />
         </Container>
       </section>
 

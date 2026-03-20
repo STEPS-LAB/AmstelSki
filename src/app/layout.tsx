@@ -30,30 +30,22 @@ export const metadata: Metadata = {
     "AmstelSki in Bukovel is a little Holland in the heart of the Carpathians, with rooms near lifts 2 and 5, restaurant De Molen, ski storage, and attentive service.",
 };
 
-export function generateStaticParams() {
-  return ["ua", "en"].map((locale) => ({ locale }));
-}
-
 export default async function RootLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  const typedLocale = locale as AppLocale;
-  const messages = await getMessages({ locale: typedLocale });
+  const messages = await getMessages();
 
   return (
     <html
-      lang={typedLocale}
+      lang="ua"
       suppressHydrationWarning
       className={`${inter.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-primary text-primary">
         <NextIntlClientProvider messages={messages}>
-          <LocaleProvider defaultLocale={typedLocale}>
+          <LocaleProvider defaultLocale="ua">
             <BookingProvider>
               <div className="flex min-h-screen flex-col">
                 <Header />
