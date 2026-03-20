@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import { Hero } from "@/components/home/Hero";
 import { RoomsPreview } from "@/components/home/RoomsPreview";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
-import { GallerySection } from "@/features/gallery/GallerySection";
 import { StructuredData } from "@/components/seo/StructuredData";
 import {
   createMetadata,
@@ -32,6 +31,11 @@ const ClientWidgets = dynamic(
 const AIConcierge = dynamic(
   () => import("@/features/concierge/AIConcierge").then((mod) => mod.AIConcierge),
   { loading: () => null }
+);
+
+const GallerySection = dynamic(
+  () => import("@/features/gallery/GallerySection").then((mod) => mod.GallerySection),
+  { loading: () => <div className="h-96" /> }
 );
 
 export async function generateMetadata(): Promise<Metadata> {

@@ -32,10 +32,11 @@ export async function Hero() {
           decoding="async"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
           className="object-cover object-center"
-          quality={60}
+          quality={80}
           loading="eager"
           placeholder="blur"
           blurDataURL="data:image/webp;base64,UklGRkYAAABXRUJQVlA4IEoAAADQAQCdASoQABAADgCdAScABEYnAP+H/wP8A/v/8A/wP+A/4H/AP8D/gf8A"
+          style={{ objectPosition: 'center 20%' }}
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>
