@@ -137,7 +137,7 @@ export function AIConcierge() {
           >
             <MessageSquare className="h-5 w-5 text-accent-red" />
             <span className="hidden text-xs uppercase tracking-[0.22em] sm:inline-block">
-              {t("label")}
+              {t("concierge.label")}
             </span>
           </motion.button>
         )}
@@ -167,9 +167,9 @@ export function AIConcierge() {
                     <Sparkles className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-foreground">{t("label")}</p>
+                    <p className="text-foreground">{t("concierge.label")}</p>
                     <p className="text-xs uppercase tracking-[0.18em] text-secondary">
-                      {t("online")}
+                      {t("concierge.online")}
                     </p>
                   </div>
                 </div>
