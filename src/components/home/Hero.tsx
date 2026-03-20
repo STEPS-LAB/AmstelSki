@@ -33,6 +33,7 @@ export function Hero() {
           alt="AmstelSki exterior at night"
           fill
           priority
+          fetchPriority="high"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover object-center"
           quality={85}

@@ -15,11 +15,16 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "cyrillic"],
+  display: "swap",
+  preload: true,
+  weight: "variable",
 });
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin", "cyrillic"],
+  display: "swap",
+  preload: true,
   weight: ["500", "600", "700", "800"],
 });
 
@@ -43,6 +48,15 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${inter.variable} ${montserrat.variable} h-full antialiased`}
     >
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero.webp"
+          imageSrcSet="/images/hero.webp 256w, /images/hero.webp 512w, /images/hero.webp 800w, /images/hero.webp 1200w, /images/hero.webp 1600w"
+          imageSizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+      </head>
       <body className="min-h-full bg-primary text-primary">
         <NextIntlClientProvider messages={messages}>
           <LocaleProvider defaultLocale="ua">
