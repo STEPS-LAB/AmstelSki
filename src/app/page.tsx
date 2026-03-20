@@ -17,7 +17,7 @@ import {
 } from "@/lib/seo";
 import { cookies } from "next/headers";
 
-// Lazy load below-the-fold components to reduce initial bundle
+// Lazy load below-the-fold and non-critical components
 const GalleryGrid = dynamic(
   () => import("@/features/gallery/GalleryGrid").then((mod) => mod.GalleryGrid),
   { loading: () => <SectionSkeleton /> }
@@ -26,6 +26,16 @@ const GalleryGrid = dynamic(
 const TestimonialsSlider = dynamic(
   () => import("@/features/testimonials/TestimonialsSlider").then((mod) => mod.TestimonialsSlider),
   { loading: () => <SectionSkeleton /> }
+);
+
+const ClientWidgets = dynamic(
+  () => import("@/components/layout/ClientWidgets").then((mod) => mod.ClientWidgets),
+  { loading: () => null }
+);
+
+const AIConcierge = dynamic(
+  () => import("@/features/concierge/AIConcierge").then((mod) => mod.AIConcierge),
+  { loading: () => null }
 );
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -78,6 +88,8 @@ export default async function HomePage() {
       </section>
 
       <TestimonialsSlider />
+      <ClientWidgets />
+      <AIConcierge />
     </>
   );
 }

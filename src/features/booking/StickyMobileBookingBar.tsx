@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useScroll } from "framer-motion";
+import { useScroll } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -33,20 +33,17 @@ export function StickyMobileBookingBar() {
   if (!isMobile) return null;
 
   return (
-    <AnimatePresence>
+    <>
       {isVisible && (
-        <motion.div
-          className="fixed inset-x-0 bottom-0 z-30 border-t border-black/14 bg-white/90 p-3 backdrop-blur"
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+        <div
+          className="fixed inset-x-0 bottom-0 z-30 border-t border-black/14 bg-white/90 p-3 backdrop-blur transition-transform duration-300"
+          style={{ transform: isVisible ? "translateY(0)" : "translateY(100%)" }}
         >
           <Button className="w-full" onClick={() => openBooking()}>
             {t("sticky")}
           </Button>
-        </motion.div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }

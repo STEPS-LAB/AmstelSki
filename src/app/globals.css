@@ -47,6 +47,14 @@ body {
   padding: 0;
 }
 
+/* Critical Hero Booking Bar styles - prevent layout shift */
+.glass-panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.9));
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 24px 120px rgba(0, 0, 0, 0.08);
+}
+
 /* Transition utilities - critical for interactive elements */
 a,
 button {
@@ -110,13 +118,6 @@ button {
 
 .accent-red {
   color: var(--accent-red);
-}
-
-.glass-panel {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.9));
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 24px 120px rgba(0, 0, 0, 0.08);
 }
 
 .section-border {

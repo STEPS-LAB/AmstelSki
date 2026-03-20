@@ -16,15 +16,14 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
-    qualities: [70, 85],
     formats: ["image/webp", "image/avif"],
   },
   typedRoutes: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },
-  // Reduce unused JavaScript by optimizing bundle
   poweredByHeader: false,
+  compress: true,
 };
 
 export default withNextIntl(nextConfig);
