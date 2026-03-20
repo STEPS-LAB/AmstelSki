@@ -1,12 +1,25 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useAppLocale } from "./LocaleProvider";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { Link } from "@/i18n/navigation";
-import { navigationItems, contactDetails } from "@/lib/content/site-content";
-import type { AppLocale } from "@/i18n/routing";
+import { contactDetails } from "@/lib/content/site-content";
 import { pickLocalized } from "@/lib/i18n";
+import type { AppLocale } from "@/i18n/routing";
 import { Container } from "@/components/ui/container";
 
-export async function Footer({ locale }: { locale: AppLocale }) {
-  const t = await getTranslations();
+const navigationItems = [
+  { href: "/", labelKey: "navigation.home" },
+  { href: "/#about", labelKey: "navigation.about" },
+  { href: "/#rooms", labelKey: "navigation.rooms" },
+  { href: "/#services", labelKey: "navigation.services" },
+  { href: "/#gallery", labelKey: "navigation.gallery" },
+  { href: "/contacts", labelKey: "navigation.contacts" },
+] as const;
+
+export function Footer() {
+  const { locale } = useAppLocale();
+  const t = useClientTranslations();
 
   return (
     <footer className="bg-[#1A1A1A] pb-20 md:pb-0">

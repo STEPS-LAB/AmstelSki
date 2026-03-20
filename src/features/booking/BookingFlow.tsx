@@ -3,8 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Calendar, Loader2 } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { useState, useMemo, useEffect } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { MotionReveal } from "@/components/animation/MotionReveal";
@@ -19,11 +18,10 @@ import {
   toDateValue,
 } from "@/lib/booking/suggestions";
 import type { BookingStayInput, GuestDetailsInput } from "@/lib/booking/validation";
-import type { AppLocale } from "@/i18n/routing";
 import { roomAmenityLabels, rooms, type Room } from "@/lib/content/rooms";
-import { pickLocalized } from "@/lib/i18n";
 import type { BookingSuggestionType } from "@/lib/booking/types";
-import { BookingSummary } from "./BookingSummary";
+import { useAppLocale } from "@/components/layout/LocaleProvider";
+import { useTranslations } from "next-intl";
 
 type Step = 0 | 1 | 2 | 3;
 
@@ -45,7 +43,7 @@ export function BookingFlow({
   suggestionType?: BookingSuggestionType;
   initialStay?: Partial<BookingStayInput>;
 }) {
-  const locale = useLocale() as AppLocale;
+  const { locale } = useAppLocale();
   const t = useTranslations("booking");
   const [step, setStep] = useState<Step>(0);
   const [selectedRoomSlug, setSelectedRoomSlug] = useState<string | undefined>(
@@ -140,37 +138,23 @@ export function BookingFlow({
   }
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-      <div className="space-y-4">
-        <div className="flex items-center gap-1 pb-1">
-          {steps.map((label, index) => (
-            <div
-              key={label}
-              className={`flex-1 rounded-full px-2 py-1 text-center text-[9px] uppercase tracking-[0.2em] ${
-                step === index
-                  ? "bg-accent-red text-white"
-                  : "border border-black/10 bg-black/5 text-foreground/55"
-              }`}
-            >
-              {t(label)}
-            </div>
-          ))}
-        </div>
+    <div className="space-y-4">
+      <div className="flex items-center gap-1 pb-1">
+        {steps.map((label, index) => (
+          <div
+            key={label}
+            className={`flex-1 rounded-full px-2 py-1 text-center text-[9px] uppercase tracking-[0.2em] ${
+              step === index
+                ? "bg-accent-red text-white"
+                : "border border-black/10 bg-black/5 text-foreground/55"
+            }`}
+          >
+            {t(steps[index])}
+          </div>
+        ))}
+      </div>
 
-        <div className="lg:hidden">
-          <BookingSummary
-            stay={{
-              checkIn: stayValues.checkIn ?? stayDefaults.checkIn,
-              checkOut: stayValues.checkOut ?? stayDefaults.checkOut,
-              adults: stayValues.adults ?? stayDefaults.adults,
-              children: stayValues.children ?? stayDefaults.children,
-            }}
-            room={selectedRoom}
-            className="bg-black/20"
-          />
-        </div>
-
-        <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait">
           {step === 0 ? (
             <motion.div
               key="stay"
@@ -180,84 +164,83 @@ export function BookingFlow({
               className="space-y-3"
             >
               <Panel className="grid gap-3 p-3 sm:p-6">
-                <Popover
-                  isOpen={isDatePopoverOpen}
-                  onOpenChange={setIsDatePopoverOpen}
-                  align="start"
-                  content={
-                    <div className="space-y-4">
-                      <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">
-                        {t("selectDates")}
-                      </p>
-                      <div className="space-y-3">
-                        <div>
-                          <label className="mb-1 block text-sm text-foreground">
-                            {t("checkInLabel")}
-                          </label>
-                          <div className="relative">
-                            <input
-                              type="date"
-                              className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
-                              value={stayValues.checkIn}
-                              onChange={(event) => {
-                                stayForm.setValue("checkIn", event.target.value);
-                                if (new Date(event.target.value) >= new Date(stayValues.checkOut)) {
-                                  stayForm.setValue("checkOut", toDateValue(addDays(new Date(event.target.value), 1)));
-                                }
-                              }}
-                              min={toDateValue(new Date())}
-                            />
-                            <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground/40" />
-                            <button
-                              type="button"
-                              className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                const input = e.currentTarget.previousSibling as HTMLInputElement;
-                                input?.showPicker?.();
-                              }}
-                            />
+                <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
+                  <span>{t("dates")}</span>
+                  <Popover
+                    isOpen={isDatePopoverOpen}
+                    onOpenChange={setIsDatePopoverOpen}
+                    align="start"
+                    content={
+                      <div className="space-y-4">
+                        <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">
+                          {t("selectDates")}
+                        </p>
+                        <div className="space-y-3">
+                          <div>
+                            <label className="mb-1 block text-sm text-foreground">
+                              {t("checkInLabel")}
+                            </label>
+                            <div className="relative">
+                              <input
+                                type="date"
+                                className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
+                                value={stayValues.checkIn}
+                                onChange={(event) => {
+                                  stayForm.setValue("checkIn", event.target.value);
+                                  if (stayValues.checkOut && new Date(event.target.value) >= new Date(stayValues.checkOut)) {
+                                    stayForm.setValue("checkOut", toDateValue(addDays(new Date(event.target.value), 1)));
+                                  }
+                                }}
+                                min={toDateValue(new Date())}
+                              />
+                              <button
+                                type="button"
+                                className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const input = e.currentTarget.previousSibling as HTMLInputElement;
+                                  input?.showPicker?.();
+                                }}
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div>
-                          <label className="mb-1 block text-sm text-foreground">
-                            {t("checkOutLabel")}
-                          </label>
-                          <div className="relative">
-                            <input
-                              type="date"
-                              className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
-                              value={stayValues.checkOut}
-                              min={stayValues.checkIn}
-                              onChange={(event) => stayForm.setValue("checkOut", event.target.value)}
-                            />
-                            <Calendar className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-foreground/40" />
-                            <button
-                              type="button"
-                              className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                const input = e.currentTarget.previousSibling as HTMLInputElement;
-                                input?.showPicker?.();
-                              }}
-                            />
+                          <div>
+                            <label className="mb-1 block text-sm text-foreground">
+                              {t("checkOutLabel")}
+                            </label>
+                            <div className="relative">
+                              <input
+                                type="date"
+                                className="h-12 w-full rounded-sm border border-black/10 bg-black/5 pl-4 pr-10 text-sm text-foreground outline-none placeholder:text-foreground/35 focus:border-accent-red [&::-webkit-calendar-picker-indicator]:opacity-0"
+                                value={stayValues.checkOut}
+                                min={stayValues.checkIn}
+                                onChange={(event) => stayForm.setValue("checkOut", event.target.value)}
+                              />
+                              <button
+                                type="button"
+                                className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const input = e.currentTarget.previousSibling as HTMLInputElement;
+                                  input?.showPicker?.();
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  }
-                >
-                  <button
-                    type="button"
-                    className="flex h-12 w-full items-center gap-3 rounded-sm border border-black/10 bg-black/5 px-4 text-left text-sm text-foreground/70 transition-colors hover:bg-black/[0.08]"
+                    }
                   >
-                    <Calendar className="h-5 w-5 flex-shrink-0 text-foreground/60" />
-                    <span className="whitespace-nowrap text-xs">{t("dates")}:</span>
-                    <span className="ml-auto font-medium text-foreground text-sm">
-                      {displayCheckIn} — {displayCheckOut}
-                    </span>
-                  </button>
-                </Popover>
+                    <button
+                      type="button"
+                      className="flex h-12 w-full items-center justify-between rounded-sm border border-black/10 bg-black/5 px-4 text-left text-sm text-foreground/70 transition-colors hover:bg-black/[0.08]"
+                    >
+                      <span className="font-medium text-foreground text-sm">
+                        {displayCheckIn} — {displayCheckOut}
+                      </span>
+                    </button>
+                  </Popover>
+                </label>
                 <label className="space-y-1.5 text-[10px] text-foreground/80 sm:text-sm">
                   <span>{t("guests")}</span>
                   <div className="flex h-12 items-center rounded-sm border border-black/10 bg-black/5 px-4">
@@ -265,15 +248,15 @@ export function BookingFlow({
                       <button
                         type="button"
                         className="flex h-10 w-12 items-center justify-center text-xl text-foreground/70"
-                        onClick={() => stayForm.setValue("adults", Math.max(1, stayValues.adults - 1))}
+                        onClick={() => stayForm.setValue("adults", Math.max(1, (stayValues.adults ?? 2) - 1))}
                       >
                         −
                       </button>
-                      <span className="w-8 text-center text-sm font-medium text-foreground">{stayValues.adults}</span>
+                      <span className="w-8 text-center text-sm font-medium text-foreground">{stayValues.adults ?? 2}</span>
                       <button
                         type="button"
                         className="flex h-10 w-12 items-center justify-center text-xl text-foreground/70"
-                        onClick={() => stayForm.setValue("adults", Math.min(4, stayValues.adults + 1))}
+                        onClick={() => stayForm.setValue("adults", Math.min(4, (stayValues.adults ?? 2) + 1))}
                       >
                         +
                       </button>
@@ -318,15 +301,15 @@ export function BookingFlow({
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
                           <p className="font-serif text-base text-foreground sm:text-2xl">
-                            {pickLocalized(room.name, locale)}
+                            {room.name[locale as "ua" | "en"]}
                           </p>
                           <p className="mt-1 line-clamp-2 text-[10px] leading-5 text-secondary sm:mt-2 sm:text-sm">
-                            {pickLocalized(room.shortDescription, locale)}
+                            {room.shortDescription[locale as "ua" | "en"]}
                           </p>
                         </div>
                         <div className="flex-shrink-0 text-right">
                           <p className="text-[9px] uppercase tracking-[0.2em] text-secondary">
-                            from
+                            {t("from")}
                           </p>
                           <p className="mt-1 text-base text-foreground sm:text-2xl">
                             ₴{room.rateFrom.toLocaleString("uk-UA")}
@@ -339,7 +322,7 @@ export function BookingFlow({
                             key={amenity}
                             className="rounded-full border border-black/10 px-2 py-0.5 text-[9px] uppercase tracking-[0.18em] text-foreground/65 sm:px-3 sm:py-1 sm:text-[11px]"
                           >
-                            {pickLocalized(roomAmenityLabels[amenity], locale)}
+                            {roomAmenityLabels[amenity][locale as "ua" | "en"]}
                           </span>
                         ))}
                       </div>
@@ -422,17 +405,5 @@ export function BookingFlow({
           ) : null}
         </AnimatePresence>
       </div>
-
-      <BookingSummary
-        stay={{
-          checkIn: stayValues.checkIn ?? stayDefaults.checkIn,
-          checkOut: stayValues.checkOut ?? stayDefaults.checkOut,
-          adults: stayValues.adults ?? stayDefaults.adults,
-          children: stayValues.children ?? stayDefaults.children,
-        }}
-        room={selectedRoom}
-        className="hidden lg:block"
-      />
-    </div>
   );
 }

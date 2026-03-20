@@ -1,16 +1,21 @@
 "use client";
 
+import { useEffect, useState, useCallback } from "react";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
 
 type AppLocale = "ua" | "en";
 
 // Translation dictionaries
-const translations: Record<AppLocale, Record<string, Record<string, string>>> = {
+const translations: Record<AppLocale, Record<string, any>> = {
   ua: {
     common: {
       bookNow: "Забронювати",
       close: "Закрити",
       language: "Мова",
+      allRightsReserved: "Всі права захищено.",
+      from: "від",
+      perNight: "за ніч",
+      guests: "гостей",
     },
     navigation: {
       home: "Головна",
@@ -38,6 +43,10 @@ const translations: Record<AppLocale, Record<string, Record<string, string>>> = 
       bookNow: "Book Now",
       close: "Close",
       language: "Language",
+      allRightsReserved: "All rights reserved.",
+      from: "from",
+      perNight: "per night",
+      guests: "guests",
     },
     navigation: {
       home: "Home",
@@ -64,8 +73,15 @@ const translations: Record<AppLocale, Record<string, Record<string, string>>> = 
 
 export function useClientTranslations() {
   const { locale } = useAppLocale();
+  const [, forceUpdate] = useState(0);
 
-  const t = (key: string) => {
+  useEffect(() => {
+    const handleLocaleChange = () => forceUpdate((n) => n + 1);
+    window.addEventListener('locale-change', handleLocaleChange as EventListener);
+    return () => window.removeEventListener('locale-change', handleLocaleChange as EventListener);
+  }, []);
+
+  const t = useCallback((key: string) => {
     const keys = key.split(".");
     let value: Record<string, any> | string = translations[locale];
     
@@ -78,7 +94,7 @@ export function useClientTranslations() {
     }
     
     return typeof value === "string" ? value : key;
-  };
+  }, [locale]);
 
   return t;
 }

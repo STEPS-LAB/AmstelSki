@@ -61,7 +61,7 @@ export default async function RootLayout({
                 <PageTransition>
                   <main className="flex-1">{children}</main>
                 </PageTransition>
-                <Footer locale={locale} />
+                <Footer />
               </div>
               <ClientWidgets />
               <AIConcierge />

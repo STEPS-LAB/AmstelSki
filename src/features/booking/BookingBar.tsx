@@ -2,15 +2,38 @@
 
 import { addDays, format } from "date-fns";
 import { Calendar, Loader2, Users } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
+import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { Button } from "@/components/ui/button";
 import { Popover } from "@/components/ui/popover";
 import { toDateValue } from "@/lib/booking/suggestions";
 import { useBooking } from "./BookingProvider";
 
+const bookingText = {
+  ua: {
+    selectDates: "Оберіть дати",
+    checkIn: "Дата заїзду:",
+    checkOut: "Дата виїзду:",
+    dates: "Дати:",
+    guests: "Гості:",
+    searching: "AI підбирає найкращий номер для вашого відпочинку...",
+    found: "Підходящий номер знайдено. Перенаправляємо до бронювання...",
+    find: "Знайти",
+  },
+  en: {
+    selectDates: "Select dates",
+    checkIn: "Check-in date:",
+    checkOut: "Check-out date:",
+    dates: "Dates:",
+    guests: "Guests:",
+    searching: "AI is finding the best room for your stay...",
+    found: "Suitable room found. Redirecting to booking...",
+    find: "Find",
+  },
+};
+
 export function BookingBar() {
-  const t = useTranslations("booking");
+  const { locale } = useAppLocale();
   const { openBooking } = useBooking();
   const checkInRef = useRef<HTMLInputElement>(null);
   const checkOutRef = useRef<HTMLInputElement>(null);
@@ -21,13 +44,14 @@ export function BookingBar() {
   const [isSearching, setIsSearching] = useState(false);
   const [searchResult, setSearchResult] = useState<"searching" | "found" | null>(null);
 
+  const text = bookingText[locale as "ua" | "en"];
   const displayCheckIn = format(new Date(checkIn), "dd.MM.yyyy");
   const displayCheckOut = format(new Date(checkOut), "dd.MM.yyyy");
 
   const handleFind = () => {
     setIsSearching(true);
     setSearchResult("searching");
-    
+
     setTimeout(() => {
       setSearchResult("found");
       setIsSearching(false);
@@ -44,12 +68,12 @@ export function BookingBar() {
           content={
             <div className="space-y-4">
               <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">
-                Оберіть дати
+                {text.selectDates}
               </p>
               <div className="space-y-3">
                 <div>
                   <label className="mb-1 block text-sm text-foreground">
-                    Дата заїзду:
+                    {text.checkIn}
                   </label>
                   <div className="relative">
                     <input
@@ -79,7 +103,7 @@ export function BookingBar() {
                 </div>
                 <div>
                   <label className="mb-1 block text-sm text-foreground">
-                    Дата виїзду:
+                    {text.checkOut}
                   </label>
                   <div className="relative">
                     <input
@@ -113,7 +137,7 @@ export function BookingBar() {
             disabled={isSearching}
           >
             <Calendar className="h-5 w-5 flex-shrink-0 text-foreground/60" />
-            <span className="whitespace-nowrap">Дати:</span>
+            <span className="whitespace-nowrap">{text.dates}</span>
             <span className="ml-auto font-medium text-foreground">
               {displayCheckIn} — {displayCheckOut}
             </span>
@@ -124,7 +148,7 @@ export function BookingBar() {
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-3">
               <Users className="h-5 w-5 flex-shrink-0 text-foreground/60" />
-              <span className="whitespace-nowrap text-sm text-foreground/70">Гості:</span>
+              <span className="whitespace-nowrap text-sm text-foreground/70">{text.guests}</span>
             </div>
             <div className="flex items-center gap-0">
               <button
@@ -156,7 +180,7 @@ export function BookingBar() {
           {isSearching ? (
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
-            t("find")
+            text.find
           )}
         </Button>
       </div>
@@ -164,14 +188,14 @@ export function BookingBar() {
       {searchResult === "searching" && (
         <div className="mt-3 flex items-center gap-2 text-sm text-foreground/70">
           <Loader2 className="h-4 w-4 animate-spin text-accent-red" />
-          <span>AI підбирає найкращий номер для вашого відпочинку...</span>
+          <span>{text.searching}</span>
         </div>
       )}
 
       {searchResult === "found" && (
         <div className="mt-3 flex items-center gap-2 text-sm text-foreground/70">
           <span className="h-2 w-2 rounded-full bg-green-500" />
-          <span>Підходящий номер знайдено. Перенаправляємо до бронювання...</span>
+          <span>{text.found}</span>
         </div>
       )}
     </div>

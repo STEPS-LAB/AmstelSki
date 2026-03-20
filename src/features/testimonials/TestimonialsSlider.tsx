@@ -2,24 +2,33 @@
 
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import type { AppLocale } from "@/i18n/routing";
+import { useAppLocale } from "@/components/layout/LocaleProvider";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { testimonials } from "@/lib/content/site-content";
-import { pickLocalized } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
 
+const sectionContent = {
+  ua: {
+    title: "Відгуки",
+  },
+  en: {
+    title: "Reviews",
+  },
+};
+
 export function TestimonialsSlider() {
-  const locale = useLocale() as AppLocale;
-  const t = useTranslations("sections");
+  const { locale } = useAppLocale();
+  const t = useClientTranslations();
+  const content = sectionContent[locale as "ua" | "en"];
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: "start" });
 
   return (
     <section className="bg-black/[0.03] py-24">
       <Container className="space-y-10">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionIntro title={t("testimonialsTitle")} />
+          <SectionIntro title={content.title} />
           <div className="flex gap-3">
             <Button variant="secondary" className="bg-white hover:bg-white/90" onClick={() => emblaApi?.scrollPrev()}>
               <ChevronLeft className="h-4 w-4" />
@@ -44,7 +53,7 @@ export function TestimonialsSlider() {
                     ))}
                   </div>
                   <p className="mt-5 flex-1 font-serif text-xl leading-tight text-foreground">
-                    "{pickLocalized(item.quote, locale)}"
+                    "{item.quote[locale as "ua" | "en"]}"
                   </p>
                   <p className="mt-6 text-sm uppercase tracking-[0.22em] text-accent-red">
                     {item.author}

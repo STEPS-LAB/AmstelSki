@@ -43,7 +43,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const locale = await getLocaleFromCookie();
   const messages = await getMessages({ locale });
-  const t = await getTranslations();
   const galleryImages = rooms.flatMap((room) => room.gallery).slice(0, 5);
 
   return (
@@ -51,24 +50,24 @@ export default async function HomePage() {
       <StructuredData data={hotelJsonLd(locale)} />
       <StructuredData data={localBusinessJsonLd(locale)} />
       <StructuredData data={reviewJsonLd(locale)} />
-      <Hero locale={locale} />
+      <Hero />
       <div id="about">
-        <StorytellingSection locale={locale} />
+        <StorytellingSection />
       </div>
       <div id="rooms">
-        <RoomsPreview locale={locale} />
+        <RoomsPreview />
       </div>
       <div id="services">
-        <ServicesOverview locale={locale} />
+        <ServicesOverview />
       </div>
 
       <section id="gallery" className="py-24">
         <Container className="space-y-10">
           <SectionIntro
-            title={t("sections.galleryTitle")}
-            copy={t("sections.galleryCopy")}
+            title="Галерея"
+            copy="Перегляньте наші номери та послуги"
           />
-          <GalleryGrid images={galleryImages} title={t("sections.galleryTitle")} />
+          <GalleryGrid images={galleryImages} title="Галерея" />
         </Container>
       </section>
 

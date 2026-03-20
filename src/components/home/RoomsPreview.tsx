@@ -1,21 +1,36 @@
-import { getTranslations } from "next-intl/server";
-import type { AppLocale } from "@/i18n/routing";
+"use client";
+
+import { useAppLocale } from "@/components/layout/LocaleProvider";
+import { useClientTranslations } from "@/hooks/useClientTranslations";
 import { getFeaturedRooms } from "@/lib/content/rooms";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { RoomCard } from "@/components/rooms/RoomCard";
 
-export async function RoomsPreview({ locale }: { locale: AppLocale }) {
-  const t = await getTranslations("sections");
+const sectionContent = {
+  ua: {
+    title: "Номери",
+    copy: "Оберіть ідеальний простір для вашого відпочинку в Буковелі",
+  },
+  en: {
+    title: "Rooms",
+    copy: "Choose the perfect space for your stay in Bukovel",
+  },
+};
+
+export function RoomsPreview() {
+  const { locale } = useAppLocale();
+  const t = useClientTranslations();
+  const content = sectionContent[locale as "ua" | "en"];
   const rooms = getFeaturedRooms();
 
   return (
     <section className="section-border py-24">
       <Container className="space-y-12">
-        <SectionIntro title={t("roomsTitle")} copy={t("roomsCopy")} />
+        <SectionIntro title={content.title} copy={content.copy} />
         <div className="grid gap-6 lg:grid-cols-3">
           {rooms.slice(0, 3).map((room) => (
-            <RoomCard key={room.slug} room={room} locale={locale} />
+            <RoomCard key={room.slug} room={room} />
           ))}
         </div>
       </Container>

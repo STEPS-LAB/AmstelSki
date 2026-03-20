@@ -1,10 +1,11 @@
+"use client";
+
 import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 import { differenceInCalendarDays, format } from "date-fns";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { Panel } from "@/components/ui/panel";
-import type { AppLocale } from "@/i18n/routing";
-import { pickLocalized } from "@/lib/i18n";
 import type { Room } from "@/lib/content/rooms";
 import type { BookingStay } from "@/lib/booking/types";
 
@@ -18,7 +19,7 @@ export function BookingSummary({
   room?: Room;
   className?: string;
 } & HTMLAttributes<HTMLDivElement>) {
-  const locale = useLocale() as AppLocale;
+  const { locale } = useAppLocale();
   const t = useTranslations("booking");
   const nights = Math.max(
     1,
@@ -35,7 +36,7 @@ export function BookingSummary({
           {t("stepConfirm")}
         </p>
         <p className="mt-1.5 text-base text-foreground sm:mt-2 sm:text-xl">
-          {room ? pickLocalized(room.name, locale) : t("selectRoom")}
+          {room ? room.name[locale as "ua" | "en"] : t("selectRoom")}
         </p>
       </div>
       <dl className="space-y-2 text-xs text-foreground/75 sm:space-y-3 sm:text-sm">
@@ -55,7 +56,7 @@ export function BookingSummary({
       {room ? (
         <div className="border-t border-black/10 pt-3 sm:pt-4">
           <p className="text-[10px] uppercase tracking-[0.22em] text-secondary">
-            {locale === "ua" ? "Тариф" : "Rate"}
+            {t("rate")}
           </p>
           <p className="mt-1.5 text-lg text-foreground sm:mt-2 sm:text-2xl">{room.rateFrom.toLocaleString("uk-UA")} ₴</p>
         </div>

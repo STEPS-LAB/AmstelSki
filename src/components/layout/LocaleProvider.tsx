@@ -28,6 +28,8 @@ export function LocaleProvider({ children, defaultLocale }: { children: ReactNod
     if (mounted) {
       localStorage.setItem("locale", locale);
       document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000`;
+      // Dispatch event to notify other components
+      window.dispatchEvent(new CustomEvent('locale-change', { detail: { locale } }));
     }
   }, [locale, mounted]);
 
