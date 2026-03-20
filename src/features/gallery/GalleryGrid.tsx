@@ -31,6 +31,7 @@ export function GalleryGrid({
                 src={image}
                 alt={`${title ?? "Gallery"} ${index + 1}`}
                 fill
+                sizes={index === 0 ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" : "(max-width: 640px) 50vw, 25vw"}
                 className="object-cover transition duration-700 group-hover:scale-[1.04]"
               />
             </div>

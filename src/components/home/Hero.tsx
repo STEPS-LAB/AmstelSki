@@ -29,11 +29,13 @@ export function Hero() {
     <section className="relative h-[calc(100vh-80px)] border-b border-black/14">
       <div className="absolute inset-0 -top-20 overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=2000&q=80"
+          src="/images/hero.webp"
           alt="AmstelSki exterior at night"
           fill
           priority
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover object-center"
+          quality={85}
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>

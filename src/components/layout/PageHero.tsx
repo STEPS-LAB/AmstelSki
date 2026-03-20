@@ -16,7 +16,7 @@ export function PageHero({
   return (
     <section className="relative overflow-hidden border-b border-black/14 -mt-20">
       <div className="absolute inset-0">
-        <Image src={image} alt={title} fill className="object-cover" />
+        <Image src={image} alt={title} fill sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60" />
       </div>
