@@ -16,7 +16,7 @@ export function RoomCard({
   const t = useClientTranslations();
 
   return (
-    <article className="group overflow-hidden rounded-sm border border-black/10 bg-black/[0.03]">
+    <article className="group flex flex-col overflow-hidden rounded-sm border border-black/10 bg-black/[0.03]">
       <div className="relative aspect-[8/9] overflow-hidden">
         <Image
           src={room.heroImage}
@@ -32,14 +32,16 @@ export function RoomCard({
           <p className="font-serif text-3xl text-foreground">{room.name[locale as "ua" | "en"]}</p>
         </div>
       </div>
-      <div className="space-y-5 p-5">
-        <p className="text-sm leading-6 text-foreground/72">
-          {room.shortDescription[locale as "ua" | "en"]}
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {room.highlights[locale as "ua" | "en"].map((item) => (
-            <Badge key={item}>{item}</Badge>
-          ))}
+      <div className="flex flex-1 flex-col justify-between space-y-5 p-5">
+        <div className="space-y-5">
+          <p className="text-sm leading-6 text-foreground/72">
+            {room.shortDescription[locale as "ua" | "en"]}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {room.highlights[locale as "ua" | "en"].map((item) => (
+              <Badge key={item}>{item}</Badge>
+            ))}
+          </div>
         </div>
         <div className="flex items-center justify-between gap-4 border-t border-black/10 pt-4">
           <div>

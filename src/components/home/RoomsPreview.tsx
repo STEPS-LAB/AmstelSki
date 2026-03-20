@@ -30,7 +30,9 @@ export function RoomsPreview() {
         <SectionIntro title={content.title} copy={content.copy} />
         <div className="grid gap-6 lg:grid-cols-3">
           {rooms.slice(0, 3).map((room) => (
-            <RoomCard key={room.slug} room={room} />
+            <div key={room.slug} className="flex h-full">
+              <RoomCard room={room} />
+            </div>
           ))}
         </div>
       </Container>
