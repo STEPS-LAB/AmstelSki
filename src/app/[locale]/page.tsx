@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
-import { getMessages, getTranslations } from "next-intl/server";
+import { getMessages } from "next-intl/server";
 import { Hero } from "@/components/home/Hero";
 import { RoomsPreview } from "@/components/home/RoomsPreview";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
@@ -19,15 +18,12 @@ import {
   reviewJsonLd,
 } from "@/lib/seo";
 
-async function getLocaleFromCookie(): Promise<AppLocale> {
-  const cookieStore = await headers();
-  const cookies = cookieStore.get("cookie");
-  const match = cookies?.match(/NEXT_LOCALE=(ua|en)/);
-  return match ? (match[1] as AppLocale) : "ua";
-}
-
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getLocaleFromCookie();
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: AppLocale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
 
   return createMetadata({
     locale,
@@ -40,8 +36,12 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default async function HomePage() {
-  const locale = await getLocaleFromCookie();
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: AppLocale }>;
+}) {
+  const { locale } = await params;
   const messages = await getMessages({ locale });
   const galleryImages = rooms.flatMap((room) => room.gallery).slice(0, 5);
 

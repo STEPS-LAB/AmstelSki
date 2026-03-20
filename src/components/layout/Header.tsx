@@ -28,7 +28,15 @@ export function Header() {
   const pathname = usePathname();
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  const isContactsPage = pathname.includes("/contacts");
+  const isContactsPage = pathname.includes("/contacts") || pathname === `/${locale}/contacts`;
+
+  // Add locale prefix to navigation items
+  const localizedNavItems = navigationItems.map((item) => ({
+    ...item,
+    href: item.href.startsWith("/#") || item.href === "/"
+      ? `/${locale}${item.href === "/" ? "" : item.href}`
+      : `/${locale}${item.href}`,
+  }));
 
   useEffect(() => {
     const unsubscribe = scrollY.onChange((latest) => {
@@ -67,7 +75,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">
-          {navigationItems.map((item) => (
+          {localizedNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}

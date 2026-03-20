@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { headers } from "next/headers";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ClientWidgets } from "@/components/layout/ClientWidgets";
@@ -31,30 +30,30 @@ export const metadata: Metadata = {
     "AmstelSki in Bukovel is a little Holland in the heart of the Carpathians, with rooms near lifts 2 and 5, restaurant De Molen, ski storage, and attentive service.",
 };
 
-async function getLocaleFromCookie(): Promise<AppLocale> {
-  const cookieStore = await headers();
-  const cookies = cookieStore.get("cookie");
-  const match = cookies?.match(/NEXT_LOCALE=(ua|en)/);
-  return match ? (match[1] as AppLocale) : "ua";
+export function generateStaticParams() {
+  return ["ua", "en"].map((locale) => ({ locale }));
 }
 
 export default async function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-  const locale = await getLocaleFromCookie();
-  const messages = await getMessages({ locale });
+  const { locale } = await params;
+  const typedLocale = locale as AppLocale;
+  const messages = await getMessages({ locale: typedLocale });
 
   return (
     <html
-      lang={locale}
+      lang={typedLocale}
       suppressHydrationWarning
       className={`${inter.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-primary text-primary">
         <NextIntlClientProvider messages={messages}>
-          <LocaleProvider defaultLocale={locale}>
+          <LocaleProvider defaultLocale={typedLocale}>
             <BookingProvider>
               <div className="flex min-h-screen flex-col">
                 <Header />
