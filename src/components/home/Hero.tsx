@@ -34,7 +34,8 @@ export function Hero() {
           fill
           priority
           fetchPriority="high"
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 800px"
+          decoding="async"
+          sizes="100vw"
           className="object-cover object-center"
           quality={85}
         />

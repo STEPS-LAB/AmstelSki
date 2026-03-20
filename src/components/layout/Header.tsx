@@ -1,6 +1,5 @@
 "use client";
 
-import { useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -24,43 +23,35 @@ export function Header() {
   const { locale } = useAppLocale();
   const t = useClientTranslations();
   const { openBooking } = useBooking();
-  const { scrollY } = useScroll();
   const pathname = usePathname();
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
 
   const isContactsPage = pathname === "/contacts";
+  const isDark = isContactsPage ? false : !scrolled;
 
   useEffect(() => {
-    const unsubscribe = scrollY.onChange((latest) => {
-      const heroHeight = typeof window !== "undefined" ? window.innerHeight : 0;
-      const progress = Math.min(Math.max(latest / (heroHeight * 0.7), 0), 1);
-      setScrollProgress(progress);
-    });
-    return () => unsubscribe();
-  }, [scrollY]);
-
-  const bgOpacity = 0.1 + scrollProgress * 0.8;
-  const isDark = isContactsPage ? false : scrollProgress < 0.3;
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <header
-      className="sticky top-0 z-40 transition-colors duration-500"
-      style={{
-        backgroundColor: isDark
-          ? `rgba(26, 26, 26, ${0.3 - scrollProgress * 0.2})`
-          : `rgba(255, 255, 255, ${bgOpacity})`,
-        borderBottomWidth: '1px',
-        borderColor: isDark
-          ? 'rgba(255, 255, 255, 0)'
-          : `rgba(0, 0, 0, ${0.1 + scrollProgress * 0.05})`,
-        backdropFilter: 'blur(24px)',
-      }}
+      className={`sticky top-0 z-40 transition-all duration-300 ${
+        isDark
+          ? "bg-[#1A1A1A]/70 border-b border-transparent"
+          : "bg-white/90 border-b border-black/10"
+      } backdrop-blur-md`}
     >
       <Container className="flex h-20 items-center justify-between gap-4">
         <Link href="/" className="flex flex-col">
           <span
-            className="font-serif text-3xl leading-none transition-colors duration-500"
-            style={{ color: isDark ? '#FFFFFF' : 'var(--foreground)' }}
+            className={`font-serif text-3xl leading-none transition-colors duration-300 ${
+              isDark ? "text-white" : "text-foreground"
+            }`}
           >
             AmstelSki
           </span>
@@ -71,16 +62,9 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm transition-colors duration-500"
-              style={{
-                color: isDark ? `rgba(255, 255, 255, 0.75)` : 'var(--foreground-secondary)',
-              }}
-              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                e.currentTarget.style.color = isDark ? '#FFFFFF' : 'var(--foreground)';
-              }}
-              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                e.currentTarget.style.color = isDark ? `rgba(255, 255, 255, 0.75)` : 'var(--foreground-secondary)';
-              }}
+              className={`text-sm transition-colors duration-300 ${
+                isDark ? "text-white/75 hover:text-white" : "text-foreground-secondary hover:text-foreground"
+              }`}
             >
               {t(item.labelKey)}
             </Link>

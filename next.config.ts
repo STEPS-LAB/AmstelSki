@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const nextConfig: NextConfig = {
   experimental: {
     viewTransition: true,
+    optimizePackageImports: ["lucide-react", "framer-motion"],
   },
   images: {
     remotePatterns: [
@@ -15,8 +16,12 @@ const nextConfig: NextConfig = {
       },
     ],
     qualities: [75, 85],
+    formats: ["image/webp", "image/avif"],
   },
   typedRoutes: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
 };
 
 export default withNextIntl(nextConfig);
