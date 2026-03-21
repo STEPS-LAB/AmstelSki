@@ -53,9 +53,24 @@ export default async function RootLayout({
         {/* Preconnect to Unsplash for images */}
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
 
-        {/* Preconnect to Google Fonts */}
+        {/* Preload hero image for faster LCP */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero.webp"
+          imageSrcSet="/images/hero.webp?w=640 640w, /images/hero.webp?w=1024 1024w, /images/hero.webp?w=1920 1920w"
+          imageSizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
+          fetchPriority="high"
+        />
+
+        {/* Preload Google Fonts CSS */}
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="style"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap"
+        />
       </head>
       <body className="min-h-full bg-primary text-primary">
         <NextIntlClientProvider messages={messages}>

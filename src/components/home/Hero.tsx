@@ -29,13 +29,15 @@ export async function Hero() {
           fill
           priority
           fetchPriority="high"
-          decoding="async"
+          decoding="sync"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
           className="object-cover object-center"
-          quality={60}
+          quality={75}
           placeholder="blur"
           blurDataURL="data:image/webp;base64,UklGRkYAAABXRUJQVlA4IEoAAADQAQCdASoQABAADgCdAScABEYnAP+H/wP8A/v/8A/wP+A/4H/AP8D/gf8A"
           style={{ objectPosition: 'center 20%' }}
+          width={1920}
+          height={1080}
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>

@@ -33,6 +33,14 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages}>
       <BookingProvider>
         <div className="flex min-h-screen flex-col">
+          <link
+            rel="preload"
+            as="image"
+            href="/images/hero.webp"
+            imageSrcSet="/images/hero.webp?w=640 640w, /images/hero.webp?w=1024 1024w, /images/hero.webp?w=1920 1920w"
+            imageSizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
+            fetchPriority="high"
+          />
           <Header />
           <PageTransition>
             <main className="flex-1">{children}</main>

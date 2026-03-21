@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   experimental: {
     viewTransition: true,
     optimizePackageImports: ["lucide-react", "framer-motion", "date-fns"],
+    // Optimize CSS delivery
+    optimizeCss: true,
   },
   images: {
     remotePatterns: [
@@ -30,6 +32,14 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   staticPageGenerationTimeout: 60,
+  // Enable React production optimizations
+  reactProductionProfiling: false,
+  // Optimize module resolution
+  modularizeImports: {
+    "lucide-react": {
+      transform: "lucide-react/dist/esm/icons/{{kebabCase member}}",
+    },
+  },
   headers: async () => [
     {
       source: "/images/:path*",
@@ -37,6 +47,10 @@ const nextConfig: NextConfig = {
         {
           key: "Cache-Control",
           value: "public, max-age=31536000, immutable",
+        },
+        {
+          key: "X-Content-Type-Options",
+          value: "nosniff",
         },
       ],
     },
@@ -46,6 +60,19 @@ const nextConfig: NextConfig = {
         {
           key: "Cache-Control",
           value: "public, max-age=3600, must-revalidate",
+        },
+        {
+          key: "X-Content-Type-Options",
+          value: "nosniff",
+        },
+      ],
+    },
+    {
+      source: "/_next/static/:path*",
+      headers: [
+        {
+          key: "Cache-Control",
+          value: "public, max-age=31536000, immutable",
         },
       ],
     },
