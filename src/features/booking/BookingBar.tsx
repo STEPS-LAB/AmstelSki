@@ -155,7 +155,7 @@ export const BookingBar = memo(function BookingBar() {
             disabled={isSearching}
             aria-label={text.dates}
           >
-            <Calendar className="flex-shrink-0 text-foreground/60" style={{ width: "1rem", height: "1rem" }} />
+            <Calendar className="h-4 w-4 flex-shrink-0 text-foreground/60" />
             <span className="whitespace-nowrap text-xs sm:text-sm text-foreground/70">{text.dates}</span>
             <span className="ml-auto font-medium text-foreground truncate">
               {displayCheckIn} — {displayCheckOut}
@@ -166,7 +166,7 @@ export const BookingBar = memo(function BookingBar() {
         <div className="flex h-12 w-full min-w-0 items-center rounded-sm border border-black/10 bg-white pl-3 pr-1 transition-colors hover:bg-gray-50 md:w-[400px]">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
-              <Users className="flex-shrink-0 text-foreground/60" style={{ width: "1rem", height: "1rem" }} />
+              <Users className="h-4 w-4 flex-shrink-0 text-foreground/60" />
               <span className="whitespace-nowrap text-xs sm:text-sm text-foreground/70">{text.guests}</span>
             </div>
             <div className="flex items-center gap-0">
