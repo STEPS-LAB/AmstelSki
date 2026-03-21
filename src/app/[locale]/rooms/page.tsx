@@ -34,7 +34,7 @@ export default async function RoomsPage({
       <section className="py-24">
         <Container className="grid gap-6 lg:grid-cols-3">
           {rooms.map((room) => (
-            <RoomCard key={room.slug} room={room} locale={typedLocale} />
+            <RoomCard key={room.slug} room={room} />
           ))}
         </Container>
       </section>
