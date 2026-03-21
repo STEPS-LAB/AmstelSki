@@ -20,10 +20,10 @@ interface BookingContextValue {
 
 const BookingContext = createContext<BookingContextValue | null>(null);
 
-// Lazy load BookingDrawer - not needed for initial render
+// Lazy load BookingDrawer to avoid hydration mismatch
 const BookingDrawer = dynamic(
   () => import("./BookingDrawer").then((mod) => mod.BookingDrawer),
-  { ssr: false }
+  { ssr: true }
 );
 
 export function BookingProvider({ children }: { children: ReactNode }) {

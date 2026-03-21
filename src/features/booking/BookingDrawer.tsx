@@ -17,10 +17,19 @@ export function BookingDrawer() {
     }
 
     const previousOverflow = document.body.style.overflow;
+    const previousPosition = window.scrollY;
+    
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${previousPosition}px`;
+    document.body.style.width = "100%";
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      window.scrollTo(0, previousPosition);
     };
   }, [isOpen]);
 
@@ -29,7 +38,7 @@ export function BookingDrawer() {
       {isOpen && (
         <>
           <div
-            className="fixed inset-0 z-[98] bg-black/70 backdrop-blur-sm pointer-events-auto"
+            className="fixed inset-0 z-[98] bg-white/30 backdrop-blur-md pointer-events-auto"
             onClick={closeBooking}
           />
           <div
