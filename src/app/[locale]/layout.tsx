@@ -5,19 +5,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/animation/PageTransition";
 import { BookingProvider } from "@/features/booking/BookingProvider";
+import { ClientProviders } from "./ClientProviders";
 import { isValidLocale, routing, type AppLocale } from "@/i18n/routing";
-import dynamic from "next/dynamic";
-
-// Lazy load non-critical widgets to improve LCP
-const ClientWidgets = dynamic(() => import("@/components/layout/ClientWidgets"), {
-  ssr: false,
-  loading: () => null,
-});
-
-const AIConcierge = dynamic(() => import("@/features/concierge/AIConcierge"), {
-  ssr: false,
-  loading: () => null,
-});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -49,8 +38,7 @@ export default async function LocaleLayout({
           </PageTransition>
           <Footer />
         </div>
-        <ClientWidgets />
-        <AIConcierge />
+        <ClientProviders />
       </BookingProvider>
     </NextIntlClientProvider>
   );
