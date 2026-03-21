@@ -66,10 +66,10 @@ export default async function LocaleHomePage({
       <StructuredData data={localBusinessJsonLd(typedLocale)} />
       <StructuredData data={faqJsonLd(typedLocale)} />
       <StructuredData data={reviewJsonLd(typedLocale)} />
-      <Hero locale={typedLocale} />
-      <StorytellingSection locale={typedLocale} />
-      <RoomsPreview locale={typedLocale} />
-      <ServicesOverview locale={typedLocale} />
+      <Hero />
+      <StorytellingSection />
+      <RoomsPreview />
+      <ServicesOverview />
 
       <section className="section-border py-24">
         <Container className="space-y-10">
