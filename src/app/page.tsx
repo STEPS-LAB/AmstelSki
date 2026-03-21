@@ -12,6 +12,7 @@ import {
   reviewJsonLd,
 } from "@/lib/seo";
 import { cookies } from "next/headers";
+import { GallerySection } from "@/features/gallery/GallerySection";
 
 // Lazy load below-the-fold and non-critical components with suspense
 const StorytellingSection = dynamic(
@@ -27,11 +28,6 @@ const TestimonialsSlider = dynamic(
 const AIConcierge = dynamic(
   () => import("@/features/concierge/AIConcierge").then((mod) => mod.AIConcierge),
   { loading: () => null }
-);
-
-const GallerySection = dynamic(
-  () => import("@/features/gallery/GallerySection").then((mod) => mod.GallerySection),
-  { loading: () => <div className="h-96" /> }
 );
 
 export async function generateMetadata(): Promise<Metadata> {

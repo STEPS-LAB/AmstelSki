@@ -2,7 +2,7 @@
 
 import { addDays, format } from "date-fns";
 import { Calendar, Loader2, Users } from "lucide-react";
-import { useRef, useState, useCallback, memo } from "react";
+import { useRef, useState, useCallback, memo, useEffect } from "react";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { Button } from "@/components/ui/button";
 import { Popover } from "@/components/ui/popover";
@@ -15,8 +15,8 @@ const bookingText = {
     checkOut: "Дата виїзду:",
     dates: "Дати:",
     guests: "Гості:",
-    searching: "AI підбирає найкращий номер для вашого відпочинку...",
-    found: "Підходящий номер знайдено. Перенаправляємо до бронювання...",
+    searching: "AI підбирає найкращий номер...",
+    found: "Номер знайдено. Перенаправляємо...",
     find: "Знайти",
   },
   en: {
@@ -25,8 +25,8 @@ const bookingText = {
     checkOut: "Check-out date:",
     dates: "Dates:",
     guests: "Guests:",
-    searching: "AI is finding the best room for your stay...",
-    found: "Suitable room found. Redirecting to booking...",
+    searching: "AI is finding the best room...",
+    found: "Room found. Redirecting...",
     find: "Find",
   },
 };
@@ -49,17 +49,18 @@ export const BookingBar = memo(function BookingBar() {
   const handleFind = useCallback(() => {
     setIsSearching(true);
     setSearchResult("searching");
-
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setSearchResult("found");
       setIsSearching(false);
     }, 2000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleCheckInChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckIn(event.target.value);
-    if (checkOutRef.current && new Date(event.target.value) >= new Date(checkOut)) {
-      setCheckOut(toDateValue(addDays(new Date(event.target.value), 1)));
+    const newCheckIn = event.target.value;
+    setCheckIn(newCheckIn);
+    if (checkOutRef.current && new Date(newCheckIn) >= new Date(checkOut)) {
+      setCheckOut(toDateValue(addDays(new Date(newCheckIn), 1)));
     }
   }, [checkOut]);
 
@@ -75,9 +76,16 @@ export const BookingBar = memo(function BookingBar() {
     setAdults((prev) => Math.min(4, prev + 1));
   }, []);
 
+  // Close popover on scroll to prevent layout issues
+  useEffect(() => {
+    const handleScroll = () => setIsDatePopoverOpen(false);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="glass-panel rounded-sm px-3 pb-3 pt-3 sm:p-4 relative z-[70] w-fit mx-auto md:w-fit max-w-full">
-      <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-[6px] min-w-0 md:[&>*]:m-0">
+    <div className="glass-panel rounded-sm px-3 pb-0 pt-3 sm:p-4 relative z-[70] w-fit mx-auto max-w-full">
+      <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-[6px] min-w-0">
         <Popover
           isOpen={isDatePopoverOpen}
           onOpenChange={setIsDatePopoverOpen}
@@ -105,11 +113,9 @@ export const BookingBar = memo(function BookingBar() {
                     <button
                       type="button"
                       className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
-                      onClick={() => {
-                        checkInRef.current?.showPicker?.();
-                        checkInRef.current?.click();
-                      }}
+                      onClick={() => checkInRef.current?.showPicker?.()}
                       disabled={isSearching}
+                      aria-label={text.checkIn}
                     />
                   </div>
                 </div>
@@ -131,11 +137,9 @@ export const BookingBar = memo(function BookingBar() {
                     <button
                       type="button"
                       className="absolute inset-0 h-full w-full cursor-pointer bg-transparent"
-                      onClick={() => {
-                        checkOutRef.current?.showPicker?.();
-                        checkOutRef.current?.click();
-                      }}
+                      onClick={() => checkOutRef.current?.showPicker?.()}
                       disabled={isSearching}
+                      aria-label={text.checkOut}
                     />
                   </div>
                 </div>
@@ -147,9 +151,10 @@ export const BookingBar = memo(function BookingBar() {
             type="button"
             className="flex h-12 w-full min-w-0 items-center gap-2 rounded-sm border border-black/10 bg-white px-3 text-left text-xs sm:text-sm text-foreground/70 transition-colors hover:bg-gray-50 md:w-[400px]"
             disabled={isSearching}
+            aria-label={text.dates}
           >
             <Calendar className="h-5 w-5 flex-shrink-0 text-foreground/60" />
-            <span className="whitespace-nowrap text-sm">{text.dates}</span>
+            <span className="whitespace-nowrap">{text.dates}</span>
             <span className="ml-auto font-medium text-foreground truncate">
               {displayCheckIn} — {displayCheckOut}
             </span>
@@ -159,7 +164,7 @@ export const BookingBar = memo(function BookingBar() {
         <div className="flex h-12 w-full min-w-0 items-center rounded-sm border border-black/10 bg-white pl-3 pr-1 transition-colors hover:bg-gray-50 md:w-[400px]">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-3">
-              <Users className="h-5 w-5 flex-shrink-0 text-foreground/60" />
+              <Users className="h-4 w-4 flex-shrink-0 text-foreground/60" />
               <span className="whitespace-nowrap text-sm text-foreground/70">{text.guests}</span>
             </div>
             <div className="flex items-center gap-0">
@@ -168,6 +173,7 @@ export const BookingBar = memo(function BookingBar() {
                 className="flex h-10 w-12 items-center justify-center text-xl text-foreground/70"
                 onClick={handleAdultsDecrement}
                 disabled={isSearching}
+                aria-label="Decrease guests"
               >
                 −
               </button>
@@ -177,6 +183,7 @@ export const BookingBar = memo(function BookingBar() {
                 className="flex h-10 w-10 items-center justify-center text-xl text-foreground/70"
                 onClick={handleAdultsIncrement}
                 disabled={isSearching}
+                aria-label="Increase guests"
               >
                 +
               </button>
@@ -197,24 +204,8 @@ export const BookingBar = memo(function BookingBar() {
         </Button>
       </div>
 
-      <div className={`overflow-hidden transition-all duration-300 ${isSearching || searchResult === "found" ? "max-h-20 opacity-100 mt-3" : "max-h-0 opacity-0"}`}>
-        {isSearching && (
-          <div className="flex items-center gap-2 text-sm text-foreground/70">
-            <Loader2 className="h-4 w-4 animate-spin text-accent-red" />
-            <span>{text.searching}</span>
-          </div>
-        )}
-
-        {searchResult === "found" && (
-          <div className="flex items-center gap-2 text-sm text-foreground/70">
-            <span className="h-2 w-2 rounded-full bg-green-500" />
-            <span>{text.found}</span>
-          </div>
-        )}
-      </div>
-
       {/* Hidden spacer to maintain panel width */}
-      <div className="invisible h-0 flex items-center gap-2 text-sm text-foreground/70">
+      <div className="invisible h-0 mb-3 flex items-center gap-2 text-sm text-foreground/70">
         <span className="h-2 w-2 rounded-full bg-green-500" />
         <span>{text.found}</span>
       </div>

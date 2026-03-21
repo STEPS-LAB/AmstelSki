@@ -6,7 +6,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const nextConfig: NextConfig = {
   experimental: {
     viewTransition: true,
-    optimizePackageImports: ["lucide-react", "framer-motion"],
+    optimizePackageImports: ["lucide-react", "framer-motion", "date-fns"],
   },
   images: {
     remotePatterns: [
@@ -15,13 +15,13 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
-    formats: ["image/webp", "image/avif"],
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    qualities: [65, 75, 80],
+    qualities: [60, 70, 75],
   },
   typedRoutes: true,
   compiler: {

@@ -32,7 +32,7 @@ export default async function GalleryPage({
       />
       <section className="py-24">
         <Container>
-          <GalleryGrid images={rooms.flatMap((room) => room.gallery).slice(0, 10)} />
+          <GalleryGrid images={rooms.flatMap((room) => room.gallery).slice(0, 10)} locale={typedLocale} />
         </Container>
       </section>
     </>

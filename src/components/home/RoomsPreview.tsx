@@ -1,11 +1,8 @@
-"use client";
-
-import { useAppLocale } from "@/components/layout/LocaleProvider";
 import { getFeaturedRooms } from "@/lib/content/rooms";
 import { Container } from "@/components/ui/container";
 import { SectionIntro } from "@/components/ui/section-intro";
 import { RoomCard } from "@/components/rooms/RoomCard";
-import { memo } from "react";
+import { getLocale } from "@/i18n/request";
 
 const sectionContent = {
   ua: {
@@ -18,8 +15,8 @@ const sectionContent = {
   },
 };
 
-export const RoomsPreview = memo(function RoomsPreview() {
-  const { locale } = useAppLocale();
+export async function RoomsPreview() {
+  const locale = await getLocale();
   const content = sectionContent[locale as "ua" | "en"];
   const rooms = getFeaturedRooms();
 
@@ -30,11 +27,11 @@ export const RoomsPreview = memo(function RoomsPreview() {
         <div className="grid gap-6 lg:grid-cols-3">
           {rooms.slice(0, 3).map((room) => (
             <div key={room.slug} className="flex h-full">
-              <RoomCard room={room} />
+              <RoomCard room={room} locale={locale as "ua" | "en"} />
             </div>
           ))}
         </div>
       </Container>
     </section>
   );
-});
+}

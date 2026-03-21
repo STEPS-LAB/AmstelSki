@@ -110,7 +110,7 @@ export default async function RoomDetailPage({
               }
               copy={pickLocalized(room.description, typedLocale)}
             />
-            <GalleryGrid images={room.gallery} />
+            <GalleryGrid images={room.gallery} locale={typedLocale} />
           </div>
           <div className="space-y-6">
             <div className="rounded-sm border border-white/10 bg-white/[0.03] p-6">
@@ -153,7 +153,7 @@ export default async function RoomDetailPage({
           />
           <div className="grid gap-6 lg:grid-cols-3">
             {relatedRooms.map((relatedRoom) => (
-              <RoomCard key={relatedRoom.slug} room={relatedRoom} />
+              <RoomCard key={relatedRoom.slug} room={relatedRoom} locale={typedLocale} />
             ))}
           </div>
         </Container>

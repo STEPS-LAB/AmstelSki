@@ -22,9 +22,9 @@ const inter = Inter({
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin", "cyrillic"],
-  display: "optional",
+  display: "swap",
   preload: true,
-  weight: ["500", "600", "700", "800"],
+  weight: ["600", "700", "800"],
   fallback: ["system-ui", "sans-serif"],
   adjustFontFallback: true,
 });
@@ -52,21 +52,10 @@ export default async function RootLayout({
       <head>
         {/* Preconnect to Unsplash for images */}
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
-        
+
         {/* Preconnect to Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        {/* Preload hero image for faster LCP on mobile */}
-        <link
-          rel="preload"
-          as="image"
-          href="/images/hero.webp"
-          media="(max-width: 768px)"
-          imageSrcSet="/images/hero.webp 640w, /images/hero.webp 1024w"
-          imageSizes="100vw"
-        />
       </head>
       <body className="min-h-full bg-primary text-primary">
         <NextIntlClientProvider messages={messages}>

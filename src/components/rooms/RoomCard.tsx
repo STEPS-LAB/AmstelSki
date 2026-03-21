@@ -1,9 +1,5 @@
-"use client";
-
 import Image from "next/image";
 import { Users } from "lucide-react";
-import { useAppLocale } from "@/components/layout/LocaleProvider";
-import { useClientTranslations } from "@/hooks/useClientTranslations";
 import type { Room } from "@/lib/content/rooms";
 import { Badge } from "@/components/ui/badge";
 
@@ -12,18 +8,26 @@ const BLUR_PLACEHOLDER = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3
 
 export function RoomCard({
   room,
+  locale,
 }: {
   room: Room;
+  locale: "ua" | "en";
 }) {
-  const { locale } = useAppLocale();
-  const { t } = useClientTranslations();
+  const t = (key: string) => {
+    const translations: Record<string, Record<string, string>> = {
+      "common.from": { ua: "Від", en: "From" },
+      "common.perNight": { ua: "за ніч", en: "per night" },
+      "common.guests": { ua: "гостей", en: "guests" },
+    };
+    return translations[key]?.[locale] ?? key;
+  };
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-sm border border-black/10 bg-black/[0.03]">
       <div className="relative aspect-[8/9] overflow-hidden">
         <Image
           src={room.heroImage}
-          alt={room.name[locale as "ua" | "en"]}
+          alt={room.name[locale]}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition duration-700 group-hover:scale-[1.03]"
@@ -35,19 +39,19 @@ export function RoomCard({
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(255,255,255,0.92)_100%)]" />
         <div className="absolute left-5 top-5">
-          <Badge>{room.eyebrow[locale as "ua" | "en"]}</Badge>
+          <Badge>{room.eyebrow[locale]}</Badge>
         </div>
         <div className="absolute inset-x-0 bottom-0 p-5">
-          <p className="font-serif text-3xl text-foreground">{room.name[locale as "ua" | "en"]}</p>
+          <p className="font-serif text-3xl text-foreground">{room.name[locale]}</p>
         </div>
       </div>
       <div className="flex flex-1 flex-col justify-between space-y-5 p-5">
         <div className="space-y-5">
           <p className="text-sm leading-6 text-foreground/72">
-            {room.shortDescription[locale as "ua" | "en"]}
+            {room.shortDescription[locale]}
           </p>
           <div className="flex flex-wrap gap-2">
-            {room.highlights[locale as "ua" | "en"].map((item) => (
+            {room.highlights[locale].map((item) => (
               <Badge key={item}>{item}</Badge>
             ))}
           </div>

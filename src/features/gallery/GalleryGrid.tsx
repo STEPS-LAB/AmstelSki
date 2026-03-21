@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
 import { SectionSkeleton } from "@/components/ui/SectionSkeleton";
-import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 // Lazy load lightbox - only needed when user clicks an image
 const GalleryLightbox = dynamic(
@@ -15,14 +14,20 @@ const GalleryLightbox = dynamic(
 // Generic blur placeholder for external images
 const BLUR_PLACEHOLDER = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMCAxMCI+PHJlY3Qgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjZjVmNWY1Ii8+PC9zdmc+";
 
+const galleryText = {
+  ua: "Галерея",
+  en: "Gallery",
+};
+
 export function GalleryGrid({
   images,
+  locale,
 }: {
   images: string[];
+  locale: "ua" | "en";
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const { t } = useClientTranslations();
-  const title = t("sections.galleryTitle");
+  const title = galleryText[locale];
 
   return (
     <>
