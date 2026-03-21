@@ -77,7 +77,7 @@ export default async function LocaleHomePage({
             title={t("sections.galleryTitle")}
             copy={t("sections.galleryCopy")}
           />
-          <GalleryGrid images={galleryImages} title={t("sections.galleryTitle")} />
+          <GalleryGrid images={galleryImages} />
         </Container>
       </section>
 
