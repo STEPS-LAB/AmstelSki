@@ -153,7 +153,7 @@ export default async function RoomDetailPage({
           />
           <div className="grid gap-6 lg:grid-cols-3">
             {relatedRooms.map((relatedRoom) => (
-              <RoomCard key={relatedRoom.slug} room={relatedRoom} locale={typedLocale} />
+              <RoomCard key={relatedRoom.slug} room={relatedRoom} />
             ))}
           </div>
         </Container>
