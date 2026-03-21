@@ -30,6 +30,9 @@ export const TestimonialsSlider = memo(function TestimonialsSlider() {
     setMounted(true);
   }, []);
 
+  // Use a default locale during initial render to avoid hydration mismatch
+  const displayLocale = mounted ? locale : "ua";
+
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true, 
     align: "start",
@@ -90,7 +93,7 @@ export const TestimonialsSlider = memo(function TestimonialsSlider() {
                     ))}
                   </div>
                   <p className="mt-5 flex-1 font-serif text-xl leading-tight text-foreground">
-                    &ldquo;{item.quote[locale as "ua" | "en"]}&rdquo;
+                    &ldquo;{item.quote[displayLocale as "ua" | "en"]}&rdquo;
                   </p>
                   <p className="mt-6 text-sm uppercase tracking-[0.22em] text-accent-red">
                     {item.author}

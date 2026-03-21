@@ -49,11 +49,13 @@ export const BookingBar = memo(function BookingBar() {
   const handleFind = useCallback(() => {
     setIsSearching(true);
     setSearchResult("searching");
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       setSearchResult("found");
-      setIsSearching(false);
+      setTimeout(() => {
+        setIsSearching(false);
+        setSearchResult(null);
+      }, 1500);
     }, 2000);
-    return () => clearTimeout(timer);
   }, []);
 
   const handleCheckInChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +86,7 @@ export const BookingBar = memo(function BookingBar() {
   }, []);
 
   return (
-    <div className="glass-panel rounded-sm px-3 pb-0 pt-3 sm:p-4 relative z-[70] w-fit mx-auto max-w-full">
+    <div className="glass-panel rounded-sm px-3 py-3 sm:p-4 relative z-[70] w-fit mx-auto max-w-full">
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-[6px] min-w-0">
         <Popover
           isOpen={isDatePopoverOpen}
@@ -204,8 +206,28 @@ export const BookingBar = memo(function BookingBar() {
         </Button>
       </div>
 
+      <div
+        className={`overflow-hidden transition-all duration-300 ${
+          searchResult ? "max-h-20 opacity-100 mt-3" : "max-h-0 opacity-0"
+        }`}
+      >
+        {searchResult === "searching" && (
+          <div className="flex items-center gap-2 text-sm text-foreground/70">
+            <Loader2 className="h-4 w-4 animate-spin text-accent-red" />
+            <span>{text.searching}</span>
+          </div>
+        )}
+
+        {searchResult === "found" && (
+          <div className="flex items-center gap-2 text-sm text-foreground/70">
+            <span className="h-2 w-2 rounded-full bg-green-500" />
+            <span>{text.found}</span>
+          </div>
+        )}
+      </div>
+
       {/* Hidden spacer to maintain panel width */}
-      <div className="invisible h-0 mb-3 flex items-center gap-2 text-sm text-foreground/70">
+      <div className="invisible h-0 flex items-center gap-2 text-sm text-foreground/70">
         <span className="h-2 w-2 rounded-full bg-green-500" />
         <span>{text.found}</span>
       </div>
