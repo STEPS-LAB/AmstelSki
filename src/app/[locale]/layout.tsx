@@ -37,7 +37,7 @@ export default async function LocaleLayout({
           <PageTransition>
             <main className="flex-1">{children}</main>
           </PageTransition>
-          <Footer locale={locale as AppLocale} />
+          <Footer />
         </div>
         <ClientWidgets />
         <AIConcierge />
