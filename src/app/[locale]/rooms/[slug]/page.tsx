@@ -110,7 +110,7 @@ export default async function RoomDetailPage({
               }
               copy={pickLocalized(room.description, typedLocale)}
             />
-            <GalleryGrid images={room.gallery} title={pickLocalized(room.name, typedLocale)} />
+            <GalleryGrid images={room.gallery} />
           </div>
           <div className="space-y-6">
             <div className="rounded-sm border border-white/10 bg-white/[0.03] p-6">
