@@ -3,11 +3,21 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ClientWidgets } from "@/components/layout/ClientWidgets";
 import { PageTransition } from "@/components/animation/PageTransition";
 import { BookingProvider } from "@/features/booking/BookingProvider";
-import { AIConcierge } from "@/features/concierge/AIConcierge";
 import { isValidLocale, routing, type AppLocale } from "@/i18n/routing";
+import dynamic from "next/dynamic";
+
+// Lazy load non-critical widgets to improve LCP
+const ClientWidgets = dynamic(() => import("@/components/layout/ClientWidgets"), {
+  ssr: false,
+  loading: () => null,
+});
+
+const AIConcierge = dynamic(() => import("@/features/concierge/AIConcierge"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

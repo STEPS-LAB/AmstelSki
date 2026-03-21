@@ -30,26 +30,18 @@ export const StickyMobileBookingBar = memo(function StickyMobileBookingBar() {
     return () => unsubscribe();
   }, [scrollY, isMobile]);
 
-  if (!isMobile) return null;
+  if (!isMobile || !isVisible) return null;
 
   return (
-    <>
-      {isVisible && (
-        <div
-          className="fixed inset-x-0 bottom-0 z-[90] border-t border-black/14 bg-white/90 p-4 backdrop-blur pointer-events-auto"
-          style={{
-            transform: isVisible ? "translateY(0)" : "translateY(100%)",
-            opacity: isVisible ? 1 : 0
-          }}
-        >
-          <Button
-            className="w-full h-12 text-base uppercase tracking-[0.15em] bg-accent-red hover:bg-accent-red-strong transition-all duration-300 pointer-events-auto"
-            onClick={() => openBooking()}
-          >
-            {t("booking.sticky")}
-          </Button>
-        </div>
-      )}
-    </>
+    <div
+      className="fixed inset-x-0 bottom-0 z-[90] border-t border-black/14 bg-white/90 p-4 backdrop-blur pointer-events-auto"
+    >
+      <Button
+        className="w-full h-12 text-base uppercase tracking-[0.15em] bg-accent-red hover:bg-accent-red-strong transition-all duration-300 pointer-events-auto"
+        onClick={() => openBooking()}
+      >
+        {t("booking.sticky")}
+      </Button>
+    </div>
   );
 });

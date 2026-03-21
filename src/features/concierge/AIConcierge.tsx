@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useScroll } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { MessageSquare, Send, Sparkles, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { useAppLocale } from "@/components/layout/LocaleProvider";
@@ -130,122 +130,104 @@ export const AIConcierge = memo(function AIConcierge() {
 
   return (
     <>
-      <AnimatePresence>
-        {isVisible && (
-          <motion.button
-            type="button"
-            onClick={() => setIsOpen(true)}
-            className="fixed bottom-20 right-4 z-[95] inline-flex items-center gap-3 rounded-full border border-black/12 bg-white px-4 py-3 text-foreground shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur pointer-events-auto md:bottom-6 md:right-6"
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+      {isVisible && (
+        <motion.button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-20 right-4 z-[95] inline-flex items-center gap-3 rounded-full border border-black/12 bg-white px-4 py-3 text-foreground shadow-[0_20px_60px_rgba(0,0,0,0.15)] backdrop-blur pointer-events-auto md:bottom-6 md:right-6"
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <MessageSquare className="h-5 w-5 text-accent-red" />
+          <span className="hidden text-xs uppercase tracking-[0.22em] sm:inline-block">
+            {t("concierge.label")}
+          </span>
+        </motion.button>
+      )}
+
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-[96] bg-black/40 pointer-events-auto"
+            onClick={() => setIsOpen(false)}
+          />
+          <div
+            className="fixed bottom-24 right-4 z-[97] flex h-[575px] w-[calc(100vw-2rem)] max-w-md flex-col overflow-hidden rounded-sm border border-black/10 bg-primary shadow-[0_24px_80px_rgba(0,0,0,0.15)] pointer-events-auto"
+            onClick={(e) => e.stopPropagation()}
           >
-            <MessageSquare className="h-5 w-5 text-accent-red" />
-            <span className="hidden text-xs uppercase tracking-[0.22em] sm:inline-block">
-              {t("concierge.label")}
-            </span>
-          </motion.button>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {isOpen ? (
-          <>
-            <motion.button
-              type="button"
-              className="fixed inset-0 z-[96] bg-black/40 pointer-events-auto"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              onWheel={handleWheel}
-              className="fixed bottom-24 right-4 z-[97] flex h-[575px] w-[calc(100vw-2rem)] max-w-md flex-col overflow-hidden rounded-sm border border-black/10 bg-primary shadow-[0_24px_80px_rgba(0,0,0,0.15)] pointer-events-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between border-b border-black/10 bg-black/[0.04] px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent-red/15 text-accent-red">
-                    <Sparkles className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-foreground">{t("concierge.label")}</p>
-                    <p className="text-xs uppercase tracking-[0.18em] text-secondary">
-                      {t("concierge.online")}
-                    </p>
-                  </div>
+            <div className="flex items-center justify-between border-b border-black/10 bg-black/[0.04] px-5 py-4">
+              <div className="flex items-center gap-3">
+                <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-accent-red/15 text-accent-red">
+                  <Sparkles className="h-5 w-5" />
                 </div>
-                <button type="button" onClick={() => setIsOpen(false)} className="text-foreground/70">
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-
-              <div className="flex-1 space-y-3 overflow-y-auto px-5 py-5">
-                <AnimatePresence>
-                  {messages.map((message) => (
-                    <motion.div
-                      key={message.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}
-                    >
-                      <div
-                        className={`max-w-[85%] rounded-sm px-4 py-3 text-sm leading-6 ${
-                          message.isUser ? "bg-accent-red text-white" : "bg-black/[0.05] text-foreground/80"
-                        }`}
-                      >
-                        {message.text}
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-                <div ref={messagesEndRef} />
-              </div>
-
-              <div className="border-t border-black/10 px-5 py-4">
-                <div className="mb-3 flex flex-wrap gap-2">
-                  {suggestions.map((item) => (
-                    <button
-                      key={item.key}
-                      type="button"
-                      disabled={isSending}
-                      className="rounded-full border border-black/10 bg-black/5 px-3 py-2 text-[10px] uppercase tracking-[0.15em] text-foreground/70 transition-colors hover:bg-black/10 disabled:opacity-50"
-                      onClick={() => submit(item.label)}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
+                <div>
+                  <p className="text-foreground">{t("concierge.label")}</p>
+                  <p className="text-xs uppercase tracking-[0.18em] text-secondary">
+                    {t("concierge.online")}
+                  </p>
                 </div>
-                <form
-                  className="flex gap-2"
-                  onSubmit={handleSubmit}
+              </div>
+              <button type="button" onClick={() => setIsOpen(false)} className="text-foreground/70">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 space-y-3 overflow-y-auto px-5 py-5">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}
                 >
-                  <input
-                    value={value}
-                    onChange={(event) => setValue(event.target.value)}
-                    placeholder={t("placeholder")}
-                    disabled={isSending}
-                    className="h-12 flex-1 rounded-sm border border-black/10 bg-black/5 px-4 text-sm text-foreground outline-none placeholder:text-foreground/30 disabled:opacity-50"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isSending}
-                    className="inline-flex h-12 w-12 items-center justify-center rounded-sm bg-accent-red text-white disabled:opacity-50"
+                  <div
+                    className={`max-w-[85%] rounded-sm px-4 py-3 text-sm leading-6 ${
+                      message.isUser ? "bg-accent-red text-white" : "bg-black/[0.05] text-foreground/80"
+                    }`}
                   >
-                    <Send className="h-4 w-4" />
+                    {message.text}
+                  </div>
+                </div>
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <div className="border-t border-black/10 px-5 py-4">
+              <div className="mb-3 flex flex-wrap gap-2">
+                {suggestions.map((item) => (
+                  <button
+                    key={item.key}
+                    type="button"
+                    disabled={isSending}
+                    className="rounded-full border border-black/10 bg-black/5 px-3 py-2 text-[10px] uppercase tracking-[0.15em] text-foreground/70 transition-colors hover:bg-black/10 disabled:opacity-50"
+                    onClick={() => submit(item.label)}
+                  >
+                    {item.label}
                   </button>
-                </form>
+                ))}
               </div>
-            </motion.div>
-          </>
-        ) : null}
-      </AnimatePresence>
+              <form
+                className="flex gap-2"
+                onSubmit={handleSubmit}
+              >
+                <input
+                  value={value}
+                  onChange={(event) => setValue(event.target.value)}
+                  placeholder={t("placeholder")}
+                  disabled={isSending}
+                  className="h-12 flex-1 rounded-sm border border-black/10 bg-black/5 px-4 text-sm text-foreground outline-none placeholder:text-foreground/30 disabled:opacity-50"
+                />
+                <button
+                  type="submit"
+                  disabled={isSending}
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-sm bg-accent-red text-white disabled:opacity-50"
+                >
+                  <Send className="h-4 w-4" />
+                </button>
+              </form>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 });
