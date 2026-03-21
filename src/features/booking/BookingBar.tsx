@@ -151,7 +151,7 @@ export const BookingBar = memo(function BookingBar() {
         >
           <button
             type="button"
-            className="flex h-12 w-full min-w-0 items-center gap-2 rounded-sm border border-black/10 bg-white px-3 text-left text-sm text-foreground/70 transition-colors hover:bg-gray-50 md:w-[400px]"
+            className="flex h-12 w-full min-w-0 items-center gap-2 rounded-sm border border-black/10 bg-white px-3 text-left text-xs sm:text-sm text-foreground/70 transition-colors hover:bg-gray-50 md:w-[400px]"
             disabled={isSearching}
             aria-label={text.dates}
           >
