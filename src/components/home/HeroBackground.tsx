@@ -1,39 +1,50 @@
-"use client";
-
-import Image from "next/image";
-import { useEffect, useState } from "react";
-
-const MOBILE_BREAKPOINT = 768;
+import { getImageProps } from "next/image";
+import { cn } from "@/lib/utils";
 
 /**
- * Mobile-first hero asset (aligned with STEPS-LAB resort demos): smaller file on narrow
- * viewports improves LCP; desktop loads the full-resolution image after mount.
+ * Server-only responsive hero: `<picture>` picks mobile vs desktop without client JS.
+ * Avoids the previous client `useEffect` pattern that delayed the LCP image.
  */
 export function HeroBackground() {
-  const [useDesktopAsset, setUseDesktopAsset] = useState(false);
+  const shared = {
+    alt: "AmstelSki exterior at night",
+    sizes: "100vw" as const,
+    priority: true,
+    fetchPriority: "high" as const,
+    quality: 60,
+    style: { objectPosition: "center 20%" as const },
+  };
 
-  useEffect(() => {
-    const mq = window.matchMedia(`(min-width: ${MOBILE_BREAKPOINT}px)`);
-    const sync = () => setUseDesktopAsset(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
+  const mobile = getImageProps({
+    ...shared,
+    src: "/images/hero-mobile.webp",
+    width: 828,
+    height: 552,
+  });
 
-  const src = useDesktopAsset ? "/images/hero.webp" : "/images/hero-mobile.webp";
+  const desktop = getImageProps({
+    ...shared,
+    src: "/images/hero.webp",
+    width: 1024,
+    height: 683,
+  });
 
   return (
-    <Image
-      src={src}
-      alt="AmstelSki exterior at night"
-      fill
-      priority
-      fetchPriority="high"
-      loading="eager"
-      sizes="100vw"
-      className="object-cover object-center"
-      quality={60}
-      style={{ objectPosition: "center 20%" }}
-    />
+    <div className="absolute inset-0">
+      <picture className="absolute inset-0 block h-full w-full">
+        <source
+          media="(min-width: 768px)"
+          srcSet={desktop.props.srcSet ?? undefined}
+          sizes={desktop.props.sizes}
+        />
+        <img
+          {...mobile.props}
+          className={cn(
+            "h-full w-full object-cover object-center",
+            mobile.props.className,
+          )}
+        />
+      </picture>
+    </div>
   );
 }
