@@ -23,8 +23,8 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin", "cyrillic"],
   display: "swap",
-  preload: true,
-  weight: ["600", "700", "800"],
+  preload: false,
+  weight: ["600", "700"],
   fallback: ["system-ui", "sans-serif"],
   adjustFontFallback: true,
 });
@@ -50,6 +50,20 @@ export default async function RootLayout({
       className={`${inter.variable} ${montserrat.variable} h-full antialiased`}
     >
       <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero-mobile.webp"
+          type="image/webp"
+          media="(max-width: 767px)"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero-desktop.webp"
+          type="image/webp"
+          media="(min-width: 768px)"
+        />
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
       </head>
       <body className="min-h-full bg-primary text-primary">

@@ -63,7 +63,7 @@ export const AIConcierge = memo(function AIConcierge() {
 
   useEffect(() => {
     const heroHeight = typeof window !== "undefined" ? window.innerHeight : 0;
-    const unsubscribe = scrollY.onChange((latest) => {
+    const unsubscribe = scrollY.on("change", (latest) => {
       setIsVisible(latest > heroHeight * 0.8);
     });
 

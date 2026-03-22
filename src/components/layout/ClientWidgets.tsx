@@ -1,13 +1,15 @@
 "use client";
 
-import { BookingDrawer } from "@/features/booking/BookingDrawer";
-import { StickyMobileBookingBar } from "@/features/booking/StickyMobileBookingBar";
+import dynamic from "next/dynamic";
+
+const StickyMobileBookingBar = dynamic(
+  () =>
+    import("@/features/booking/StickyMobileBookingBar").then(
+      (mod) => mod.StickyMobileBookingBar,
+    ),
+  { ssr: false },
+);
 
 export function ClientWidgets() {
-  return (
-    <>
-      <BookingDrawer />
-      <StickyMobileBookingBar />
-    </>
-  );
+  return <StickyMobileBookingBar />;
 }

@@ -11,7 +11,7 @@ import {
 
 const BookingDrawer = dynamic(
   () => import("./BookingDrawer").then((mod) => mod.BookingDrawer),
-  { ssr: true },
+  { ssr: false },
 );
 
 export function BookingProvider({ children }: { children: ReactNode }) {
