@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect } from "react";
 import { BookingFlow } from "./BookingFlow";
-import { useBooking } from "./BookingProvider";
+import { useBooking } from "./booking-context";
 import { useClientTranslations } from "@/hooks/useClientTranslations";
 
 export function BookingDrawer() {

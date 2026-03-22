@@ -61,7 +61,7 @@ export function Header() {
           : "bg-white/90 border-b border-black/10"
       } backdrop-blur-md overflow-x-hidden`}
     >
-      <Container className="flex h-20 items-center justify-between gap-4 max-w-full">
+      <Container className="flex h-20 items-center justify-between gap-4">
         <Link href="/" className="flex flex-col">
           <span
             className={`font-serif text-3xl leading-none transition-colors duration-300 ${

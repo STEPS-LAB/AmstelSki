@@ -50,7 +50,6 @@ export default async function RootLayout({
       className={`${inter.variable} ${montserrat.variable} h-full antialiased`}
     >
       <head>
-        {/* Preconnect to Unsplash for images */}
         <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
       </head>
       <body className="min-h-full bg-primary text-primary">

@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { heroHighlights } from "@/lib/content/site-content";
 import { Badge } from "@/components/ui/badge";
 import { Container } from "@/components/ui/container";
+import { HeroBackground } from "./HeroBackground";
 import { HeroBooking } from "./HeroBooking";
 import { getLocale } from "@/i18n/request";
 
@@ -23,20 +23,7 @@ export async function Hero() {
   return (
     <section className="relative h-[calc(100vh+80px)] min-h-[600px] border-b border-black/14 overflow-x-hidden -mt-20 pointer-events-none">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <Image
-          src="/images/hero.webp"
-          alt="AmstelSki exterior at night"
-          fill
-          priority
-          fetchPriority="high"
-          decoding="sync"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
-          className="object-cover object-center"
-          quality={40}
-          placeholder="blur"
-          blurDataURL="data:image/webp;base64,UklGRkYAAABXRUJQVlA4IEoAAADQAQCdASoQABAADgCdAScABEYnAP+H/wP8A/v/8A/wP+A/4H/AP8D/gf8A"
-          style={{ objectPosition: 'center 20%' }}
-        />
+        <HeroBackground />
         <div className="absolute inset-0 bg-black/30" />
       </div>
 
